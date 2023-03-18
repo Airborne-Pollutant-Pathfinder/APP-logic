@@ -1,5 +1,7 @@
 package edu.utdallas.cs.app.mapper;
 
+import com.azure.core.models.GeoLinearRing;
+import com.azure.core.models.GeoPolygon;
 import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.models.MapsSearchRoute;
 import com.azure.maps.route.models.RouteLeg;
@@ -17,6 +19,8 @@ public interface AzureMapsMapper {
         return new GeoPosition(location.longitude(), location.latitude());
     }
 
+    List<GeoPosition> mapToGeoPositions(List<GeoLocation> locations);
+
     GeoLocation mapToGeoLocation(GeoPosition position);
 
     List<GeoLocation> mapToGeoLocations(List<GeoPosition> locations);
@@ -30,4 +34,12 @@ public interface AzureMapsMapper {
     }
 
     List<Route> mapToRoutes(List<MapsSearchRoute> routes);
+
+    default List<GeoPolygon> mapToGeoPolygons(List<Sensor> sensors) {
+        List<GeoPolygon> polygons = new ArrayList<>();
+        for (Sensor sensor : sensors) {
+            polygons.add(new GeoPolygon(new GeoLinearRing(mapToGeoPositions(sensor.getSquareVertices()))));
+        }
+        return polygons;
+    }
 }

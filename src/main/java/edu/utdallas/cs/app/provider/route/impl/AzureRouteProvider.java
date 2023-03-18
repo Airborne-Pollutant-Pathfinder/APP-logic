@@ -3,11 +3,15 @@ package edu.utdallas.cs.app.provider.route.impl;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.models.GeoLinearRing;
+import com.azure.core.models.GeoPolygon;
+import com.azure.core.models.GeoPolygonCollection;
 import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.MapsRouteAsyncClient;
 import com.azure.maps.route.MapsRouteClientBuilder;
 import com.azure.maps.route.models.RouteDirections;
 import com.azure.maps.route.models.RouteDirectionsOptions;
+import com.azure.maps.route.models.RouteDirectionsParameters;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.data.sensor.Sensor;
@@ -50,8 +54,13 @@ public class AzureRouteProvider implements RouteProvider {
                 mapper.mapToGeoPosition(origin),
                 mapper.mapToGeoPosition(destination)
         );
-        RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(routePoints).setMaxAlternatives(2);
-        Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions).blockOptional();
+        List<GeoPolygon> polygons = mapper.mapToGeoPolygons(sensorsToAvoid);
+
+        RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(routePoints)
+                .setMaxAlternatives(2);
+        RouteDirectionsParameters routeParameters = new RouteDirectionsParameters()
+                .setAvoidAreas(new GeoPolygonCollection(polygons));
+        Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions, routeParameters).blockOptional();
 
         if (routeDirectionsOpt.isEmpty()) {
             return null;
