@@ -1,4 +1,6 @@
-package edu.utdallas.cs.app.data;
+package edu.utdallas.cs.app.data.route;
+
+import edu.utdallas.cs.app.data.GeoLocation;
 
 import java.util.List;
 

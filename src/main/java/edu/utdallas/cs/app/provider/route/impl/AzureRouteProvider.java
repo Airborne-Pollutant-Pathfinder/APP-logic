@@ -9,7 +9,8 @@ import com.azure.maps.route.MapsRouteClientBuilder;
 import com.azure.maps.route.models.RouteDirections;
 import com.azure.maps.route.models.RouteDirectionsOptions;
 import edu.utdallas.cs.app.data.GeoLocation;
-import edu.utdallas.cs.app.data.Route;
+import edu.utdallas.cs.app.data.route.Route;
+import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.mapper.AzureMapsMapper;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +45,7 @@ public class AzureRouteProvider implements RouteProvider {
     }
 
     @Override
-    public List<Route> getRoutes(GeoLocation origin, GeoLocation destination) {
+    public List<Route> getRoutes(GeoLocation origin, GeoLocation destination, List<Sensor> sensorsToAvoid) {
         List<GeoPosition> routePoints = Arrays.asList(
                 mapper.mapToGeoPosition(origin),
                 mapper.mapToGeoPosition(destination)

@@ -1,7 +1,7 @@
 package edu.utdallas.cs.app.controller;
 
 import edu.utdallas.cs.app.data.GeoLocation;
-import edu.utdallas.cs.app.data.Route;
+import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.service.RouteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,10 @@ public class RouteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Route>> getRoute(@RequestParam("originLatitude") double originLatitude, @RequestParam("originLongitude") double originLongitude, @RequestParam("destinationLatitude") double destinationLatitude, @RequestParam("destinationLongitude") double destinationLongitude) {
+    public ResponseEntity<List<Route>> getRoute(@RequestParam("originLongitude") double originLongitude,
+                                                @RequestParam("originLatitude") double originLatitude,
+                                                @RequestParam("destinationLongitude") double destinationLongitude,
+                                                @RequestParam("destinationLatitude") double destinationLatitude) {
         GeoLocation origin = new GeoLocation(originLongitude, originLatitude);
         GeoLocation destination = new GeoLocation(destinationLongitude, destinationLatitude);
         List<Route> route = routeService.getRoutes(origin, destination);

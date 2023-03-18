@@ -4,7 +4,8 @@ import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.models.MapsSearchRoute;
 import com.azure.maps.route.models.RouteLeg;
 import edu.utdallas.cs.app.data.GeoLocation;
-import edu.utdallas.cs.app.data.Route;
+import edu.utdallas.cs.app.data.route.Route;
+import edu.utdallas.cs.app.data.sensor.Sensor;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
