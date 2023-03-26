@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+@Deprecated(since = "Dr. Wenkstern requires us to use Google Directions API now.")
 public interface AzureMapsMapper {
     default GeoPosition mapToGeoPosition(GeoLocation location) {
         return new GeoPosition(location.longitude(), location.latitude());
