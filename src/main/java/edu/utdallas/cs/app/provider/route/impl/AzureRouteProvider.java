@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Deprecated(since = "Dr. Wenkstern requires us to use Google Directions API now.")
 public class AzureRouteProvider implements RouteProvider {
     private final MapsRouteAsyncClient client;

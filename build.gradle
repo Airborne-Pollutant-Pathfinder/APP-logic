@@ -42,6 +42,9 @@ dependencies {
     // Azure Maps
     implementation 'com.azure:azure-maps-route:1.0.0-beta.1'
     implementation 'com.azure:azure-identity:1.8.1'
+
+    // Google Maps
+    implementation 'com.google.maps:google-maps-services:2.1.2'
 }
 
 tasks.named('test') {

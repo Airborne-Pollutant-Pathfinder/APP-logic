@@ -1,18 +1,25 @@
 package edu.utdallas.cs.app.data.sensor;
 
 import edu.utdallas.cs.app.data.GeoLocation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public record Sensor(GeoLocation location, int radius) {
+@Data
+@AllArgsConstructor
+public final class Sensor {
     private static final double METERS_PER_DEGREE_LATITUDE = 111000.0;
     private static final double RADIUS_OF_EARTH_METERS = 6371000.0;
 
+    private final GeoLocation location;
+    private final int radius;
+
     public List<GeoLocation> getSquareVertices() {
-        double centerLatitude = location.latitude();
-        double centerLongitude = location.longitude();
+        double centerLatitude = location.getLatitude();
+        double centerLongitude = location.getLongitude();
 
         double deltaLatitude = radius / METERS_PER_DEGREE_LATITUDE;
         double deltaLongitude = deltaLatitude / Math.cos(centerLatitude * Math.PI / 180.0);
@@ -27,8 +34,8 @@ public record Sensor(GeoLocation location, int radius) {
 
     @Deprecated(since = "Azure Maps doesn't support circular shapes")
     public List<GeoLocation> getCircleVertices(int numVertices) {
-        double centerLon = location.longitude();
-        double centerLat = location.latitude();
+        double centerLon = location.getLongitude();
+        double centerLat = location.getLatitude();
 
         List<GeoLocation> vertices = new ArrayList<>();
 

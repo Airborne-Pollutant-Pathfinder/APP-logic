@@ -1,4 +1,11 @@
 package edu.utdallas.cs.app.data;
 
-public record GeoLocation(double longitude, double latitude) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public final class GeoLocation {
+    private final double longitude;
+    private final double latitude;
 }

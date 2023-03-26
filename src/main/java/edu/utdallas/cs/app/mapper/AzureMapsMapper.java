@@ -17,7 +17,7 @@ import java.util.List;
 @Deprecated(since = "Dr. Wenkstern requires us to use Google Directions API now.")
 public interface AzureMapsMapper {
     default GeoPosition mapToGeoPosition(GeoLocation location) {
-        return new GeoPosition(location.longitude(), location.latitude());
+        return new GeoPosition(location.getLongitude(), location.getLatitude());
     }
 
     List<GeoPosition> mapToGeoPositions(List<GeoLocation> locations);

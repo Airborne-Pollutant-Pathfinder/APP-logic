@@ -1,9 +1,16 @@
 package edu.utdallas.cs.app.data.route;
 
 import edu.utdallas.cs.app.data.GeoLocation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.Duration;
 import java.util.List;
 
-public record Route(long lengthInMeters, Duration travelTimeInSeconds, List<GeoLocation> waypoints) {
+@Data
+@AllArgsConstructor
+public final class Route {
+    private final long lengthInMeters;
+    private final Duration travelTimeInSeconds;
+    private final List<GeoLocation> waypoints;
 }
