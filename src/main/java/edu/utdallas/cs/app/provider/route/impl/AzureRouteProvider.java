@@ -30,8 +30,8 @@ public class AzureRouteProvider implements RouteProvider {
     private final MapsRouteAsyncClient client;
     private final AzureMapsMapper mapper;
 
-    public AzureRouteProvider(@Value("${MAPS_SHARED_KEY_ID}") String mapsSharedKeyId,
-                              @Value("${MAPS_CLIENT_ID}") String mapsClientId,
+    public AzureRouteProvider(@Value("${AZURE_MAPS_SHARED_KEY_ID}") String mapsSharedKeyId,
+                              @Value("${AZURE_MAPS_CLIENT_ID}") String mapsClientId,
                               AzureMapsMapper mapper) {
         this.mapper = mapper;
 
