@@ -10,6 +10,9 @@ import edu.utdallas.cs.app.provider.graphhopper.GraphHopperProvider;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Provides a custom GraphHopper instance that avoids sensors.
+ */
 public class AvoidSensorsGraphHopperProvider implements GraphHopperProvider {
     private final List<Sensor> sensorsToAvoid;
 

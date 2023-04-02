@@ -16,7 +16,12 @@ import edu.utdallas.cs.app.util.BoundingBoxUtil;
 
 import java.util.List;
 
+/**
+ * A weighting that is based off GraphHopper's FastestWeighting, but avoids sensors by assigning it the max weight
+ * possible.
+ */
 public class AvoidSensorsWeighting extends FastestWeighting {
+    private static final int MAX_WEIGHT = Integer.MAX_VALUE;
 
     private final BaseGraph graph;
     private final List<Sensor> sensorsToAvoid;
@@ -42,7 +47,7 @@ public class AvoidSensorsWeighting extends FastestWeighting {
             double lat = na.getLat(base);
             double lon = na.getLon(base);
             if (isPointInSensors(lat, lon)) {
-                return Integer.MAX_VALUE;
+                return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {
             // ignore for regular edge weight calc
