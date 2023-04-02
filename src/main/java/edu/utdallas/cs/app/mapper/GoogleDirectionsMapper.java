@@ -42,6 +42,4 @@ public interface GoogleDirectionsMapper {
 
         return new Route(lengthInMeters, travelTimeInSeconds, locations);
     }
-
-    List<Route> mapToRoutes(DirectionsRoute[] routes);
 }

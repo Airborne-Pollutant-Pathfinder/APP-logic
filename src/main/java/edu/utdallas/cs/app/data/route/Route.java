@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public final class Route {
-    private final long lengthInMeters;
+    private final double lengthInMeters;
     private final Duration travelTimeInSeconds;
     private final List<GeoLocation> waypoints;
 }
