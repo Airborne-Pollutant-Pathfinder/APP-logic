@@ -10,7 +10,6 @@ import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
-import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.util.BoundingBoxUtil;
 
@@ -46,28 +45,12 @@ public class AvoidSensorsWeighting extends FastestWeighting {
             NodeAccess na = graph.getNodeAccess();
             double lat = na.getLat(base);
             double lon = na.getLon(base);
-            if (isPointInSensors(lat, lon)) {
+            if (BoundingBoxUtil.isPointInSensors(sensorsToAvoid, lat, lon)) {
                 return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {
             // ignore for regular edge weight calc
         }
         return super.calcEdgeWeight(edge, reverse);
-    }
-
-    private boolean isPointInSensors(double lat, double lon) {
-        for (Sensor sensor : sensorsToAvoid) {
-            List<GeoLocation> vertices = sensor.getSquareVertices();
-            double[] boundingBox = {
-                    vertices.get(0).getLatitude(),
-                    vertices.get(0).getLongitude(),
-                    vertices.get(2).getLatitude(),
-                    vertices.get(2).getLongitude()
-            };
-            if (BoundingBoxUtil.isPointInBoundingBox(boundingBox, lat, lon)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

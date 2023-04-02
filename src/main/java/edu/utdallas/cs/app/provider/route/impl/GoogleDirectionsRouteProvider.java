@@ -98,6 +98,9 @@ public class GoogleDirectionsRouteProvider implements RouteProvider {
                     .setAlgorithm(Parameters.Algorithms.ASTAR_BI)
                     .putHint(Parameters.CH.DISABLE, true);
             for (Coordinate coordinate : simplifiedPolyline.getCoordinates()) {
+                if (BoundingBoxUtil.isPointInSensors(sensorsToAvoid, getLatitude(coordinate), getLongitude(coordinate))) {
+                    continue;
+                }
                 request.addPoint(new GHPoint(getLatitude(coordinate), getLongitude(coordinate)));
             }
 
