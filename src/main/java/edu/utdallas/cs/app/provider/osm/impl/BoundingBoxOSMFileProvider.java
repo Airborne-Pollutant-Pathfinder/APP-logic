@@ -29,7 +29,6 @@ public class BoundingBoxOSMFileProvider implements OSMFileProvider {
     @Override
     public File createOSMFile() throws IOException {
         String url = "http://overpass-api.de/api/map?bbox=" + minLongitude + "," + minLatitude + "," + maxLongitude + "," + maxLatitude;
-        System.out.println(url);
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse response = httpClient.execute(httpGet);
