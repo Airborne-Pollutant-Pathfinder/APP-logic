@@ -21,18 +21,18 @@ public class RouteServiceTest {
     private RouteProvider routeProviderMock;
     private SensorAvoidingRouteProvider sensorAvoidingRouteProviderMock;
     private WaypointAugmenter waypointAugmenterMock;
-    private RouteService routeService;
 
     @BeforeEach
     void setUp() {
         routeProviderMock = mock(RouteProvider.class);
         sensorAvoidingRouteProviderMock = mock(SensorAvoidingRouteProvider.class);
         waypointAugmenterMock = mock(WaypointAugmenter.class);
-        routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, new DummySensorAggregator());
     }
 
     @Test
     void Should_ReturnSafestThenFastest_When_GetRoutesWithMockProvider() {
+        RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, new DummySensorAggregator());
+
         GeoLocation origin = new GeoLocation(32.9858, -96.7501);
         GeoLocation destination = new GeoLocation(32.8975, -96.8602);
 
