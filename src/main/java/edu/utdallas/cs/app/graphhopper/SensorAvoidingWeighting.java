@@ -33,14 +33,7 @@ public class SensorAvoidingWeighting extends FastestWeighting {
 
     @Override
     public double calcEdgeWeight(EdgeIteratorState edge, boolean reverse) {
-        int adj = edge.getAdjNode();
-        int base = edge.getBaseNode();
-        if (reverse) {
-            int tmp = base;
-            base = adj;
-            adj = tmp;
-        }
-
+        int base = reverse ? edge.getAdjNode() : edge.getBaseNode();
         try {
             NodeAccess na = graph.getNodeAccess();
             double latitude = na.getLat(base);
