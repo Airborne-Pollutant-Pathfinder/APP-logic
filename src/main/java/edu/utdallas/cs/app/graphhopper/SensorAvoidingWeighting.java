@@ -43,9 +43,9 @@ public class SensorAvoidingWeighting extends FastestWeighting {
 
         try {
             NodeAccess na = graph.getNodeAccess();
-            double lat = na.getLat(base);
-            double lon = na.getLon(base);
-            if (BoundingBoxUtil.isPointInSensors(sensorsToAvoid, lat, lon)) {
+            double latitude = na.getLat(base);
+            double longitude = na.getLon(base);
+            if (BoundingBoxUtil.isPointInSensors(sensorsToAvoid, latitude, longitude)) {
                 return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {

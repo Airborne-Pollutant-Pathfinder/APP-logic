@@ -78,12 +78,12 @@ public class SensorAvoidingGraphHopperRouteProvider implements SensorAvoidingRou
     }
 
     private BoundingBox createFastestRouteBoundingBox(List<GeoLocation> waypoints) {
-        double minLat = waypoints.stream().mapToDouble(GeoLocation::getLatitude).min().orElse(0);
-        double minLon = waypoints.stream().mapToDouble(GeoLocation::getLongitude).min().orElse(0);
-        double maxLat = waypoints.stream().mapToDouble(GeoLocation::getLatitude).max().orElse(0);
-        double maxLon = waypoints.stream().mapToDouble(GeoLocation::getLongitude).max().orElse(0);
+        double minLatitude = waypoints.stream().mapToDouble(GeoLocation::getLatitude).min().orElse(0);
+        double minLongitude = waypoints.stream().mapToDouble(GeoLocation::getLongitude).min().orElse(0);
+        double maxLatitude = waypoints.stream().mapToDouble(GeoLocation::getLatitude).max().orElse(0);
+        double maxLongitude = waypoints.stream().mapToDouble(GeoLocation::getLongitude).max().orElse(0);
 
-        BoundingBox box = new BoundingBox(minLat, minLon, maxLat, maxLon);
+        BoundingBox box = new BoundingBox(minLatitude, minLongitude, maxLatitude, maxLongitude);
         return BoundingBoxUtil.increaseBoundingBoxByMultiplier(box, BOUNDING_BOX_MULTIPLIER);
     }
 }

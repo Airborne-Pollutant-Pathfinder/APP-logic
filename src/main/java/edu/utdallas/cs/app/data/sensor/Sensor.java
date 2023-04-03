@@ -34,17 +34,17 @@ public final class Sensor {
 
     @Deprecated(since = "Azure Maps doesn't support circular shapes")
     public List<GeoLocation> getCircleVertices(int numVertices) {
-        double centerLon = location.getLongitude();
-        double centerLat = location.getLatitude();
+        double centerLatitude = location.getLatitude();
+        double centerLongitude = location.getLongitude();
 
         List<GeoLocation> vertices = new ArrayList<>();
 
         double distRadians = radius / RADIUS_OF_EARTH_METERS;
         for (int i = 0; i < numVertices; i++) {
             double rad = Math.toRadians(i * 360.0 / numVertices);
-            double lat = Math.asin(Math.sin(centerLat) * Math.cos(distRadians) + Math.cos(centerLat) * Math.sin(distRadians) * Math.cos(rad));
-            double lon = centerLon + Math.atan2(Math.sin(rad) * Math.sin(distRadians) * Math.cos(centerLat), Math.cos(distRadians) - Math.sin(centerLat) * Math.sin(lat));
-            vertices.add(new GeoLocation(lat, lon));
+            double latitude = Math.asin(Math.sin(centerLatitude) * Math.cos(distRadians) + Math.cos(centerLatitude) * Math.sin(distRadians) * Math.cos(rad));
+            double longitude = centerLongitude + Math.atan2(Math.sin(rad) * Math.sin(distRadians) * Math.cos(centerLatitude), Math.cos(distRadians) - Math.sin(centerLatitude) * Math.sin(latitude));
+            vertices.add(new GeoLocation(latitude, longitude));
         }
         vertices.add(vertices.get(0));
         return vertices;
