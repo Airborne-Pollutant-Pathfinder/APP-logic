@@ -21,10 +21,10 @@ public class RouteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Route>> getRoute(@RequestParam("originLongitude") double originLongitude,
-                                                @RequestParam("originLatitude") double originLatitude,
-                                                @RequestParam("destinationLongitude") double destinationLongitude,
-                                                @RequestParam("destinationLatitude") double destinationLatitude) {
+    public ResponseEntity<List<Route>> getRoute(@RequestParam("originLatitude") double originLatitude,
+                                                @RequestParam("originLongitude") double originLongitude,
+                                                @RequestParam("destinationLatitude") double destinationLatitude,
+                                                @RequestParam("destinationLongitude") double destinationLongitude) {
         GeoLocation origin = new GeoLocation(originLatitude, originLongitude);
         GeoLocation destination = new GeoLocation(destinationLatitude, destinationLongitude);
         List<Route> route = routeService.getRoutes(origin, destination);
