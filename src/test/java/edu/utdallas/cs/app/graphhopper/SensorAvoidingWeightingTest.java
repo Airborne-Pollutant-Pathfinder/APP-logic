@@ -45,7 +45,7 @@ public class SensorAvoidingWeightingTest {
     }
 
     @Test
-    public void Should_ReturnMaxWeight_When_SensorOnRoad() {
+    public void Should_ReturnInfinity_When_SensorOnRoad() {
         Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, createMockSensors());
 
         int baseNode = 1;

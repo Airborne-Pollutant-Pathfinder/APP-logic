@@ -33,7 +33,7 @@ public class RouteServiceTest {
     }
 
     @Test
-    void Should_ReturnSafestThenFastest_When_GetRoutesWithMockProvider() {
+    void Should_ReturnSafestThenFastest_When_GettingRoutes() {
         RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, sensorAggregatorMock);
 
         GeoLocation origin = new GeoLocation(-96.7501, 32.9858);
