@@ -4,7 +4,10 @@ import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.service.RouteService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,8 +25,8 @@ public class RouteController {
                                                 @RequestParam("originLatitude") double originLatitude,
                                                 @RequestParam("destinationLongitude") double destinationLongitude,
                                                 @RequestParam("destinationLatitude") double destinationLatitude) {
-        GeoLocation origin = new GeoLocation(originLongitude, originLatitude);
-        GeoLocation destination = new GeoLocation(destinationLongitude, destinationLatitude);
+        GeoLocation origin = new GeoLocation(originLatitude, originLongitude);
+        GeoLocation destination = new GeoLocation(destinationLatitude, destinationLongitude);
         List<Route> route = routeService.getRoutes(origin, destination);
         return ResponseEntity.ok(route);
     }

@@ -13,7 +13,7 @@ public class DummySensorAggregator implements SensorAggregator {
     @Override
     public List<Sensor> findRelevantSensors(Route route) {
         return List.of(
-                new Sensor(new GeoLocation(-96.768111, 33.133839), 100)
+                new Sensor(new GeoLocation(33.133839, -96.768111), 100)
         );
     }
 }

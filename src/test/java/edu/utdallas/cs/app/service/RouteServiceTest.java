@@ -36,8 +36,8 @@ public class RouteServiceTest {
     void Should_ReturnSafestThenFastest_When_GetRoutesWithMockProvider() {
         RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, sensorAggregatorMock);
 
-        GeoLocation origin = new GeoLocation(32.9858, -96.7501);
-        GeoLocation destination = new GeoLocation(32.8975, -96.8602);
+        GeoLocation origin = new GeoLocation(-96.7501, 32.9858);
+        GeoLocation destination = new GeoLocation(-96.8602, 32.8975);
 
         Route fastestRoute = new Route(1000L, Duration.ofMinutes(10), List.of(origin, destination));
         Route safestRoute = new Route(2000L, Duration.ofMinutes(20), List.of(origin, destination));
@@ -55,7 +55,7 @@ public class RouteServiceTest {
 
     private List<Sensor> createMockSensors() {
         return List.of(
-                new Sensor(new GeoLocation(-96.768111, 33.133839), 100)
+                new Sensor(new GeoLocation(33.133839, -96.768111), 100)
         );
     }
 }

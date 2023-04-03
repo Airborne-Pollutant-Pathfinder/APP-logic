@@ -67,7 +67,7 @@ public class SensorAvoidingWeightingTest {
     }
 
     private List<Sensor> createMockSensors() {
-        return Collections.singletonList(new Sensor(new GeoLocation(32.94165, -96.80515), 100));
+        return Collections.singletonList(new Sensor(new GeoLocation(-96.80515, 32.94165), 100));
     }
 }
 

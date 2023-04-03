@@ -24,10 +24,10 @@ public final class Sensor {
         double deltaLatitude = radius / METERS_PER_DEGREE_LATITUDE;
         double deltaLongitude = deltaLatitude / Math.cos(centerLatitude * Math.PI / 180.0);
 
-        GeoLocation upperLeft = new GeoLocation(centerLongitude - deltaLongitude, centerLatitude + deltaLatitude);
-        GeoLocation upperRight = new GeoLocation(centerLongitude + deltaLongitude, centerLatitude + deltaLatitude);
-        GeoLocation lowerRight = new GeoLocation(centerLongitude + deltaLongitude, centerLatitude - deltaLatitude);
-        GeoLocation lowerLeft = new GeoLocation(centerLongitude - deltaLongitude, centerLatitude - deltaLatitude);
+        GeoLocation upperLeft = new GeoLocation(centerLatitude + deltaLatitude, centerLongitude - deltaLongitude);
+        GeoLocation upperRight = new GeoLocation(centerLatitude + deltaLatitude, centerLongitude + deltaLongitude);
+        GeoLocation lowerRight = new GeoLocation(centerLatitude - deltaLatitude, centerLongitude + deltaLongitude);
+        GeoLocation lowerLeft = new GeoLocation(centerLatitude - deltaLatitude, centerLongitude - deltaLongitude);
 
         return Arrays.asList(upperLeft, upperRight, lowerRight, lowerLeft, upperLeft);
     }
@@ -44,7 +44,7 @@ public final class Sensor {
             double rad = Math.toRadians(i * 360.0 / numVertices);
             double lat = Math.asin(Math.sin(centerLat) * Math.cos(distRadians) + Math.cos(centerLat) * Math.sin(distRadians) * Math.cos(rad));
             double lon = centerLon + Math.atan2(Math.sin(rad) * Math.sin(distRadians) * Math.cos(centerLat), Math.cos(distRadians) - Math.sin(centerLat) * Math.sin(lat));
-            vertices.add(new GeoLocation(lon, lat));
+            vertices.add(new GeoLocation(lat, lon));
         }
         vertices.add(vertices.get(0));
         return vertices;
