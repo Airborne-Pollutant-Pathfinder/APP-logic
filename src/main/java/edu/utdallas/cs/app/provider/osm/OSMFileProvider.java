@@ -5,5 +5,5 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public interface OSMFileProvider {
-    File createOSMFile() throws IOException, URISyntaxException;
+    File createOSMFile(double[] boundingBox) throws IOException, URISyntaxException;
 }

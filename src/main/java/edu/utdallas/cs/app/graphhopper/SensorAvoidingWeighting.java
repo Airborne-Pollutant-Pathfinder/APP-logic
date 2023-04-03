@@ -19,13 +19,13 @@ import java.util.List;
  * A weighting that is based off GraphHopper's FastestWeighting, but avoids sensors by assigning it the max weight
  * possible.
  */
-public class AvoidSensorsWeighting extends FastestWeighting {
+public class SensorAvoidingWeighting extends FastestWeighting {
     private static final int MAX_WEIGHT = Integer.MAX_VALUE;
 
     private final BaseGraph graph;
     private final List<Sensor> sensorsToAvoid;
 
-    public AvoidSensorsWeighting(BaseGraph graph, BooleanEncodedValue accessEnc, DecimalEncodedValue speedEnc, EnumEncodedValue<RoadAccess> roadAccessEnc, PMap map, TurnCostProvider turnCostProvider, List<Sensor> sensorsToAvoid) {
+    public SensorAvoidingWeighting(BaseGraph graph, BooleanEncodedValue accessEnc, DecimalEncodedValue speedEnc, EnumEncodedValue<RoadAccess> roadAccessEnc, PMap map, TurnCostProvider turnCostProvider, List<Sensor> sensorsToAvoid) {
         super(accessEnc, speedEnc, roadAccessEnc, map, turnCostProvider);
         this.graph = graph;
         this.sensorsToAvoid = sensorsToAvoid;

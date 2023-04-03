@@ -17,6 +17,8 @@ public interface GoogleDirectionsMapper {
     @Mapping(target = "lng", source = "longitude")
     LatLng mapToLatLng(GeoLocation location);
 
+    LatLng[] mapToLatLngs(List<GeoLocation> location);
+
     @Mapping(target = "latitude", source = "lat")
     @Mapping(target = "longitude", source = "lng")
     GeoLocation mapToGeoLocation(LatLng position);

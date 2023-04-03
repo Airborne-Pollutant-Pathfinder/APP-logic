@@ -14,21 +14,9 @@ import java.nio.file.Files;
  * Downloads the latest data from OpenStreetMap's Overpass API from a bounding box and saves it to a temp file.
  */
 public class BoundingBoxOSMFileProvider implements OSMFileProvider {
-    private final double minLatitude;
-    private final double minLongitude;
-    private final double maxLatitude;
-    private final double maxLongitude;
-
-    public BoundingBoxOSMFileProvider(double minLatitude, double minLongitude, double maxLatitude, double maxLongitude) {
-        this.minLatitude = minLatitude;
-        this.minLongitude = minLongitude;
-        this.maxLatitude = maxLatitude;
-        this.maxLongitude = maxLongitude;
-    }
-
     @Override
-    public File createOSMFile() throws IOException {
-        String url = "http://overpass-api.de/api/map?bbox=" + minLongitude + "," + minLatitude + "," + maxLongitude + "," + maxLatitude;
+    public File createOSMFile(double[] boundingBox) throws IOException {
+        String url = "http://overpass-api.de/api/map?bbox=" + boundingBox[1] + "," + boundingBox[0] + "," + boundingBox[3] + "," + boundingBox[2];
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse response = httpClient.execute(httpGet);

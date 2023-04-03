@@ -3,24 +3,16 @@ package edu.utdallas.cs.app.provider.route.impl;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.models.GeoLinearRing;
-import com.azure.core.models.GeoPolygon;
-import com.azure.core.models.GeoPolygonCollection;
-import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.MapsRouteAsyncClient;
 import com.azure.maps.route.MapsRouteClientBuilder;
 import com.azure.maps.route.models.RouteDirections;
 import com.azure.maps.route.models.RouteDirectionsOptions;
-import com.azure.maps.route.models.RouteDirectionsParameters;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
-import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.mapper.AzureMapsMapper;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,24 +41,15 @@ public class AzureRouteProvider implements RouteProvider {
     }
 
     @Override
-    public List<Route> getRoutes(GeoLocation origin, GeoLocation destination, List<Sensor> sensorsToAvoid) {
-        List<GeoPosition> routePoints = Arrays.asList(
-                mapper.mapToGeoPosition(origin),
-                mapper.mapToGeoPosition(destination)
-        );
-        List<GeoPolygon> polygons = mapper.mapToGeoPolygons(sensorsToAvoid);
-
-        RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(routePoints)
-                .setMaxAlternatives(2);
-        RouteDirectionsParameters routeParameters = new RouteDirectionsParameters()
-                .setAvoidAreas(new GeoPolygonCollection(polygons));
-        Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions, routeParameters).blockOptional();
+    public Route getRoute(List<GeoLocation> waypoints) {
+        RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(mapper.mapToGeoPositions(waypoints));
+        Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions).blockOptional();
 
         if (routeDirectionsOpt.isEmpty()) {
             return null;
         }
 
         RouteDirections routeDirections = routeDirectionsOpt.get();
-        return mapper.mapToRoutes(routeDirections.getRoutes());
+        return mapper.mapToRoute(routeDirections.getRoutes().get(0));
     }
 }

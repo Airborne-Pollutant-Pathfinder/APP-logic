@@ -3,38 +3,45 @@ package edu.utdallas.cs.app.service;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
-import org.junit.jupiter.api.Assertions;
+import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
+import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class RouteServiceTest {
     private RouteProvider routeProviderMock;
+    private SensorAvoidingRouteProvider sensorAvoidingRouteProviderMock;
+    private WaypointAugmenter waypointAugmenterMock;
     private RouteService routeService;
 
     @BeforeEach
     void setUp() {
         routeProviderMock = mock(RouteProvider.class);
-        routeService = new RouteService(routeProviderMock);
+        sensorAvoidingRouteProviderMock = mock(SensorAvoidingRouteProvider.class);
+        waypointAugmenterMock = mock(WaypointAugmenter.class);
+        routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock);
     }
 
     @Test
-    void Should_ReturnExpectedRoutes_When_GetRoutesWithMockProvider() {
+    void Should_ReturnSafestThenFastest_When_GetRoutesWithMockProvider() {
         GeoLocation origin = new GeoLocation(32.9858, -96.7501);
         GeoLocation destination = new GeoLocation(32.8975, -96.8602);
-        List<Route> expectedRoutes = List.of(
-                new Route(1000L, java.time.Duration.ofMinutes(10), List.of(origin, destination)),
-                new Route(2000L, java.time.Duration.ofMinutes(20), List.of(origin, destination, origin))
-        );
-        when(routeProviderMock.getRoutes(any(GeoLocation.class), any(GeoLocation.class), any(List.class)))
-                .thenReturn(expectedRoutes);
+
+        Route fastestRoute = new Route(1000L, Duration.ofMinutes(10), List.of(origin, destination));
+        Route safestRoute = new Route(2000L, Duration.ofMinutes(20), List.of(origin, destination));
+        List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
+        
+        when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
+        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(List.class))).thenReturn(safestRoute);
+        when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
 
         List<Route> actualRoutes = routeService.getRoutes(origin, destination);
 

@@ -6,15 +6,15 @@ import edu.utdallas.cs.app.data.sensor.Sensor;
 
 import java.util.List;
 
-public class AvoidSensorsGraphHopper extends GraphHopper {
+public class SensorAvoidingGraphHopper extends GraphHopper {
     private final List<Sensor> sensorsToAvoid;
 
-    public AvoidSensorsGraphHopper(List<Sensor> sensorsToAvoid) {
+    public SensorAvoidingGraphHopper(List<Sensor> sensorsToAvoid) {
         this.sensorsToAvoid = sensorsToAvoid;
     }
 
     @Override
     protected WeightingFactory createWeightingFactory() {
-        return new AvoidSensorsWeightingFactory(getBaseGraph(), getEncodingManager(), sensorsToAvoid);
+        return new SensorAvoidingWeightingFactory(getBaseGraph(), getEncodingManager(), sensorsToAvoid);
     }
 }

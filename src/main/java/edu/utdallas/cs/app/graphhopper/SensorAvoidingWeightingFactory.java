@@ -21,12 +21,12 @@ import static com.graphhopper.routing.weighting.TurnCostProvider.NO_TURN_COST_PR
 import static com.graphhopper.routing.weighting.Weighting.INFINITE_U_TURN_COSTS;
 import static com.graphhopper.util.Helper.toLowerCase;
 
-public class AvoidSensorsWeightingFactory implements WeightingFactory {
+public class SensorAvoidingWeightingFactory implements WeightingFactory {
     private final BaseGraph graph;
     private final EncodingManager encodingManager;
     private final List<Sensor> sensorsToAvoid;
 
-    public AvoidSensorsWeightingFactory(BaseGraph graph, EncodingManager encodingManager, List<Sensor> sensorsToAvoid) {
+    public SensorAvoidingWeightingFactory(BaseGraph graph, EncodingManager encodingManager, List<Sensor> sensorsToAvoid) {
         this.graph = graph;
         this.encodingManager = encodingManager;
         this.sensorsToAvoid = sensorsToAvoid;
@@ -72,7 +72,7 @@ public class AvoidSensorsWeightingFactory implements WeightingFactory {
         if (!encodingManager.hasEncodedValue(RoadAccess.KEY))
             throw new IllegalArgumentException("The fastest weighting requires road_access");
         EnumEncodedValue<RoadAccess> roadAccessEnc = encodingManager.getEnumEncodedValue(RoadAccess.KEY, RoadAccess.class);
-        weighting = new AvoidSensorsWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, sensorsToAvoid);
+        weighting = new SensorAvoidingWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, sensorsToAvoid);
         return weighting;
     }
 
