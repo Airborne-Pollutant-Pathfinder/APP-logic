@@ -5,6 +5,7 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.ResponsePath;
 import com.graphhopper.util.Parameters;
+import edu.utdallas.cs.app.data.BoundingBox;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.data.sensor.Sensor;
@@ -38,7 +39,7 @@ public class SensorAvoidingGraphHopperRouteProvider implements SensorAvoidingRou
 
     @Override
     public Route getRoute(List<GeoLocation> waypoints, List<Sensor> sensorsToAvoid) {
-        double[] boundingBox = createFastestRouteBoundingBox(waypoints);
+        BoundingBox boundingBox = createFastestRouteBoundingBox(waypoints);
         GraphHopperProvider graphHopperProvider = new SensorAvoidingGraphHopperProvider(sensorsToAvoid);
         try {
             GraphHopper hopper = graphHopperProvider.createGraphHopper(osmFileProvider.createOSMFile(boundingBox));
@@ -76,13 +77,13 @@ public class SensorAvoidingGraphHopperRouteProvider implements SensorAvoidingRou
         }
     }
 
-    private double[] createFastestRouteBoundingBox(List<GeoLocation> waypoints) {
+    private BoundingBox createFastestRouteBoundingBox(List<GeoLocation> waypoints) {
         double minLat = waypoints.stream().mapToDouble(GeoLocation::getLatitude).min().orElse(0);
         double minLon = waypoints.stream().mapToDouble(GeoLocation::getLongitude).min().orElse(0);
         double maxLat = waypoints.stream().mapToDouble(GeoLocation::getLatitude).max().orElse(0);
         double maxLon = waypoints.stream().mapToDouble(GeoLocation::getLongitude).max().orElse(0);
 
-        double[] boundingBox = new double[] {minLat, minLon, maxLat, maxLon};
-        return BoundingBoxUtil.increaseBoundingBoxByMultiplier(boundingBox, BOUNDING_BOX_MULTIPLIER);
+        BoundingBox box = new BoundingBox(minLat, minLon, maxLat, maxLon);
+        return BoundingBoxUtil.increaseBoundingBoxByMultiplier(box, BOUNDING_BOX_MULTIPLIER);
     }
 }

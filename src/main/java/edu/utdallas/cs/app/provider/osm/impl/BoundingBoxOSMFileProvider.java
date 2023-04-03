@@ -1,5 +1,6 @@
 package edu.utdallas.cs.app.provider.osm.impl;
 
+import edu.utdallas.cs.app.data.BoundingBox;
 import edu.utdallas.cs.app.provider.osm.OSMFileProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,8 +16,8 @@ import java.nio.file.Files;
  */
 public class BoundingBoxOSMFileProvider implements OSMFileProvider {
     @Override
-    public File createOSMFile(double[] boundingBox) throws IOException {
-        String url = "http://overpass-api.de/api/map?bbox=" + boundingBox[1] + "," + boundingBox[0] + "," + boundingBox[3] + "," + boundingBox[2];
+    public File createOSMFile(BoundingBox boundingBox) throws IOException {
+        String url = "http://overpass-api.de/api/map?bbox=" + boundingBox.getMinimumLongitude() + "," + boundingBox.getMinimumLatitude() + "," + boundingBox.getMaximumLongitude() + "," + boundingBox.getMaximumLatitude();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse response = httpClient.execute(httpGet);
