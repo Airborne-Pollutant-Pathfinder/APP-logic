@@ -4,6 +4,7 @@ import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
+import edu.utdallas.cs.app.provider.sensor.impl.DummySensorAggregator;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class RouteServiceTest {
         routeProviderMock = mock(RouteProvider.class);
         sensorAvoidingRouteProviderMock = mock(SensorAvoidingRouteProvider.class);
         waypointAugmenterMock = mock(WaypointAugmenter.class);
-        routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock);
+        routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, new DummySensorAggregator());
     }
 
     @Test
@@ -38,7 +39,7 @@ public class RouteServiceTest {
         Route fastestRoute = new Route(1000L, Duration.ofMinutes(10), List.of(origin, destination));
         Route safestRoute = new Route(2000L, Duration.ofMinutes(20), List.of(origin, destination));
         List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
-        
+
         when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
         when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(List.class))).thenReturn(safestRoute);
         when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));

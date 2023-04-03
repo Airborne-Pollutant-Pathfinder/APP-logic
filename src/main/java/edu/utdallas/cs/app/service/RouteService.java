@@ -2,9 +2,9 @@ package edu.utdallas.cs.app.service;
 
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
-import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
+import edu.utdallas.cs.app.provider.sensor.SensorAggregator;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,14 @@ public class RouteService {
     private final RouteProvider mainRouteProvider;
     private final SensorAvoidingRouteProvider sensorAvoidingRouteProvider;
     private final WaypointAugmenter waypointAugmenter;
+    private final SensorAggregator sensorAggregator;
 
     public RouteService(RouteProvider mainRouteProvider, SensorAvoidingRouteProvider sensorAvoidingRouteProvider,
-                        WaypointAugmenter waypointAugmenter) {
+                        WaypointAugmenter waypointAugmenter, SensorAggregator sensorAggregator) {
         this.mainRouteProvider = mainRouteProvider;
         this.sensorAvoidingRouteProvider = sensorAvoidingRouteProvider;
         this.waypointAugmenter = waypointAugmenter;
+        this.sensorAggregator = sensorAggregator;
     }
 
     /**
@@ -33,14 +35,8 @@ public class RouteService {
         List<Route> routes = new ArrayList<>();
         Route fastestRoute = mainRouteProvider.getRoute(List.of(origin, destination));
         List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(fastestRoute.getWaypoints());
-        routes.add(sensorAvoidingRouteProvider.getRoute(simplifiedWaypoints, createMockSensorsToAvoid()));
+        routes.add(sensorAvoidingRouteProvider.getRoute(simplifiedWaypoints, sensorAggregator.findRelevantSensors(fastestRoute)));
         routes.add(fastestRoute);
         return routes;
-    }
-
-    private List<Sensor> createMockSensorsToAvoid() {
-        return List.of(
-                new Sensor(new GeoLocation(-96.768111, 33.133839), 100)
-        );
     }
 }
