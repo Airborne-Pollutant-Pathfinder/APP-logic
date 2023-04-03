@@ -11,12 +11,12 @@ import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.mapper.GoogleDirectionsMapper;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
 
-@Service
+@Component
 public class GoogleDirectionsRouteProvider implements RouteProvider {
     private final GoogleDirectionsMapper googleDirectionsMapper;
     private final GeoApiContext context;

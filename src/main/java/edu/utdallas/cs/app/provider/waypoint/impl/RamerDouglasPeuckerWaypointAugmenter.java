@@ -7,14 +7,14 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.simplify.DouglasPeuckerSimplifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * A waypoint augmenter that uses the Ramer–Douglas–Peucker algorithm to simplify a polyline.
  */
-@Service
+@Component
 public class RamerDouglasPeuckerWaypointAugmenter implements WaypointAugmenter {
     /**
      * A constant for managing the Ramer–Douglas–Peucker algorithm. The higher the tolerance, the fewer points

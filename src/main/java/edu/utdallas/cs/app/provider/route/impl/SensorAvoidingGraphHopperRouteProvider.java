@@ -14,14 +14,14 @@ import edu.utdallas.cs.app.provider.graphhopper.impl.SensorAvoidingGraphHopperPr
 import edu.utdallas.cs.app.provider.osm.OSMFileProvider;
 import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
 import edu.utdallas.cs.app.util.BoundingBoxUtil;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.List;
 
-@Service
+@Component
 public class SensorAvoidingGraphHopperRouteProvider implements SensorAvoidingRouteProvider {
     /**
      * A constant for increasing the range of a bounding box to be able to provide better possible routes.
