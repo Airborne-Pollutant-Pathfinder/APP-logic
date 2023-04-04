@@ -6,6 +6,7 @@ import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.models.MapsSearchRoute;
 import com.azure.maps.route.models.RouteLeg;
 import edu.utdallas.cs.app.data.GeoLocation;
+import edu.utdallas.cs.app.data.SquareBox;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import org.mapstruct.Mapper;
@@ -39,7 +40,9 @@ public interface AzureMapsMapper {
     default List<GeoPolygon> mapToGeoPolygons(List<Sensor> sensors) {
         List<GeoPolygon> polygons = new ArrayList<>();
         for (Sensor sensor : sensors) {
-            polygons.add(new GeoPolygon(new GeoLinearRing(mapToGeoPositions(sensor.getSquareVertices()))));
+            SquareBox square = sensor.getSquare();
+            List<GeoLocation> boxCoords = List.of(square.getUpperLeft(), square.getUpperRight(), square.getLowerRight(), square.getLowerLeft(), square.getUpperLeft());
+            polygons.add(new GeoPolygon(new GeoLinearRing(mapToGeoPositions(boxCoords))));
         }
         return polygons;
     }

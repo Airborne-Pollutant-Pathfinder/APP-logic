@@ -1,7 +1,7 @@
 package edu.utdallas.cs.app.util;
 
 import edu.utdallas.cs.app.data.BoundingBox;
-import edu.utdallas.cs.app.data.GeoLocation;
+import edu.utdallas.cs.app.data.SquareBox;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import lombok.experimental.UtilityClass;
 
@@ -52,12 +52,12 @@ public class BoundingBoxUtil {
 
     public boolean isBoxInSensors(List<Sensor> sensorsToAvoid, BoundingBox box) {
         for (Sensor sensor : sensorsToAvoid) {
-            List<GeoLocation> vertices = sensor.getSquareVertices();
+            SquareBox square = sensor.getSquare();
 
-            double smallestLatitude = Math.min(vertices.get(0).getLatitude(), vertices.get(2).getLatitude());
-            double smallestLongitude = Math.min(vertices.get(0).getLongitude(), vertices.get(2).getLongitude());
-            double largestLatitude = Math.max(vertices.get(0).getLatitude(), vertices.get(2).getLatitude());
-            double largestLongitude = Math.max(vertices.get(0).getLongitude(), vertices.get(2).getLongitude());
+            double smallestLatitude = Math.min(square.getUpperLeft().getLatitude(), square.getLowerRight().getLatitude());
+            double smallestLongitude = Math.min(square.getUpperLeft().getLongitude(), square.getLowerRight().getLongitude());
+            double largestLatitude = Math.max(square.getUpperLeft().getLatitude(), square.getLowerRight().getLatitude());
+            double largestLongitude = Math.max(square.getUpperLeft().getLongitude(), square.getLowerRight().getLongitude());
 
             BoundingBox sensorBox = new BoundingBox(smallestLatitude, smallestLongitude, largestLatitude, largestLongitude);
             if (intersects(sensorBox, box)) {

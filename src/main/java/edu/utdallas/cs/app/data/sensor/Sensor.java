@@ -1,11 +1,11 @@
 package edu.utdallas.cs.app.data.sensor;
 
 import edu.utdallas.cs.app.data.GeoLocation;
+import edu.utdallas.cs.app.data.SquareBox;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ public final class Sensor {
     private final GeoLocation location;
     private final int radius;
 
-    public List<GeoLocation> getSquareVertices() {
+    public SquareBox getSquare() {
         double centerLatitude = location.getLatitude();
         double centerLongitude = location.getLongitude();
 
@@ -29,7 +29,7 @@ public final class Sensor {
         GeoLocation lowerRight = new GeoLocation(centerLatitude - deltaLatitude, centerLongitude + deltaLongitude);
         GeoLocation lowerLeft = new GeoLocation(centerLatitude - deltaLatitude, centerLongitude - deltaLongitude);
 
-        return Arrays.asList(upperLeft, upperRight, lowerRight, lowerLeft, upperLeft);
+        return new SquareBox(upperLeft, upperRight, lowerRight, lowerLeft);
     }
 
     @Deprecated(since = "Azure Maps doesn't support circular shapes")
