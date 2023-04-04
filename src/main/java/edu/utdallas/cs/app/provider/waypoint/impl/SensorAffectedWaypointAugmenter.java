@@ -33,9 +33,6 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter {
 
     private boolean isAffectedBySensor(GeoLocation waypoint) {
         BoundingBox boxWithBuffer = BoundingBoxUtil.generateBoundingBox(waypoint.getLatitude(), waypoint.getLongitude(), BUFFER_METERS);
-        if (waypoint.getLatitude() == 33.1338284 && waypoint.getLongitude() == -96.7684674) {
-            System.out.println("boxWithBuffer = " + boxWithBuffer);
-        }
         List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(waypoint.getLatitude(), waypoint.getLongitude());
         // todo analyze each sensor and see if the data it is saying is hazardous to specific user
         return !BoundingBoxUtil.isBoxInSensors(sensorsToAvoid, boxWithBuffer);
