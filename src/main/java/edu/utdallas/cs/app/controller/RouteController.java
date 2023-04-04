@@ -25,6 +25,7 @@ public class RouteController {
                                                 @RequestParam("originLongitude") double originLongitude,
                                                 @RequestParam("destinationLatitude") double destinationLatitude,
                                                 @RequestParam("destinationLongitude") double destinationLongitude) {
+        // todo add a verifier for longitude and latitude
         GeoLocation origin = new GeoLocation(originLatitude, originLongitude);
         GeoLocation destination = new GeoLocation(destinationLatitude, destinationLongitude);
         List<Route> route = routeService.getRoutes(origin, destination);
