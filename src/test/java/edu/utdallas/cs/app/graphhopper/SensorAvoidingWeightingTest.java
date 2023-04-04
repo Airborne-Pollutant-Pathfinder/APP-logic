@@ -12,6 +12,7 @@ import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.sensor.Sensor;
+import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +33,7 @@ public class SensorAvoidingWeightingTest {
     private EnumEncodedValue<RoadAccess> roadAccessEncMock;
     private PMap map;
     private EdgeIteratorState edgeMock;
+    private WaypointAugmenter waypointReducerMock;
 
     @BeforeEach
     void setUp() {
@@ -42,11 +45,12 @@ public class SensorAvoidingWeightingTest {
         map = new PMap();
         turnCostProviderMock = mock(TurnCostProvider.class);
         edgeMock = mock(EdgeIteratorState.class);
+        waypointReducerMock = mock(WaypointAugmenter.class);
     }
 
     @Test
-    public void Should_ReturnInfinity_When_SensorOnRoad() {
-        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, createMockSensors());
+    public void Should_ReturnMaxWeight_When_SensorOnRoad() {
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointReducerMock);
 
         int baseNode = 1;
         int adjNode = 2;
@@ -61,9 +65,11 @@ public class SensorAvoidingWeightingTest {
         when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
         when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
 
+        when(waypointReducerMock.augmentWaypoints(any(List.class))).thenReturn(Collections.emptyList());
+
         double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
 
-        assertEquals(Double.POSITIVE_INFINITY, actualWeight);
+        assertEquals(SensorAvoidingWeighting.MAX_WEIGHT, actualWeight);
     }
 
     private List<Sensor> createMockSensors() {

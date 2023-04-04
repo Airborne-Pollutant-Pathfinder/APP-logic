@@ -24,7 +24,7 @@ import java.util.List;
  * possible.
  */
 public class SensorAvoidingWeighting extends FastestWeighting {
-    private static final int MAX_WEIGHT = Integer.MAX_VALUE;
+    public static final int MAX_WEIGHT = Integer.MAX_VALUE;
 
     private final BaseGraph graph;
     private final WaypointAugmenter waypointReducer;

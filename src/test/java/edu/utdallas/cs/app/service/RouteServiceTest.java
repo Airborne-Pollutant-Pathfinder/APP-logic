@@ -4,7 +4,6 @@ import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
-import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
 import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,21 +19,21 @@ import static org.mockito.Mockito.when;
 
 public class RouteServiceTest {
     private RouteProvider routeProviderMock;
-    private SensorAvoidingRouteProvider sensorAvoidingRouteProviderMock;
+    private RouteProvider sensorAvoidingRouteProviderMock;
     private WaypointAugmenter waypointAugmenterMock;
-    private SensorProvider sensorProviderMock;
+    private WaypointAugmenter waypointReducerMock;
 
     @BeforeEach
     void setUp() {
         routeProviderMock = mock(RouteProvider.class);
-        sensorAvoidingRouteProviderMock = mock(SensorAvoidingRouteProvider.class);
+        sensorAvoidingRouteProviderMock = mock(RouteProvider.class);
         waypointAugmenterMock = mock(WaypointAugmenter.class);
-        sensorProviderMock = mock(SensorProvider.class);
+        waypointReducerMock = mock(WaypointAugmenter.class);
     }
 
     @Test
     void Should_ReturnSafestThenFastest_When_GettingRoutes() {
-        RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, sensorProviderMock);
+        RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, waypointReducerMock);
 
         GeoLocation origin = new GeoLocation(-96.7501, 32.9858);
         GeoLocation destination = new GeoLocation(-96.8602, 32.8975);
@@ -44,9 +43,9 @@ public class RouteServiceTest {
         List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
 
         when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
-        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(List.class))).thenReturn(safestRoute);
+        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class))).thenReturn(safestRoute);
         when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
-        when(sensorProviderMock.findRelevantSensors(any(Route.class))).thenReturn(createMockSensors());
+        when(waypointReducerMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
 
         List<Route> actualRoutes = routeService.getRoutes(origin, destination);
 
