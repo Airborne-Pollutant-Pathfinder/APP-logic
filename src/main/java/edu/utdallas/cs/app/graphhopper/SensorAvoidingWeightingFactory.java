@@ -11,9 +11,9 @@ import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.util.PMap;
 import com.graphhopper.util.Parameters;
-import edu.utdallas.cs.app.data.sensor.Sensor;
-
-import java.util.List;
+import edu.utdallas.cs.app.provider.sensor.SensorProvider;
+import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import static com.graphhopper.routing.weighting.FastestWeighting.DESTINATION_FACTOR;
 import static com.graphhopper.routing.weighting.FastestWeighting.PRIVATE_FACTOR;
@@ -24,12 +24,13 @@ import static com.graphhopper.util.Helper.toLowerCase;
 public class SensorAvoidingWeightingFactory implements WeightingFactory {
     private final BaseGraph graph;
     private final EncodingManager encodingManager;
-    private final List<Sensor> sensorsToAvoid;
+    private final WaypointAugmenter waypointReducer;
 
-    public SensorAvoidingWeightingFactory(BaseGraph graph, EncodingManager encodingManager, List<Sensor> sensorsToAvoid) {
+    public SensorAvoidingWeightingFactory(BaseGraph graph, EncodingManager encodingManager,
+                                          @Qualifier("sensorWaypointReducer") WaypointAugmenter waypointReducer) {
         this.graph = graph;
         this.encodingManager = encodingManager;
-        this.sensorsToAvoid = sensorsToAvoid;
+        this.waypointReducer = waypointReducer;
     }
 
     @Override
@@ -63,17 +64,12 @@ public class SensorAvoidingWeightingFactory implements WeightingFactory {
         if (weightingStr.isEmpty())
             throw new IllegalArgumentException("You have to specify a weighting");
 
-        Weighting weighting = null;
         BooleanEncodedValue accessEnc = encodingManager.getBooleanEncodedValue(VehicleAccess.key(vehicle));
         DecimalEncodedValue speedEnc = encodingManager.getDecimalEncodedValue(VehicleSpeed.key(vehicle));
-        DecimalEncodedValue priorityEnc = encodingManager.hasEncodedValue(VehiclePriority.key(vehicle))
-                ? encodingManager.getDecimalEncodedValue(VehiclePriority.key(vehicle))
-                : null;
         if (!encodingManager.hasEncodedValue(RoadAccess.KEY))
             throw new IllegalArgumentException("The fastest weighting requires road_access");
         EnumEncodedValue<RoadAccess> roadAccessEnc = encodingManager.getEnumEncodedValue(RoadAccess.KEY, RoadAccess.class);
-        weighting = new SensorAvoidingWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, sensorsToAvoid);
-        return weighting;
+        return new SensorAvoidingWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, waypointReducer);
     }
 
     public boolean isOutdoorVehicle(String name) {

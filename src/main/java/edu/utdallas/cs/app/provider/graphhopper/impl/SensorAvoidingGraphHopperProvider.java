@@ -6,6 +6,10 @@ import com.graphhopper.config.Profile;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.graphhopper.SensorAvoidingGraphHopper;
 import edu.utdallas.cs.app.provider.graphhopper.GraphHopperProvider;
+import edu.utdallas.cs.app.provider.sensor.SensorProvider;
+import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
@@ -13,16 +17,17 @@ import java.util.List;
 /**
  * Provides a custom GraphHopper instance that avoids sensors.
  */
+@Component
 public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
-    private final List<Sensor> sensorsToAvoid;
+    private final WaypointAugmenter waypointReducer;
 
-    public SensorAvoidingGraphHopperProvider(List<Sensor> sensorsToAvoid) {
-        this.sensorsToAvoid = sensorsToAvoid;
+    public SensorAvoidingGraphHopperProvider(@Qualifier("sensorWaypointReducer") WaypointAugmenter waypointReducer) {
+        this.waypointReducer = waypointReducer;
     }
-    
+
     @Override
     public GraphHopper createGraphHopper(File osmFile) {
-        GraphHopper graphHopper = new SensorAvoidingGraphHopper(sensorsToAvoid);
+        GraphHopper graphHopper = new SensorAvoidingGraphHopper(waypointReducer);
         graphHopper.setOSMFile(osmFile.getAbsolutePath());
         graphHopper.setGraphHopperLocation("graph_folder");
         graphHopper.setProfiles(new Profile("car").setVehicle("car").setTurnCosts(false));

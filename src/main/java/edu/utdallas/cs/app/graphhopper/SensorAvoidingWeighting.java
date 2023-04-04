@@ -10,8 +10,12 @@ import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
+import edu.utdallas.cs.app.data.BoundingBox;
+import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.sensor.Sensor;
+import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import edu.utdallas.cs.app.util.BoundingBoxUtil;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -20,15 +24,18 @@ import java.util.List;
  * possible.
  */
 public class SensorAvoidingWeighting extends FastestWeighting {
-    public static final int MAX_WEIGHT = Integer.MAX_VALUE;
+    private static final int MAX_WEIGHT = Integer.MAX_VALUE;
 
     private final BaseGraph graph;
-    private final List<Sensor> sensorsToAvoid;
+    private final WaypointAugmenter waypointReducer;
 
-    public SensorAvoidingWeighting(BaseGraph graph, BooleanEncodedValue accessEnc, DecimalEncodedValue speedEnc, EnumEncodedValue<RoadAccess> roadAccessEnc, PMap map, TurnCostProvider turnCostProvider, List<Sensor> sensorsToAvoid) {
+    public SensorAvoidingWeighting(BaseGraph graph, BooleanEncodedValue accessEnc, DecimalEncodedValue speedEnc,
+                                   EnumEncodedValue<RoadAccess> roadAccessEnc, PMap map,
+                                   TurnCostProvider turnCostProvider,
+                                   @Qualifier("sensorWaypointReducer") WaypointAugmenter waypointReducer) {
         super(accessEnc, speedEnc, roadAccessEnc, map, turnCostProvider);
         this.graph = graph;
-        this.sensorsToAvoid = sensorsToAvoid;
+        this.waypointReducer = waypointReducer;
     }
 
     @Override
@@ -38,7 +45,8 @@ public class SensorAvoidingWeighting extends FastestWeighting {
             NodeAccess na = graph.getNodeAccess();
             double latitude = na.getLat(base);
             double longitude = na.getLon(base);
-            if (BoundingBoxUtil.isPointInSensors(sensorsToAvoid, latitude, longitude)) {
+            List<GeoLocation> reducerResult = waypointReducer.augmentWaypoints(List.of(new GeoLocation(latitude, longitude)));
+            if (reducerResult.isEmpty()) { // if it's empty, the augmenter detected that there was a sensor in the area
                 return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {

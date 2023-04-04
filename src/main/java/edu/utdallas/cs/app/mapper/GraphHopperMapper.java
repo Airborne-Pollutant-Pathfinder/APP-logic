@@ -1,5 +1,6 @@
 package edu.utdallas.cs.app.mapper;
 
+import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint;
 import com.graphhopper.util.shapes.GHPoint3D;
@@ -27,4 +28,6 @@ public interface GraphHopperMapper {
     @Mapping(target = "lat", source = "latitude")
     @Mapping(target = "lon", source = "longitude")
     GHPoint mapToGHPoint(GeoLocation location);
+
+    List<GHPoint> mapToGHPoints(List<GeoLocation> waypoints);
 }

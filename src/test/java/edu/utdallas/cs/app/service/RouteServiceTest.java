@@ -5,7 +5,7 @@ import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
 import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
-import edu.utdallas.cs.app.provider.sensor.SensorAggregator;
+import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,19 +22,19 @@ public class RouteServiceTest {
     private RouteProvider routeProviderMock;
     private SensorAvoidingRouteProvider sensorAvoidingRouteProviderMock;
     private WaypointAugmenter waypointAugmenterMock;
-    private SensorAggregator sensorAggregatorMock;
+    private SensorProvider sensorProviderMock;
 
     @BeforeEach
     void setUp() {
         routeProviderMock = mock(RouteProvider.class);
         sensorAvoidingRouteProviderMock = mock(SensorAvoidingRouteProvider.class);
         waypointAugmenterMock = mock(WaypointAugmenter.class);
-        sensorAggregatorMock = mock(SensorAggregator.class);
+        sensorProviderMock = mock(SensorProvider.class);
     }
 
     @Test
     void Should_ReturnSafestThenFastest_When_GettingRoutes() {
-        RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, sensorAggregatorMock);
+        RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, sensorProviderMock);
 
         GeoLocation origin = new GeoLocation(-96.7501, 32.9858);
         GeoLocation destination = new GeoLocation(-96.8602, 32.8975);
@@ -46,7 +46,7 @@ public class RouteServiceTest {
         when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
         when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(List.class))).thenReturn(safestRoute);
         when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
-        when(sensorAggregatorMock.findRelevantSensors(any(Route.class))).thenReturn(createMockSensors());
+        when(sensorProviderMock.findRelevantSensors(any(Route.class))).thenReturn(createMockSensors());
 
         List<Route> actualRoutes = routeService.getRoutes(origin, destination);
 

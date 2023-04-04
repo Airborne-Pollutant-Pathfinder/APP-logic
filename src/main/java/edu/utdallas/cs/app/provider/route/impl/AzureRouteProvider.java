@@ -11,12 +11,14 @@ import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.mapper.AzureMapsMapper;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Optional;
 
 @Deprecated(since = "Dr. Wenkstern requires us to use Google Directions API now.")
+@Qualifier("thirdParty")
 public class AzureRouteProvider implements RouteProvider {
     private final MapsRouteAsyncClient client;
     private final AzureMapsMapper mapper;

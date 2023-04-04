@@ -3,9 +3,8 @@ package edu.utdallas.cs.app.service;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
-import edu.utdallas.cs.app.provider.route.SensorAvoidingRouteProvider;
-import edu.utdallas.cs.app.provider.sensor.SensorAggregator;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,16 +13,18 @@ import java.util.List;
 @Service
 public class RouteService {
     private final RouteProvider mainRouteProvider;
-    private final SensorAvoidingRouteProvider sensorAvoidingRouteProvider;
+    private final RouteProvider sensorAvoidingRouteProvider;
     private final WaypointAugmenter waypointAugmenter;
-    private final SensorAggregator sensorAggregator;
+    private final WaypointAugmenter sensorWaypointReducer;
 
-    public RouteService(RouteProvider mainRouteProvider, SensorAvoidingRouteProvider sensorAvoidingRouteProvider,
-                        WaypointAugmenter waypointAugmenter, SensorAggregator sensorAggregator) {
+    public RouteService(@Qualifier("thirdParty") RouteProvider mainRouteProvider,
+                        @Qualifier("selfHosted") RouteProvider sensorAvoidingRouteProvider,
+                        @Qualifier("polylineSimplifier") WaypointAugmenter waypointAugmenter,
+                        @Qualifier("sensorWaypointReducer") WaypointAugmenter sensorWaypointReducer) {
         this.mainRouteProvider = mainRouteProvider;
         this.sensorAvoidingRouteProvider = sensorAvoidingRouteProvider;
         this.waypointAugmenter = waypointAugmenter;
-        this.sensorAggregator = sensorAggregator;
+        this.sensorWaypointReducer = sensorWaypointReducer;
     }
 
     /**
@@ -38,9 +39,11 @@ public class RouteService {
         // Then, let's take the individual points of the route and get a reduced version of it to be able to perform
         // recalculations between those points without the risk of going backwards in the route
         List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(fastestRoute.getWaypoints());
-        // Then, let's get the route that avoids sensors, giving the reduced version of the route as input to maintain
-        // the overall shape of the fastest route
-        routes.add(sensorAvoidingRouteProvider.getRoute(simplifiedWaypoints, sensorAggregator.findRelevantSensors(fastestRoute)));
+        // Then, let's remove the waypoints that are inside a sensor's radius
+        List<GeoLocation> reducedWaypoints = sensorWaypointReducer.augmentWaypoints(simplifiedWaypoints);
+        // Then, let's get the route that avoids sensors, giving the reduced version of the fastest route as input to
+        // maintain the overall shape of the fastest route
+        routes.add(sensorAvoidingRouteProvider.getRoute(reducedWaypoints));
         routes.add(fastestRoute);
         return routes;
     }

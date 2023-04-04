@@ -8,6 +8,6 @@ import java.util.List;
 /**
  * Aggregates relevant sensors from a given route.
  */
-public interface SensorAggregator {
-    List<Sensor> findRelevantSensors(Route route);
+public interface SensorProvider {
+    List<Sensor> findRelevantSensors(double latitude, double longitude);
 }
