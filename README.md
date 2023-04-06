@@ -9,8 +9,8 @@ their allergies and pollen count in different locations.
    you edit the configuration settings. More detailed information on how to add environment
    variables to your IntelliJ run configurations can be found 
    [here](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables).
-2. If using the `DallasOSMFileProvider` (this is the default behaviour), download the latest data from OpenStreetMap's 
-   Overpass API for the test bounding box 
+2. If using the `DallasOSMFileProvider` (this is the default behaviour), download the latest data from BBBike
+   for Dallas 
    [here](https://download.bbbike.org/osm/bbbike/Dallas/Dallas.osm.pbf). Place the
    downloaded file in the `src/main/resources` directory, naming it simply `dallas` (no file extension).
 
