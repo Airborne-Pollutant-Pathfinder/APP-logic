@@ -22,4 +22,36 @@ public class BoundingBoxUtilTest {
         assertEquals(40.713616, boundingBox.getMaximumLatitude(), DELTA);
         assertEquals(-74.004446, boundingBox.getMaximumLongitude(), DELTA);
     }
+
+    @Test
+    public void Should_ReturnTrue_When_BoundingBoxesIntersect() {
+        BoundingBox box1 = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box2 = new BoundingBox(41.0, -74.0, 43.0, -72.0);
+        assertTrue(BoundingBoxUtil.intersects(box1, box2));
+        assertTrue(BoundingBoxUtil.intersects(box2, box1));
+    }
+
+    @Test
+    public void Should_ReturnFalse_When_BoundingBoxesNotIntersect() {
+        BoundingBox box1 = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box2 = new BoundingBox(43.0, -74.0, 45.0, -72.0);
+        assertFalse(BoundingBoxUtil.intersects(box1, box2));
+        assertFalse(BoundingBoxUtil.intersects(box2, box1));
+    }
+
+    @Test
+    public void Should_ReturnTrue_When_BoundingBoxesIntersectOnInternationalDateline() {
+        BoundingBox box1 = new BoundingBox(40.0, -175.0, 42.0, 175.0);
+        BoundingBox box2 = new BoundingBox(41.0, 170.0, 43.0, -170.0);
+        assertTrue(BoundingBoxUtil.intersects(box1, box2));
+        assertTrue(BoundingBoxUtil.intersects(box2, box1));
+    }
+
+    @Test
+    public void Should_ReturnFalse_When_BoundingBoxesNotIntersectOnInternationalDateline() {
+        BoundingBox box1 = new BoundingBox(40.0, -175.0, 42.0, -170.0);
+        BoundingBox box2 = new BoundingBox(41.0, 170.0, 43.0, 175.0);
+        assertFalse(BoundingBoxUtil.intersects(box1, box2));
+        assertFalse(BoundingBoxUtil.intersects(box2, box1));
+    }
 }
