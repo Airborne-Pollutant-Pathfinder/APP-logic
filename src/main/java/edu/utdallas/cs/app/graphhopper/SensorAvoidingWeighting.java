@@ -45,7 +45,7 @@ public class SensorAvoidingWeighting extends FastestWeighting {
             NodeAccess na = graph.getNodeAccess();
             double latitude = na.getLat(base);
             double longitude = na.getLon(base);
-            List<GeoLocation> reducerResult = waypointReducer.augmentWaypoints(List.of(new GeoLocation(latitude, longitude)));
+            List<GeoLocation> reducerResult = waypointReducer.augmentWaypoints(List.of(GeoLocation.at(latitude, longitude)));
             if (reducerResult.isEmpty()) { // if it's empty, the augmenter detected that there was a sensor in the area
                 return MAX_WEIGHT;
             }

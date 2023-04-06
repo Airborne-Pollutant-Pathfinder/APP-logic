@@ -25,77 +25,196 @@ public class BoundingBoxUtilTest {
 
     @Test
     public void Should_ReturnTrue_When_BoundingBoxesIntersect() {
-        BoundingBox box1 = new BoundingBox(40.0, -75.0, 42.0, -73.0);
-        BoundingBox box2 = new BoundingBox(41.0, -74.0, 43.0, -72.0);
+        BoundingBox box1 = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
+        BoundingBox box2 = BoundingBox.builder()
+                .withMinimumLatitude(41.0)
+                .withMinimumLongitude(-74.0)
+                .withMaximumLatitude(43.0)
+                .withMaximumLongitude(-72.0)
+                .build();
         assertTrue(BoundingBoxUtil.intersects(box1, box2));
         assertTrue(BoundingBoxUtil.intersects(box2, box1));
     }
 
     @Test
     public void Should_ReturnFalse_When_BoundingBoxesNotIntersect() {
-        BoundingBox box1 = new BoundingBox(40.0, -75.0, 42.0, -73.0);
-        BoundingBox box2 = new BoundingBox(43.0, -74.0, 45.0, -72.0);
+        BoundingBox box1 = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
+        BoundingBox box2 = BoundingBox.builder()
+                .withMinimumLatitude(43.0)
+                .withMinimumLongitude(-74.0)
+                .withMaximumLatitude(45.0)
+                .withMaximumLongitude(-72.0)
+                .build();
         assertFalse(BoundingBoxUtil.intersects(box1, box2));
         assertFalse(BoundingBoxUtil.intersects(box2, box1));
     }
 
     @Test
     public void Should_ReturnTrue_When_BoundingBoxesIntersectOnInternationalDateline() {
-        BoundingBox box1 = new BoundingBox(40.0, -175.0, 42.0, 175.0);
-        BoundingBox box2 = new BoundingBox(41.0, 170.0, 43.0, -170.0);
+        BoundingBox box1 = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-175.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(175.0)
+                .build();
+        BoundingBox box2 = BoundingBox.builder()
+                .withMinimumLatitude(41.0)
+                .withMinimumLongitude(170.0)
+                .withMaximumLatitude(43.0)
+                .withMaximumLongitude(-170.0)
+                .build();
         assertTrue(BoundingBoxUtil.intersects(box1, box2));
         assertTrue(BoundingBoxUtil.intersects(box2, box1));
     }
 
     @Test
     public void Should_ReturnFalse_When_BoundingBoxesNotIntersectOnInternationalDateline() {
-        BoundingBox box1 = new BoundingBox(40.0, -175.0, 42.0, -170.0);
-        BoundingBox box2 = new BoundingBox(41.0, 170.0, 43.0, 175.0);
+        BoundingBox box1 = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-175.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-170.0)
+                .build();
+        BoundingBox box2 = BoundingBox.builder()
+                .withMinimumLatitude(41.0)
+                .withMinimumLongitude(170.0)
+                .withMaximumLatitude(43.0)
+                .withMaximumLongitude(175.0)
+                .build();
         assertFalse(BoundingBoxUtil.intersects(box1, box2));
         assertFalse(BoundingBoxUtil.intersects(box2, box1));
     }
 
     @Test
     public void Should_ReturnTrue_When_BoxIntersectsAnySensor_With_EmptySensorsList() {
-        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
         List<Sensor> sensors = new ArrayList<>();
         assertFalse(BoundingBoxUtil.boxIntersectsAnySensor(sensors, box));
     }
 
     @Test
     public void Should_ReturnFalse_When_BoxIntersectsAnySensor_With_NoSensorIntersectingBoundingBox() {
-        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
         List<Sensor> sensors = new ArrayList<>();
-        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(43.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
         assertFalse(BoundingBoxUtil.boxIntersectsAnySensor(sensors, box));
     }
 
     @Test
     public void Should_ReturnTrue_When_BoxIntersectsAnySensor_With_SensorIntersectingBoundingBox() {
-        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
         List<Sensor> sensors = new ArrayList<>();
-        sensors.add(new Sensor(new GeoLocation(41.0, -74.0), 100));
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(41.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
         assertTrue(BoundingBoxUtil.boxIntersectsAnySensor(sensors, box));
     }
 
     @Test
     public void Should_ReturnFalse_When_BoxIntersectsAnySensor_With_MultipleSensorsAroundBoundingBox() {
-        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
         List<Sensor> sensors = new ArrayList<>();
-        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
-        sensors.add(new Sensor(new GeoLocation(41.0, -76.0), 100));
-        sensors.add(new Sensor(new GeoLocation(43.0, -76.0), 100));
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(43.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(41.0)
+                        .longitude(-76.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(43.0)
+                        .longitude(-76.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
         assertFalse(BoundingBoxUtil.boxIntersectsAnySensor(sensors, box));
     }
 
     @Test
     public void Should_ReturnFalse_When_BoxIntersectsAnySensor_With_MultipleSensorsInBoundingBox() {
-        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        BoundingBox box = BoundingBox.builder()
+                .withMinimumLatitude(40.0)
+                .withMinimumLongitude(-75.0)
+                .withMaximumLatitude(42.0)
+                .withMaximumLongitude(-73.0)
+                .build();
         List<Sensor> sensors = new ArrayList<>();
-        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
-        sensors.add(new Sensor(new GeoLocation(41.0, -76.0), 100));
-        sensors.add(new Sensor(new GeoLocation(41.0, -74.0), 100));
-        sensors.add(new Sensor(new GeoLocation(39.0, -74.0), 100));
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(43.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(41.0)
+                        .longitude(-76.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(41.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
+        sensors.add(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(39.0)
+                        .longitude(-74.0)
+                        .build())
+                .radiusInMeters(100)
+                .build());
         assertTrue(BoundingBoxUtil.boxIntersectsAnySensor(sensors, box));
     }
 }

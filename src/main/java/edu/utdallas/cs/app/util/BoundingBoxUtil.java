@@ -29,7 +29,12 @@ public class BoundingBoxUtil {
         double minLongitudeInDegrees = Math.toDegrees(minLongitude);
         double maxLongitudeInDegrees = Math.toDegrees(maxLongitude);
 
-        return new BoundingBox(minLatitudeInDegrees, minLongitudeInDegrees, maxLatitudeInDegrees, maxLongitudeInDegrees);
+        return BoundingBox.builder()
+                .withMinimumLatitude(minLatitudeInDegrees)
+                .withMaximumLatitude(maxLatitudeInDegrees)
+                .withMinimumLongitude(minLongitudeInDegrees)
+                .withMaximumLongitude(maxLongitudeInDegrees)
+                .build();
     }
 
     public static boolean intersects(BoundingBox one, BoundingBox two) {
@@ -59,7 +64,12 @@ public class BoundingBoxUtil {
             double largestLatitude = Math.max(square.getUpperLeft().getLatitude(), square.getLowerRight().getLatitude());
             double largestLongitude = Math.max(square.getUpperLeft().getLongitude(), square.getLowerRight().getLongitude());
 
-            BoundingBox sensorBox = new BoundingBox(smallestLatitude, smallestLongitude, largestLatitude, largestLongitude);
+            BoundingBox sensorBox = BoundingBox.builder()
+                    .withMinimumLatitude(smallestLatitude)
+                    .withMaximumLatitude(largestLatitude)
+                    .withMinimumLongitude(smallestLongitude)
+                    .withMaximumLongitude(largestLongitude)
+                    .build();
             if (intersects(sensorBox, box)) {
                 return true;
             }

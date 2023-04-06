@@ -35,11 +35,27 @@ public class RouteServiceTest {
     void Should_ReturnSafestThenFastest_When_GettingRoutes() {
         RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, waypointReducerMock);
 
-        GeoLocation origin = new GeoLocation(-96.7501, 32.9858);
-        GeoLocation destination = new GeoLocation(-96.8602, 32.8975);
+        GeoLocation origin = GeoLocation.builder()
+                .latitude(-96.7501)
+                .longitude(32.9858)
+                .build();
+        GeoLocation destination = GeoLocation.builder()
+                .latitude(-96.8602)
+                .longitude(32.8975)
+                .build();
 
-        Route fastestRoute = new Route(1000L, Duration.ofMinutes(10), List.of(origin, destination));
-        Route safestRoute = new Route(2000L, Duration.ofMinutes(20), List.of(origin, destination));
+        Route fastestRoute = Route.builder()
+                .lengthInMeters(1000)
+                .travelTimeInSeconds(Duration.ofMinutes(10))
+                .waypoint(origin)
+                .waypoint(destination)
+                .build();
+        Route safestRoute = Route.builder()
+                .lengthInMeters(2000)
+                .travelTimeInSeconds(Duration.ofMinutes(20))
+                .waypoint(origin)
+                .waypoint(destination)
+                .build();
         List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
 
         when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
@@ -50,11 +66,5 @@ public class RouteServiceTest {
         List<Route> actualRoutes = routeService.getRoutes(origin, destination);
 
         assertEquals(expectedRoutes, actualRoutes);
-    }
-
-    private List<Sensor> createMockSensors() {
-        return List.of(
-                new Sensor(new GeoLocation(33.133839, -96.768111), 100)
-        );
     }
 }

@@ -32,7 +32,11 @@ public interface AzureMapsMapper {
         for (RouteLeg leg : route.getLegs()) {
             locations.addAll(mapToGeoLocations(leg.getPoints()));
         }
-        return new Route(route.getSummary().getLengthInMeters(), route.getSummary().getTravelTimeInSeconds(), locations);
+        return Route.builder()
+                .lengthInMeters(route.getSummary().getLengthInMeters())
+                .travelTimeInSeconds(route.getSummary().getTravelTimeInSeconds())
+                .waypoints(locations)
+                .build();
     }
 
     List<Route> mapToRoutes(List<MapsSearchRoute> routes);

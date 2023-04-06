@@ -54,10 +54,10 @@ public class GraphHopperRouteProvider implements RouteProvider {
         }
 
         ResponsePath bestPath = response.getBest();
-        double lengthInMeters = bestPath.getDistance();
-        Duration travelTimeInSeconds = Duration.ofSeconds(bestPath.getTime() / 1000);
-        List<GeoLocation> resultWaypoints = mapper.mapToGeoLocations(bestPath.getPoints());
-
-        return new Route(lengthInMeters, travelTimeInSeconds, resultWaypoints);
+        return Route.builder()
+                .lengthInMeters(bestPath.getDistance())
+                .travelTimeInSeconds(Duration.ofSeconds(bestPath.getTime() / 1000))
+                .waypoints(mapper.mapToGeoLocations(bestPath.getPoints()))
+                .build();
     }
 }

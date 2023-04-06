@@ -7,7 +7,6 @@ import com.graphhopper.routing.ev.RoadAccess;
 import com.graphhopper.routing.weighting.TurnCostProvider;
 import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.storage.BaseGraph;
-import com.graphhopper.storage.IntsRef;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
@@ -103,7 +102,13 @@ public class SensorAvoidingWeightingTest {
     }
 
     private List<Sensor> createMockSensors() {
-        return Collections.singletonList(new Sensor(new GeoLocation(32.9858, -96.7500), 100));
+        return Collections.singletonList(Sensor.builder()
+                .location(GeoLocation.builder()
+                        .latitude(32.9858)
+                        .longitude(-96.7500)
+                        .build())
+                .radiusInMeters(100)
+                .build());
     }
 }
 

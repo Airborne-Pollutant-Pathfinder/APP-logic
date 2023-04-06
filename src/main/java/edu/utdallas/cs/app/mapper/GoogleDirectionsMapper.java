@@ -38,10 +38,10 @@ public interface GoogleDirectionsMapper {
     default Route mapToRoute(DirectionsRoute route) {
         DirectionsLeg leg = route.legs[0]; // assumption: no intermediate destinations, only a start and end
 
-        long lengthInMeters = leg.distance.inMeters;
-        Duration travelTimeInSeconds = Duration.ofSeconds(leg.duration.inSeconds);
-        List<GeoLocation> locations = mapToGeoLocations(leg);
-
-        return new Route(lengthInMeters, travelTimeInSeconds, locations);
+        return Route.builder()
+                .lengthInMeters(leg.distance.inMeters)
+                .travelTimeInSeconds(Duration.ofSeconds(leg.duration.inSeconds))
+                .waypoints(mapToGeoLocations(leg))
+                .build();
     }
 }
