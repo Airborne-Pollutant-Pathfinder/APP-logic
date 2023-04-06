@@ -23,4 +23,5 @@ longer needed.
 
 **Q: I changed the PBF OSM file, but the GraphHopper instance is still using my old data. I noticed this from the
 bounding box being the same as before.**
+
 A: You need to delete the `graph_folder` directory. This is a cache of the last loaded PBF OSM file.  
