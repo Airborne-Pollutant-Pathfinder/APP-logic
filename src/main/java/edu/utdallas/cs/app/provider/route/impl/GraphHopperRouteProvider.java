@@ -20,7 +20,7 @@ import java.time.Duration;
 import java.util.List;
 
 @Component
-@Qualifier("selfHosted")
+@Qualifier("sensorAvoiding")
 public class GraphHopperRouteProvider implements RouteProvider {
     private final GraphHopper hopper;
     private final GraphHopperMapper mapper;

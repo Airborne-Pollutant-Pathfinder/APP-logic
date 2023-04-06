@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-@Qualifier("thirdParty")
+@Qualifier("fastest")
 public class GoogleDirectionsRouteProvider implements RouteProvider {
     private final GoogleDirectionsMapper googleDirectionsMapper;
     private final GeoApiContext context;
