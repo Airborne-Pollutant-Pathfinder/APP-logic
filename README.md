@@ -18,3 +18,9 @@ their allergies and pollen count in different locations.
 
 **Note:** `AZURE_MAPS_CLIENT_ID` and `AZURE_MAPS_SHARED_KEY_ID` are now deprecated and no 
 longer needed.
+
+## Problem Troubleshooting
+
+**Q: I changed the PBF OSM file, but the GraphHopper instance is still using my old data. I noticed this from the
+bounding box being the same as before.**
+A: You need to delete the `graph_folder` directory. This is a cache of the last loaded PBF OSM file.  
