@@ -50,7 +50,7 @@ public class BoundingBoxUtil {
         return true;
     }
 
-    public boolean isBoxInSensors(List<Sensor> sensorsToAvoid, BoundingBox box) {
+    public boolean boxIntersectsAnySensor(List<Sensor> sensorsToAvoid, BoundingBox box) {
         for (Sensor sensor : sensorsToAvoid) {
             SquareBox square = sensor.getSquare();
 
