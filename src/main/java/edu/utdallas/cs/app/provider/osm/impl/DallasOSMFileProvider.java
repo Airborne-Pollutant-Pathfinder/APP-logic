@@ -7,9 +7,9 @@ import java.io.File;
 import java.net.URISyntaxException;
 
 @Component
-public class StaticOSMFileProvider implements OSMFileProvider {
+public class DallasOSMFileProvider implements OSMFileProvider {
     @Override
     public File getOSMFile() throws URISyntaxException {
-        return new File(StaticOSMFileProvider.class.getClassLoader().getResource("map").toURI());
+        return new File(DallasOSMFileProvider.class.getClassLoader().getResource("dallas").toURI());
     }
 }
