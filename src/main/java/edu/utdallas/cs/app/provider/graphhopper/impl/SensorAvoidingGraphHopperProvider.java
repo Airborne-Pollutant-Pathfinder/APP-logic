@@ -8,6 +8,7 @@ import edu.utdallas.cs.app.graphhopper.SensorAvoidingGraphHopper;
 import edu.utdallas.cs.app.provider.graphhopper.GraphHopperProvider;
 import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,9 @@ import java.util.List;
  */
 @Component
 public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
-    private final WaypointAugmenter waypointReducer;
+    private final WaypointValidator waypointReducer;
 
-    public SensorAvoidingGraphHopperProvider(@Qualifier("sensorWaypointReducer") WaypointAugmenter waypointReducer) {
+    public SensorAvoidingGraphHopperProvider(WaypointValidator waypointReducer) {
         this.waypointReducer = waypointReducer;
     }
 

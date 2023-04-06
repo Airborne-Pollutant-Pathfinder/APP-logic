@@ -13,7 +13,7 @@ import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.sensor.SensorProvider;
-import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.provider.waypoint.impl.SensorAffectedWaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class SensorAvoidingWeightingTest {
     private PMap map;
     private EdgeIteratorState edgeMock;
     private SensorProvider sensorProviderMock;
-    private WaypointAugmenter waypointReducer;
+    private WaypointValidator waypointValidator;
 
     @BeforeEach
     void setUp() {
@@ -50,12 +50,12 @@ public class SensorAvoidingWeightingTest {
         turnCostProviderMock = mock(TurnCostProvider.class);
         edgeMock = mock(EdgeIteratorState.class);
         sensorProviderMock = mock(SensorProvider.class);
-        waypointReducer = new SensorAffectedWaypointAugmenter(sensorProviderMock);
+        waypointValidator = new SensorAffectedWaypointAugmenter(sensorProviderMock);
     }
 
     @Test
     public void Should_ReturnMaxWeight_When_SensorOnRoad() {
-        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointReducer);
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidator);
 
         int baseNode = 1;
         int adjNode = 2;
@@ -79,7 +79,7 @@ public class SensorAvoidingWeightingTest {
 
     @Test
     public void Should_ReturnNotMaxWeight_When_SensorNotOnRoad() {
-        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointReducer);
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidator);
 
         int baseNode = 1;
         int adjNode = 2;

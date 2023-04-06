@@ -11,8 +11,8 @@ import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.util.PMap;
 import com.graphhopper.util.Parameters;
-import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
+import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import static com.graphhopper.routing.weighting.FastestWeighting.DESTINATION_FACTOR;
@@ -24,13 +24,13 @@ import static com.graphhopper.util.Helper.toLowerCase;
 public class SensorAvoidingWeightingFactory implements WeightingFactory {
     private final BaseGraph graph;
     private final EncodingManager encodingManager;
-    private final WaypointAugmenter waypointReducer;
+    private final WaypointValidator waypointValidator;
 
     public SensorAvoidingWeightingFactory(BaseGraph graph, EncodingManager encodingManager,
-                                          @Qualifier("sensorWaypointReducer") WaypointAugmenter waypointReducer) {
+                                          WaypointValidator waypointValidator) {
         this.graph = graph;
         this.encodingManager = encodingManager;
-        this.waypointReducer = waypointReducer;
+        this.waypointValidator = waypointValidator;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SensorAvoidingWeightingFactory implements WeightingFactory {
         if (!encodingManager.hasEncodedValue(RoadAccess.KEY))
             throw new IllegalArgumentException("The fastest weighting requires road_access");
         EnumEncodedValue<RoadAccess> roadAccessEnc = encodingManager.getEnumEncodedValue(RoadAccess.KEY, RoadAccess.class);
-        return new SensorAvoidingWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, waypointReducer);
+        return new SensorAvoidingWeighting(graph, accessEnc, speedEnc, roadAccessEnc, hints, turnCostProvider, waypointValidator);
     }
 
     public boolean isOutdoorVehicle(String name) {
