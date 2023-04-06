@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Qualifier("sensorWaypointReducer")
+@Qualifier("sensorAvoidingReducer")
 public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, WaypointValidator {
     /**
      * The amount of "buffer area" between a point and a sensor to be marked as a relevant sensor even if not

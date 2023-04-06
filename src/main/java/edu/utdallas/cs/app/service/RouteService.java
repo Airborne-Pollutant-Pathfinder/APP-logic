@@ -19,8 +19,8 @@ public class RouteService {
 
     public RouteService(@Qualifier("fastest") RouteProvider mainRouteProvider,
                         @Qualifier("sensorAvoiding") RouteProvider sensorAvoidingRouteProvider,
-                        @Qualifier("polylineSimplifier") WaypointAugmenter waypointAugmenter,
-                        @Qualifier("sensorWaypointReducer") WaypointAugmenter sensorWaypointReducer) {
+                        @Qualifier("simplifier") WaypointAugmenter waypointAugmenter,
+                        @Qualifier("sensorAvoidingReducer") WaypointAugmenter sensorWaypointReducer) {
         this.mainRouteProvider = mainRouteProvider;
         this.sensorAvoidingRouteProvider = sensorAvoidingRouteProvider;
         this.waypointAugmenter = waypointAugmenter;

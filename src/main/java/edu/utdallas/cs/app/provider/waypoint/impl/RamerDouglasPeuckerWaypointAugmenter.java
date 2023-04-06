@@ -16,7 +16,7 @@ import java.util.List;
  * A waypoint augmenter that uses the Ramer–Douglas–Peucker algorithm to simplify a polyline.
  */
 @Component
-@Qualifier("polylineSimplifier")
+@Qualifier("simplifier")
 public class RamerDouglasPeuckerWaypointAugmenter implements WaypointAugmenter {
     /**
      * A constant for managing the Ramer–Douglas–Peucker algorithm. The higher the tolerance, the fewer points
