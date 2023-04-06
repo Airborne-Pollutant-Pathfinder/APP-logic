@@ -11,15 +11,10 @@ import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.data.GeoLocation;
-import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
-import edu.utdallas.cs.app.provider.waypoint.impl.SensorAffectedWaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -36,8 +31,7 @@ public class SensorAvoidingWeightingTest {
     private EnumEncodedValue<RoadAccess> roadAccessEncMock;
     private PMap map;
     private EdgeIteratorState edgeMock;
-    private SensorProvider sensorProviderMock;
-    private WaypointValidator waypointValidator;
+    private WaypointValidator waypointValidatorMock;
 
     @BeforeEach
     void setUp() {
@@ -49,13 +43,12 @@ public class SensorAvoidingWeightingTest {
         map = new PMap();
         turnCostProviderMock = mock(TurnCostProvider.class);
         edgeMock = mock(EdgeIteratorState.class);
-        sensorProviderMock = mock(SensorProvider.class);
-        waypointValidator = new SensorAffectedWaypointAugmenter(sensorProviderMock);
+        waypointValidatorMock = mock(WaypointValidator.class);
     }
 
     @Test
-    public void Should_ReturnMaxWeight_When_SensorOnRoad() {
-        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidator);
+    public void Should_ReturnMaxWeight_When_ValidatorIsTrue() {
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidatorMock);
 
         int baseNode = 1;
         int adjNode = 2;
@@ -70,7 +63,7 @@ public class SensorAvoidingWeightingTest {
         when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
         when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
 
-        when(sensorProviderMock.findRelevantSensors(any(double.class), any(double.class))).thenReturn(createMockSensors());
+        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class))).thenReturn(false);
 
         double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
 
@@ -78,8 +71,8 @@ public class SensorAvoidingWeightingTest {
     }
 
     @Test
-    public void Should_ReturnNotMaxWeight_When_SensorNotOnRoad() {
-        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidator);
+    public void Should_ReturnNotMaxWeight_When_ValidatorIsTrue() {
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointValidatorMock);
 
         int baseNode = 1;
         int adjNode = 2;
@@ -94,21 +87,13 @@ public class SensorAvoidingWeightingTest {
         when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
         when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
 
-        when(edgeMock.get(speedEncMock)).thenReturn(45.0);
+        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class))).thenReturn(true);
+
+        when(edgeMock.get(speedEncMock)).thenReturn(45.0); // this is only so the result isn't infinity
 
         double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
 
         assertNotEquals(SensorAvoidingWeighting.MAX_WEIGHT, actualWeight);
-    }
-
-    private List<Sensor> createMockSensors() {
-        return Collections.singletonList(Sensor.builder()
-                .location(GeoLocation.builder()
-                        .latitude(32.9858)
-                        .longitude(-96.7500)
-                        .build())
-                .radiusInMeters(100)
-                .build());
     }
 }
 

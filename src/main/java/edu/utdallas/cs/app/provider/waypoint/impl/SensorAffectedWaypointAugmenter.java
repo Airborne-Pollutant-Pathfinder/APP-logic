@@ -29,11 +29,11 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
 
     @Override
     public List<GeoLocation> augmentWaypoints(List<GeoLocation> waypoints) {
-        return waypoints.stream().filter(this::validateWaypoint).toList();
+        return waypoints.stream().filter(this::isValidWaypoint).toList();
     }
 
     @Override
-    public boolean validateWaypoint(GeoLocation waypoint) {
+    public boolean isValidWaypoint(GeoLocation waypoint) {
         BoundingBox boxWithBuffer = BoundingBoxUtil.generateBoundingBox(waypoint.getLatitude(), waypoint.getLongitude(), BUFFER_METERS);
         List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(waypoint.getLatitude(), waypoint.getLongitude());
         // todo analyze each sensor and see if the data it is saying is hazardous to specific user

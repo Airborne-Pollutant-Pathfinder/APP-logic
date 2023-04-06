@@ -11,11 +11,7 @@ import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.data.GeoLocation;
-import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
-import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.List;
 
 /**
  * A weighting that is based off GraphHopper's FastestWeighting, but avoids sensors by assigning it the max weight
@@ -44,7 +40,7 @@ public class SensorAvoidingWeighting extends FastestWeighting {
             double latitude = na.getLat(base);
             double longitude = na.getLon(base);
             GeoLocation geoLocation = GeoLocation.at(latitude, longitude);
-            if (!waypointValidator.validateWaypoint(geoLocation)) {
+            if (!waypointValidator.isValidWaypoint(geoLocation)) {
                 return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {
