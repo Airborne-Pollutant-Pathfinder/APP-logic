@@ -10,6 +10,6 @@ import java.net.URISyntaxException;
 public class DallasOSMFileProvider implements OSMFileProvider {
     @Override
     public File getOSMFile() throws URISyntaxException {
-        return new File(DallasOSMFileProvider.class.getClassLoader().getResource("dallas").toURI());
+        return new File(DallasOSMFileProvider.class.getClassLoader().getResource("maps/dallas").toURI());
     }
 }

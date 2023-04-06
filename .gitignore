@@ -5,9 +5,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# OSM Map File
-src/main/resources/map
-
 ### STS ###
 .apt_generated
 .classpath

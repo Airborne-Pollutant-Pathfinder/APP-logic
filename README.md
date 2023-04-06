@@ -12,7 +12,7 @@ their allergies and pollen count in different locations.
 2. If using the `DallasOSMFileProvider` (this is the default behaviour), download the latest data from BBBike
    for Dallas 
    [here](https://download.bbbike.org/osm/extract/planet_-97.563,32.578_-96.192,33.252.osm.pbf). Place the
-   downloaded file in the `src/main/resources` directory, naming it simply `dallas` (no file extension).
+   downloaded file in the `src/main/resources/maps` directory, naming it simply `dallas` (no file extension).
 
 ![](https://i.imgur.com/g3dg3Ls.png)
 
