@@ -7,6 +7,7 @@ import com.graphhopper.routing.ev.RoadAccess;
 import com.graphhopper.routing.weighting.TurnCostProvider;
 import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.storage.BaseGraph;
+import com.graphhopper.storage.IntsRef;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,7 +55,7 @@ public class SensorAvoidingWeightingTest {
     }
 
     @Test
-    public void Should_ReturnInfinity_When_SensorOnRoad() {
+    public void Should_ReturnMaxWeight_When_SensorOnRoad() {
         Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointReducer);
 
         int baseNode = 1;
@@ -73,11 +75,35 @@ public class SensorAvoidingWeightingTest {
 
         double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
 
-        assertEquals(Double.POSITIVE_INFINITY, actualWeight);
+        assertEquals(SensorAvoidingWeighting.MAX_WEIGHT, actualWeight);
+    }
+
+    @Test
+    public void Should_ReturnNotMaxWeight_When_SensorNotOnRoad() {
+        Weighting weighting = new SensorAvoidingWeighting(graphMock, accessEncMock, speedEncMock, roadAccessEncMock, map, turnCostProviderMock, waypointReducer);
+
+        int baseNode = 1;
+        int adjNode = 2;
+
+        when(graphMock.getNodeAccess()).thenReturn(nodeAccessMock);
+
+        when(edgeMock.getBaseNode()).thenReturn(baseNode);
+        when(edgeMock.getAdjNode()).thenReturn(adjNode);
+
+        when(nodeAccessMock.getLat(baseNode)).thenReturn(32.9858);
+        when(nodeAccessMock.getLon(baseNode)).thenReturn(-96.7501);
+        when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
+        when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
+
+        when(edgeMock.get(speedEncMock)).thenReturn(45.0);
+
+        double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
+
+        assertNotEquals(SensorAvoidingWeighting.MAX_WEIGHT, actualWeight);
     }
 
     private List<Sensor> createMockSensors() {
-        return Collections.singletonList(new Sensor(new GeoLocation(-96.80515, 32.94165), 100));
+        return Collections.singletonList(new Sensor(new GeoLocation(32.9858, -96.7500), 100));
     }
 }
 
