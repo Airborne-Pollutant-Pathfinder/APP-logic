@@ -11,8 +11,8 @@ import java.util.List;
 @Component
 public class DummySensorProvider implements SensorProvider {
     @Override
-    public List<Sensor> findRelevantSensors(double latitude, double longitude) {
-        if (latitude == 33.1338284 && longitude == -96.7684674) {
+    public List<Sensor> findRelevantSensors(GeoLocation location) {
+        if (location.getLatitude() == 33.1338284 && location.getLongitude() == -96.7684674) {
             return Collections.singletonList(Sensor.builder()
                     .location(GeoLocation.builder()
                             .latitude(33.133839)

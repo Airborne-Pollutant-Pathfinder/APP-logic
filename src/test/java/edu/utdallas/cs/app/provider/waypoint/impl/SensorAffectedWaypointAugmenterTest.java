@@ -27,7 +27,7 @@ public class SensorAffectedWaypointAugmenterTest {
     public void Should_ReturnFalse_When_ValidateWaypoint_With_SensorInVicinity() {
         SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock);
 
-        when(sensorProviderMock.findRelevantSensors(any(double.class), any(double.class))).thenReturn(createMockSensors());
+        when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(createMockSensors());
 
         boolean result = augmenter.isValidWaypoint(GeoLocation.builder()
                 .latitude(32.9858)
@@ -41,7 +41,7 @@ public class SensorAffectedWaypointAugmenterTest {
     public void Should_ReturnTrue_When_ValidateWaypoint_With_NoSensorInVicinity() {
         SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock);
 
-        when(sensorProviderMock.findRelevantSensors(any(double.class), any(double.class))).thenReturn(Collections.emptyList());
+        when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(Collections.emptyList());
 
         boolean result = augmenter.isValidWaypoint(GeoLocation.builder()
                 .latitude(32.9858)

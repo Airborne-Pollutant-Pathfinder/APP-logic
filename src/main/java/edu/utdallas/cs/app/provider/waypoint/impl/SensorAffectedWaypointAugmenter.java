@@ -35,7 +35,7 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
     @Override
     public boolean isValidWaypoint(GeoLocation waypoint) {
         BoundingBox boxWithBuffer = BoundingBoxUtil.generateBoundingBox(waypoint.getLatitude(), waypoint.getLongitude(), BUFFER_METERS);
-        List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(waypoint.getLatitude(), waypoint.getLongitude());
+        List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(waypoint);
         // todo analyze each sensor and see if the data it is saying is hazardous to specific user
         return !BoundingBoxUtil.boxIntersectsAnySensor(sensorsToAvoid, boxWithBuffer);
     }
