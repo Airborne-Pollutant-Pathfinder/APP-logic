@@ -54,4 +54,48 @@ public class BoundingBoxUtilTest {
         assertFalse(BoundingBoxUtil.intersects(box1, box2));
         assertFalse(BoundingBoxUtil.intersects(box2, box1));
     }
+
+    @Test
+    public void Should_ReturnTrue_When_IsBoxInSensors_With_EmptySensorsList() {
+        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        List<Sensor> sensors = new ArrayList<>();
+        assertFalse(BoundingBoxUtil.isBoxInSensors(sensors, box));
+    }
+
+    @Test
+    public void Should_ReturnFalse_When_IsBoxInSensors_With_NoSensorIntersectingBoundingBox() {
+        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        List<Sensor> sensors = new ArrayList<>();
+        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
+        assertFalse(BoundingBoxUtil.isBoxInSensors(sensors, box));
+    }
+
+    @Test
+    public void Should_ReturnTrue_When_IsBoxInSensors_With_SensorIntersectingBoundingBox() {
+        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        List<Sensor> sensors = new ArrayList<>();
+        sensors.add(new Sensor(new GeoLocation(41.0, -74.0), 100));
+        assertTrue(BoundingBoxUtil.isBoxInSensors(sensors, box));
+    }
+
+    @Test
+    public void Should_ReturnFalse_When_IsBoxInSensors_With_MultipleSensorsAroundBoundingBox() {
+        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        List<Sensor> sensors = new ArrayList<>();
+        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
+        sensors.add(new Sensor(new GeoLocation(41.0, -76.0), 100));
+        sensors.add(new Sensor(new GeoLocation(43.0, -76.0), 100));
+        assertFalse(BoundingBoxUtil.isBoxInSensors(sensors, box));
+    }
+
+    @Test
+    public void Should_ReturnFalse_When_IsBoxInSensors_With_MultipleSensorsInBoundingBox() {
+        BoundingBox box = new BoundingBox(40.0, -75.0, 42.0, -73.0);
+        List<Sensor> sensors = new ArrayList<>();
+        sensors.add(new Sensor(new GeoLocation(43.0, -74.0), 100));
+        sensors.add(new Sensor(new GeoLocation(41.0, -76.0), 100));
+        sensors.add(new Sensor(new GeoLocation(41.0, -74.0), 100));
+        sensors.add(new Sensor(new GeoLocation(39.0, -74.0), 100));
+        assertTrue(BoundingBoxUtil.isBoxInSensors(sensors, box));
+    }
 }
