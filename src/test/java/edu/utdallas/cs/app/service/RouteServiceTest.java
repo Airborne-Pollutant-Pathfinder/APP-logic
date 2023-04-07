@@ -2,9 +2,7 @@ package edu.utdallas.cs.app.service;
 
 import edu.utdallas.cs.app.data.GeoLocation;
 import edu.utdallas.cs.app.data.route.Route;
-import edu.utdallas.cs.app.data.sensor.Sensor;
 import edu.utdallas.cs.app.provider.route.RouteProvider;
-import edu.utdallas.cs.app.provider.sensor.SensorProvider;
 import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +30,7 @@ public class RouteServiceTest {
     }
 
     @Test
-    void Should_ReturnSafestThenFastest_When_GettingRoutes() {
+    void Should_ReturnSafestThenFastest_When_GetRoutes() {
         RouteService routeService = new RouteService(routeProviderMock, sensorAvoidingRouteProviderMock, waypointAugmenterMock, waypointReducerMock);
 
         GeoLocation origin = GeoLocation.builder()
