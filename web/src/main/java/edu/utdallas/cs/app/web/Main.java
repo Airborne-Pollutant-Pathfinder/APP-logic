@@ -1,4 +1,4 @@
-package edu.utdallas.cs.app.presentation;
+package edu.utdallas.cs.app.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
