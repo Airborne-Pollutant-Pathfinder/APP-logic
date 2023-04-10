@@ -9,10 +9,15 @@ their allergies and pollen count in different locations.
    you edit the configuration settings. More detailed information on how to add environment
    variables to your IntelliJ run configurations can be found 
    [here](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables).
-2. If using the `DallasOSMFileProvider` (this is the default behaviour), download the latest data from BBBike
-   for Dallas 
-   [here](https://download.bbbike.org/osm/extract/planet_-97.563,32.578_-96.192,33.252.osm.pbf). Place the
+2. If using the `DallasOSMFileProvider` (this is the default behaviour), download data extracted from BBBike (as of 
+   April 10, 2023) for Dallas 
+   [here](https://cometmail-my.sharepoint.com/:u:/g/personal/jjp160630_utdallas_edu/EdrAdf1TrIdFumvKV8GIZ6cBgPfMQwgkTuHwvgzG4dns4A?e=6nTln6). Place the
    downloaded file in the `src/main/resources/maps` directory, naming it simply `dallas` (no file extension).
+   - Note that if the link above does not work, you will have to extract a new OSM PBF file. You can go to 
+     BBBike's website to do that 
+     [here](https://extract.bbbike.org/?sw_lng=-97.395&sw_lat=32.635&ne_lng=-96.024&ne_lat=33.309&format=osm.pbf&city=Dallas&lang=en),
+     with the coordinates already defined. All you will have to do is provide an email for it to email you a link to
+     download the OSM PBF file.
 
 ![](https://i.imgur.com/g3dg3Ls.png)
 
