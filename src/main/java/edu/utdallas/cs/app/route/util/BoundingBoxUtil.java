@@ -1,8 +1,8 @@
 package edu.utdallas.cs.app.route.util;
 
 import edu.utdallas.cs.app.route.domain.BoundingBox;
-import edu.utdallas.cs.app.sensor.domain.SquareBox;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
+import edu.utdallas.cs.app.sensor.domain.SquareBox;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;

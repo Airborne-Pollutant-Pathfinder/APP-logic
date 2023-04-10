@@ -11,7 +11,6 @@ import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
-import edu.utdallas.cs.app.route.infrastructure.graphhopper.SensorAvoidingWeighting;
 import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

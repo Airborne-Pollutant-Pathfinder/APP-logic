@@ -6,9 +6,9 @@ import com.azure.core.models.GeoPosition;
 import com.azure.maps.route.models.MapsSearchRoute;
 import com.azure.maps.route.models.RouteLeg;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
-import edu.utdallas.cs.app.sensor.domain.SquareBox;
 import edu.utdallas.cs.app.route.domain.Route;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
+import edu.utdallas.cs.app.sensor.domain.SquareBox;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

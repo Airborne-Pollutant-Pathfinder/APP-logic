@@ -3,11 +3,7 @@ package edu.utdallas.cs.app.route.infrastructure.graphhopper;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.config.CHProfile;
 import com.graphhopper.config.Profile;
-import edu.utdallas.cs.app.data.sensor.Sensor;
-import edu.utdallas.cs.app.graphhopper.SensorAvoidingGraphHopper;
-import edu.utdallas.cs.app.provider.sensor.SensorProvider;
-import edu.utdallas.cs.app.provider.waypoint.WaypointAugmenter;
-import edu.utdallas.cs.app.provider.waypoint.WaypointValidator;
+import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointValidator;
 import org.springframework.stereotype.Component;
 
 import java.io.File;

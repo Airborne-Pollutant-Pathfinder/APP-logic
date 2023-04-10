@@ -7,10 +7,9 @@ import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.route.domain.Route;
-import edu.utdallas.cs.app.route.infrastructure.graphhopper.SensorAvoidingWeighting;
+import edu.utdallas.cs.app.route.infrastructure.graphhopper.GraphHopperProvider;
 import edu.utdallas.cs.app.route.infrastructure.mapper.GraphHopperMapper;
 import edu.utdallas.cs.app.route.infrastructure.osm.OSMFileProvider;
-import edu.utdallas.cs.app.route.infrastructure.GraphHopperRouteProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 public class GraphHopperRouteProviderTest {
 
-    private SensorAvoidingWeighting.GraphHopperProvider graphHopperProviderMock;
+    private GraphHopperProvider graphHopperProviderMock;
     private GraphHopper graphHopperMock;
     private GHResponse ghResponseMock;
     private OSMFileProvider osmFileProviderMock;
@@ -35,7 +34,7 @@ public class GraphHopperRouteProviderTest {
 
     @BeforeEach
     void setUp() throws IOException, URISyntaxException {
-        graphHopperProviderMock = mock(SensorAvoidingWeighting.GraphHopperProvider.class);
+        graphHopperProviderMock = mock(GraphHopperProvider.class);
         graphHopperMock = mock(GraphHopper.class);
         ghResponseMock = mock(GHResponse.class);
         osmFileProviderMock = mock(OSMFileProvider.class);

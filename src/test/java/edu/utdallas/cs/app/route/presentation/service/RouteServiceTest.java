@@ -4,7 +4,6 @@ import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.route.domain.Route;
 import edu.utdallas.cs.app.route.infrastructure.RouteProvider;
 import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointAugmenter;
-import edu.utdallas.cs.app.route.presentation.service.RouteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

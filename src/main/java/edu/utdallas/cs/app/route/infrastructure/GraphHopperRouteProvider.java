@@ -7,7 +7,7 @@ import com.graphhopper.ResponsePath;
 import com.graphhopper.util.Parameters;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.route.domain.Route;
-import edu.utdallas.cs.app.route.infrastructure.graphhopper.SensorAvoidingWeighting;
+import edu.utdallas.cs.app.route.infrastructure.graphhopper.GraphHopperProvider;
 import edu.utdallas.cs.app.route.infrastructure.mapper.GraphHopperMapper;
 import edu.utdallas.cs.app.route.infrastructure.osm.OSMFileProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +24,7 @@ public class GraphHopperRouteProvider implements RouteProvider {
     private final GraphHopper hopper;
     private final GraphHopperMapper mapper;
 
-    public GraphHopperRouteProvider(SensorAvoidingWeighting.GraphHopperProvider graphHopperProvider,
+    public GraphHopperRouteProvider(GraphHopperProvider graphHopperProvider,
                                     OSMFileProvider osmFileProvider,
                                     GraphHopperMapper mapper) {
         try {

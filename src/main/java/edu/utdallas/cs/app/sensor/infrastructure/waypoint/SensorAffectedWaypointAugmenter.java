@@ -4,9 +4,9 @@ import edu.utdallas.cs.app.route.domain.BoundingBox;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointAugmenter;
 import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointValidator;
+import edu.utdallas.cs.app.route.util.BoundingBoxUtil;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
 import edu.utdallas.cs.app.sensor.infrastructure.SensorProvider;
-import edu.utdallas.cs.app.route.util.BoundingBoxUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 

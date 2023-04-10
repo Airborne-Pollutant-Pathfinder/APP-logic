@@ -3,7 +3,6 @@ package edu.utdallas.cs.app.route.util;
 import edu.utdallas.cs.app.route.domain.BoundingBox;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
-import edu.utdallas.cs.app.route.util.BoundingBoxUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

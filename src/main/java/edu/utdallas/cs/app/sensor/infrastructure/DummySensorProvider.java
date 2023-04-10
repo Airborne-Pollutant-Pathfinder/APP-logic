@@ -2,7 +2,6 @@ package edu.utdallas.cs.app.sensor.infrastructure;
 
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
-import edu.utdallas.cs.app.sensor.infrastructure.SensorProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

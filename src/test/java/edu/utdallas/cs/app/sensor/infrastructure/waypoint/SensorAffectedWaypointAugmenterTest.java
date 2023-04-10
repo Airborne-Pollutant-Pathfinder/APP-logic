@@ -3,7 +3,6 @@ package edu.utdallas.cs.app.sensor.infrastructure.waypoint;
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.sensor.domain.Sensor;
 import edu.utdallas.cs.app.sensor.infrastructure.SensorProvider;
-import edu.utdallas.cs.app.sensor.infrastructure.waypoint.SensorAffectedWaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

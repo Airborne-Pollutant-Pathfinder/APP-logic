@@ -2,7 +2,6 @@ package edu.utdallas.cs.app.route.infrastructure.waypoint;
 
 import edu.utdallas.cs.app.route.domain.GeoLocation;
 import edu.utdallas.cs.app.route.infrastructure.mapper.JTSMapper;
-import edu.utdallas.cs.app.route.infrastructure.waypoint.WaypointAugmenter;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
