@@ -13,6 +13,7 @@ import edu.utdallas.cs.app.infrastructure.route.osm.OSMFileProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -25,7 +26,11 @@ public class GraphHopperRouteProvider implements RouteProvider {
     public GraphHopperRouteProvider(GraphHopperProvider graphHopperProvider,
                                     OSMFileProvider osmFileProvider,
                                     GraphHopperMapper mapper) {
-        hopper = graphHopperProvider.createGraphHopper(osmFileProvider.getOSMFile());
+        try {
+            hopper = graphHopperProvider.createGraphHopper(osmFileProvider.getOSMFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.mapper = mapper;
     }
 

@@ -13,6 +13,7 @@ import edu.utdallas.cs.app.infrastructure.route.osm.OSMFileProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class GraphHopperRouteProviderTest {
     private GraphHopperMapper graphHopperMapperMock;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         graphHopperProviderMock = mock(GraphHopperProvider.class);
         graphHopperMock = mock(GraphHopper.class);
         ghResponseMock = mock(GHResponse.class);

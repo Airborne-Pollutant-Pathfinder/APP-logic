@@ -1,58 +1,13 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.0-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'edu.utdallas.cs'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
-}
-
-dependencies {
-    // The below dependency will be replaced with the dependency commented below it when we establish DB connections
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    // implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    /* The below dependencies will be enabled when we establish DB connections
-       depending on the DB type */
-    // implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    // runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
-    // runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'org.postgresql:postgresql'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    // Mapstruct
-    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-
-    // Azure Maps
-    implementation 'com.azure:azure-maps-route:1.0.0-beta.1'
-    implementation 'com.azure:azure-identity:1.8.1'
-
-    // Google Maps
-    implementation 'com.google.maps:google-maps-services:2.1.2'
-
-    // GraphHopper
-    implementation 'com.graphhopper:graphhopper-core:7.0'
-
-    // HTTP Client
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
 
 tasks.named('test') {
