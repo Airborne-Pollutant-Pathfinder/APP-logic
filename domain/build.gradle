@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Lombok
+    implementation 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    // Spring Boot annotations
+    implementation 'org.springframework:spring-context:6.0.7'
+
+    // Spring Boot testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.5'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

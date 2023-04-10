@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':domain')
+
+    // Lombok
+    implementation 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    // Mapstruct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    // Azure Maps
+    implementation 'com.azure:azure-maps-route:1.0.0-beta.1'
+    implementation 'com.azure:azure-identity:1.8.1'
+
+    // Google Maps
+    implementation 'com.google.maps:google-maps-services:2.1.2'
+
+    // GraphHopper
+    implementation 'com.graphhopper:graphhopper-core:7.0'
+
+    // Spring Boot annotations
+    implementation 'org.springframework:spring-context:6.0.7'
+
+    // Spring Boot testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.5'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

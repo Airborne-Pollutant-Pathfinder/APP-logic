@@ -6,3 +6,10 @@ pluginManagement {
     }
 }
 rootProject.name = 'airborne-pollutant-pathfinder'
+
+include(
+        "domain",
+        "infrastructure",
+        "application",
+        "presentation"
+)
