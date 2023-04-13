@@ -29,6 +29,24 @@ longer needed.
 The main method is located in `web/src/main/java/edu/utdallas/cs/app/presentation/Main.java`. You can run the code from 
 there.
 
+This project uses GraphQL. The GraphQL schema is located in `web/src/main/resources/schema.graphqls`. You can use
+GraphQL playground to test the API. The playground is located at [http://localhost:8080/playground](http://localhost:8080/playground).
+
+Here is an example query for testing the GraphQL server:
+
+```graphql
+query {
+  route(originLatitude: 33.133092, originLongitude: -96.772497, destinationLatitude: 32.985661, destinationLongitude: -96.750462) {
+    lengthInMeters
+    travelTimeInSeconds
+    waypoints {
+      latitude
+      longitude
+    }
+  }
+}
+```
+
 ## Problem Troubleshooting
 
 **Q: I changed the PBF OSM file, but the GraphHopper instance is still using my old data. I noticed this from the
