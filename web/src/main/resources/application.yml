@@ -1,0 +1,6 @@
+graphql:
+  servlet:
+    mapping: /graphql
+  playground:
+    mapping: /playground
+    enabled: true

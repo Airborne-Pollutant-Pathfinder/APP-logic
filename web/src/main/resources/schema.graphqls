@@ -1,0 +1,16 @@
+scalar Duration
+
+type Query {
+    route(originLatitude: Float!, originLongitude: Float!, destinationLatitude: Float!, destinationLongitude: Float!): [Route]!
+}
+
+type Route {
+    lengthInMeters: Float!
+    travelTimeInSeconds: Duration!
+    waypoints: [GeoLocation!]
+}
+
+type GeoLocation {
+    latitude: Float!
+    longitude: Float!
+}
