@@ -1,7 +1,11 @@
 # Airborne Pollutant Pathfinder (APP)
 
-An Android application that enables users to navigate from point A to point B while considering
-their allergies and pollen count in different locations.
+This backend is responsible for providing the API for the Airborne Pollutant Pathfinder (APP) project. It uses GraphQL,
+Spring Boot, Google Directions API, and GraphHopper. The frontend can be found [here](https://github.com/Airborne-Pollutant-Pathfinder/APP-interface).
+
+The project aims to create an Android application called Airborne Pollutant Pathfinder (APP), which will enable users to
+navigate from point A to point B while considering their allergies and pollen count in different locations. The backend
+supports computing the fastest and safest routes and finding relevant sensors for a particular geolocation.
 
 ## Setup
 
@@ -32,7 +36,24 @@ there.
 This project uses GraphQL. The GraphQL schema is located in `web/src/main/resources/schema.graphqls`. You can use
 GraphQL playground to test the API. The playground is located at [http://localhost:8080/playground](http://localhost:8080/playground).
 
-Here is an example query for testing the GraphQL server:
+### Queries
+
+#### route
+
+Retrieve both the safest and fastest route between two geographic locations. The safest route is returned first, then
+the fastest route.
+
+Input parameters:
+
+- originLatitude (`Float!`): The latitude of the origin location.
+- originLongitude (`Float!`): The longitude of the origin location.
+- destinationLatitude (`Float!`): The latitude of the destination location.
+- destinationLongitude (`Float!`): The longitude of the destination location.
+
+Output type: `[Route]` - **note** that the route is nullable. If the safest route is outside the scope of the currently
+loaded OSM file, the safest route will be null.
+
+Example query:
 
 ```graphql
 query {
@@ -46,6 +67,28 @@ query {
   }
 }
 ```
+
+### Types
+
+#### Route
+
+Represents a route between two geographic locations.
+
+Fields:
+
+- lengthInMeters (`Float!`): The total length of the route in meters.
+- travelTimeInSeconds (`Duration!`): The total travel time for the route in seconds. The format returned is `PT_M_S`, with
+  `_M` being the number of minutes and `_S` being the number of seconds. For example: `PT20M42S` is 20 minutes and 42 seconds.
+- waypoints (`[GeoLocation!]!`): A list of waypoints along the route.
+
+#### GeoLocation
+
+Represents a geographic location.
+
+Fields:
+
+- latitude (`Float!`): The latitude of the location.
+- longitude (`Float!`): The longitude of the location.
 
 ## Problem Troubleshooting
 
