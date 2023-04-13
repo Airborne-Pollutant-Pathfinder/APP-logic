@@ -1,7 +1,7 @@
 # Airborne Pollutant Pathfinder (APP)
 
 This backend is responsible for providing the API for the Airborne Pollutant Pathfinder (APP) project. It uses GraphQL,
-Spring Boot, Google Directions API, and GraphHopper. The frontend can be found [here](https://github.com/Airborne-Pollutant-Pathfinder/APP-interface).
+Spring Boot, Google Directions API, and GraphHopper. The front-end can be found [here](https://github.com/Airborne-Pollutant-Pathfinder/APP-interface).
 
 The project aims to create an Android application called Airborne Pollutant Pathfinder (APP), which will enable users to
 navigate from point A to point B while considering their allergies and pollen count in different locations. The backend
