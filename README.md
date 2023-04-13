@@ -28,6 +28,13 @@ supports computing the fastest and safest routes and finding relevant sensors fo
 **Note:** `AZURE_MAPS_CLIENT_ID` and `AZURE_MAPS_SHARED_KEY_ID` are now deprecated and no 
 longer needed.
 
+### Useful IntelliJ Plugins
+
+- [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok) - You will also need to enable annotation processing in 
+  File | Settings | Build, Execution, Deployment | Compiler | Annotation Processors.
+- [Spring](https://plugins.jetbrains.com/plugin/20221-spring)
+- [GraphQL](https://plugins.jetbrains.com/plugin/8097-graphql)
+
 ## Running
 
 The main method is located in `web/src/main/java/edu/utdallas/cs/app/presentation/Main.java`. You can run the code from 
@@ -95,4 +102,8 @@ Fields:
 **Q: I changed the PBF OSM file, but the GraphHopper instance is still using my old data. I noticed this from the
 bounding box being the same as before.**
 
-A: You need to delete the `graph_folder` directory. This is a cache of the last loaded PBF OSM file.  
+A: You need to delete the `graph_folder` directory. This is a cache of the last loaded PBF OSM file.
+
+**Q: I'm getting errors with compiling due to annotations. It says I am missing getters, setters, among other things.**
+
+A: Make sure you enable annotation processing in File | Settings | Build, Execution, Deployment | Compiler | Annotation Processors
