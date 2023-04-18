@@ -22,6 +22,8 @@ supports computing the fastest and safest routes and finding relevant sensors fo
      [here](https://extract.bbbike.org/?sw_lng=-97.395&sw_lat=32.635&ne_lng=-96.024&ne_lat=33.309&format=osm.pbf&city=Dallas&lang=en),
      with the coordinates already defined. All you will have to do is provide an email for it to email you a link to
      download the OSM PBF file.
+3. The database must first be loaded before running the backend application. More instructions can be found 
+   [here](https://github.com/Airborne-Pollutant-Pathfinder/APP-database).
 
 ![](https://i.imgur.com/g3dg3Ls.png)
 
