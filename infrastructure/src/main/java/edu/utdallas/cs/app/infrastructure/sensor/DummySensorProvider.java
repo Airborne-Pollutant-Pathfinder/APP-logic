@@ -2,12 +2,11 @@ package edu.utdallas.cs.app.infrastructure.sensor;
 
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
-@Component
+@Deprecated(since = "database sensor provider is now used")
 public class DummySensorProvider implements SensorProvider {
     @Override
     public List<Sensor> findRelevantSensors(GeoLocation location) {

@@ -17,7 +17,7 @@ public final class Sensor {
     private static final double METERS_PER_DEGREE_LATITUDE = 111000.0;
 
     private final GeoLocation location;
-    private final int radiusInMeters;
+    private final double radiusInMeters;
 
     public SquareBox getSquare() {
         double centerLatitude = location.getLatitude();
