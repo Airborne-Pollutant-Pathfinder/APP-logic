@@ -6,9 +6,9 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
 @Entity
-@Table(name = "sensors")
+@Table(name = "sensor")
 @Data
-public class Sensors {
+public class SensorTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sensor_id")
