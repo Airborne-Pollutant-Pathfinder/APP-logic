@@ -36,11 +36,19 @@ public class RouteService {
         List<Route> routes = new ArrayList<>();
         // First, let's get the fastest route
         Route fastestRoute = mainRouteProvider.getRoute(List.of(origin, destination));
+        // To avoid removing the origin and destination, we'll make a sublist for the intermediary waypoints between them,
+        // do calculations, then add them back just before sending to the sensor avoiding route provider
+        List<GeoLocation> intermediaryWaypoints = fastestRoute.getWaypoints().subList(1, fastestRoute.getWaypoints().size() - 1);
+
         // Then, let's take the individual points of the route and get a reduced version of it to be able to perform
         // recalculations between those points without the risk of going backwards in the route
-        List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(fastestRoute.getWaypoints());
+        List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(intermediaryWaypoints);
         // Then, let's remove the waypoints that are inside a sensor's radius
         List<GeoLocation> reducedWaypoints = sensorWaypointReducer.augmentWaypoints(simplifiedWaypoints);
+
+        // Then, let's add back the origin and destination
+        simplifiedWaypoints.add(0, origin);
+        simplifiedWaypoints.add(destination);
         // Then, let's get the route that avoids sensors, giving the reduced version of the fastest route as input to
         // maintain the overall shape of the fastest route
         routes.add(sensorAvoidingRouteProvider.getRoute(reducedWaypoints));
