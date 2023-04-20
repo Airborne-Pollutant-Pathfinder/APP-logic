@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Qualifier("sensorAvoidingReducer")
@@ -29,7 +30,7 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
 
     @Override
     public List<GeoLocation> augmentWaypoints(List<GeoLocation> waypoints) {
-        return waypoints.stream().filter(this::isValidWaypoint).toList();
+        return waypoints.stream().filter(this::isValidWaypoint).collect(Collectors.toList());
     }
 
     @Override
