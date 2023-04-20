@@ -47,8 +47,8 @@ public class RouteService {
         List<GeoLocation> reducedWaypoints = sensorWaypointReducer.augmentWaypoints(simplifiedWaypoints);
 
         // Then, let's add back the origin and destination
-        simplifiedWaypoints.add(0, origin);
-        simplifiedWaypoints.add(destination);
+        reducedWaypoints.add(0, origin);
+        reducedWaypoints.add(destination);
         // Then, let's get the route that avoids sensors, giving the reduced version of the fastest route as input to
         // maintain the overall shape of the fastest route
         routes.add(sensorAvoidingRouteProvider.getRoute(reducedWaypoints));
