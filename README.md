@@ -24,11 +24,15 @@ supports computing the fastest and safest routes and finding relevant sensors fo
      download the OSM PBF file.
 3. The database must first be loaded before running the backend application. More instructions can be found 
    [here](https://github.com/Airborne-Pollutant-Pathfinder/APP-database).
+4. As we are using Spring Boot, you will need Java 17 or above.
+   You will need to ensure the Project Settings SDK is directed to your Java 17 folder. You should also check for your Gradle JVM,
+   located at Settings -> Build, Execution, Deployment -> Build Tools -> Gradle, to be directed at the same folder.
 
 ![](https://i.imgur.com/g3dg3Ls.png)
 
 **Note:** `AZURE_MAPS_CLIENT_ID` and `AZURE_MAPS_SHARED_KEY_ID` are now deprecated and no 
 longer needed.
+
 
 ### Useful IntelliJ Plugins
 
