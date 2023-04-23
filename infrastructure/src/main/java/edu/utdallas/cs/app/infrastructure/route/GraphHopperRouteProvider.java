@@ -38,7 +38,7 @@ public class GraphHopperRouteProvider implements RouteProvider {
     @Override
     public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
         GHRequest request = new GHRequest()
-                .setProfile("car")
+                .setProfile(createProfileString(preferences))
                 .setAlgorithm(Parameters.Algorithms.ASTAR_BI)
                 .setPoints(mapper.mapToGHPoints(waypoints))
                 .putHint(Parameters.CH.DISABLE, true);
@@ -57,5 +57,16 @@ public class GraphHopperRouteProvider implements RouteProvider {
                 .travelTimeInSeconds(Duration.ofSeconds(bestPath.getTime() / 1000))
                 .waypoints(mapper.mapToGeoLocations(bestPath.getPoints()))
                 .build();
+    }
+
+    private String createProfileString(RoutingPreferences preferences) {
+        String profile = "car";
+        if (preferences.isAvoidTolls()) {
+            profile += "_no_toll";
+        }
+        if (preferences.isAvoidHighways()) {
+            profile += "_no_highways";
+        }
+        return profile;
     }
 }
