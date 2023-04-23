@@ -7,6 +7,7 @@ import com.graphhopper.ResponsePath;
 import com.graphhopper.util.Parameters;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.graphhopper.GraphHopperProvider;
 import edu.utdallas.cs.app.infrastructure.route.mapper.GraphHopperMapper;
 import edu.utdallas.cs.app.infrastructure.route.osm.OSMFileProvider;
@@ -35,7 +36,7 @@ public class GraphHopperRouteProvider implements RouteProvider {
     }
 
     @Override
-    public Route getRoute(List<GeoLocation> waypoints) {
+    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
         GHRequest request = new GHRequest()
                 .setProfile("car")
                 .setAlgorithm(Parameters.Algorithms.ASTAR_BI)

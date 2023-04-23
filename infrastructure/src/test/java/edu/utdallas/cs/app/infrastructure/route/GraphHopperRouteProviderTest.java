@@ -7,6 +7,7 @@ import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.graphhopper.GraphHopperProvider;
 import edu.utdallas.cs.app.infrastructure.route.mapper.GraphHopperMapper;
 import edu.utdallas.cs.app.infrastructure.route.osm.OSMFileProvider;
@@ -47,6 +48,7 @@ public class GraphHopperRouteProviderTest {
     public void Should_ReturnNull_When_GetRouteWithErrors() {
         GraphHopperRouteProvider routeProvider = new GraphHopperRouteProvider(graphHopperProviderMock, osmFileProviderMock, graphHopperMapperMock);
         List<GeoLocation> waypoints = List.of();
+        RoutingPreferences preferences = createMockRoutingPreferences();
 
         when(graphHopperMapperMock.mapToGHPoints(waypoints)).thenReturn(List.of(createMockGHPoint()));
 
@@ -54,7 +56,7 @@ public class GraphHopperRouteProviderTest {
         when(ghResponseMock.hasErrors()).thenReturn(true);
         when(ghResponseMock.getErrors()).thenReturn(List.of());
 
-        Route actualRoute = routeProvider.getRoute(waypoints);
+        Route actualRoute = routeProvider.getRoute(waypoints, preferences);
 
         assertNull(actualRoute);
     }
@@ -63,6 +65,7 @@ public class GraphHopperRouteProviderTest {
     public void Should_ReturnRoute_When_GetRoute() {
         GraphHopperRouteProvider routeProvider = new GraphHopperRouteProvider(graphHopperProviderMock, osmFileProviderMock, graphHopperMapperMock);
         List<GeoLocation> waypoints = List.of();
+        RoutingPreferences preferences = createMockRoutingPreferences();
 
         when(graphHopperMapperMock.mapToGHPoints(waypoints)).thenReturn(List.of(createMockGHPoint()));
         when(graphHopperMapperMock.mapToGeoLocations(any(PointList.class))).thenReturn(List.of(createMockGeoLocation()));
@@ -76,7 +79,7 @@ public class GraphHopperRouteProviderTest {
                 .travelTimeInSeconds(Duration.ofSeconds(1))
                 .waypoint(createMockGeoLocation())
                 .build();
-        Route actualRoute = routeProvider.getRoute(waypoints);
+        Route actualRoute = routeProvider.getRoute(waypoints, preferences);
 
         assertEquals(expectedRoute, actualRoute);
     }
@@ -100,6 +103,19 @@ public class GraphHopperRouteProviderTest {
         return GeoLocation.builder()
                 .latitude(32.9858)
                 .longitude(-96.7501)
+                .build();
+    }
+
+    private RoutingPreferences createMockRoutingPreferences() {
+        return RoutingPreferences.builder()
+                .avoidHighways(false)
+                .avoidTolls(false)
+                .coThreshold(Double.MAX_VALUE)
+                .no2Threshold(Double.MAX_VALUE)
+                .o3Threshold(Double.MAX_VALUE)
+                .pm2_5Threshold(Double.MAX_VALUE)
+                .pm10Threshold(Double.MAX_VALUE)
+                .so2Threshold(Double.MAX_VALUE)
                 .build();
     }
 }

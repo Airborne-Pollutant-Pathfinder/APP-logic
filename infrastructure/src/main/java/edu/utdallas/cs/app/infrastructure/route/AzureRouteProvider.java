@@ -9,6 +9,7 @@ import com.azure.maps.route.models.RouteDirections;
 import com.azure.maps.route.models.RouteDirectionsOptions;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.mapper.AzureMapsMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +43,7 @@ public class AzureRouteProvider implements RouteProvider {
     }
 
     @Override
-    public Route getRoute(List<GeoLocation> waypoints) {
+    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
         RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(mapper.mapToGeoPositions(waypoints));
         Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions).blockOptional();
 

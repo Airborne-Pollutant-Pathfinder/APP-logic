@@ -2,6 +2,7 @@ package edu.utdallas.cs.app.application.route;
 
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.RouteProvider;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointAugmenter;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,7 @@ public class RouteServiceTest {
                 .latitude(-96.8602)
                 .longitude(32.8975)
                 .build();
+        RoutingPreferences preferences = createMockRoutingPreferences();
 
         Route fastestRoute = Route.builder()
                 .lengthInMeters(1000)
@@ -56,13 +58,26 @@ public class RouteServiceTest {
                 .build();
         List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
 
-        when(routeProviderMock.getRoute(any(List.class))).thenReturn(fastestRoute);
-        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class))).thenReturn(safestRoute);
+        when(routeProviderMock.getRoute(any(List.class), any(RoutingPreferences.class))).thenReturn(fastestRoute);
+        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(RoutingPreferences.class))).thenReturn(safestRoute);
         when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
         when(waypointReducerMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
 
-        List<Route> actualRoutes = routeService.getRoutes(origin, destination);
+        List<Route> actualRoutes = routeService.getRoutes(origin, destination, preferences);
 
         assertEquals(expectedRoutes, actualRoutes);
+    }
+
+    private RoutingPreferences createMockRoutingPreferences() {
+        return RoutingPreferences.builder()
+                .avoidHighways(false)
+                .avoidTolls(false)
+                .coThreshold(Double.MAX_VALUE)
+                .no2Threshold(Double.MAX_VALUE)
+                .o3Threshold(Double.MAX_VALUE)
+                .pm2_5Threshold(Double.MAX_VALUE)
+                .pm10Threshold(Double.MAX_VALUE)
+                .so2Threshold(Double.MAX_VALUE)
+                .build();
     }
 }

@@ -1,7 +1,24 @@
 scalar Duration
 
 type Query {
-    route(originLatitude: Float!, originLongitude: Float!, destinationLatitude: Float!, destinationLongitude: Float!): [Route]!
+    route(
+        originLatitude: Float!,
+        originLongitude: Float!,
+        destinationLatitude: Float!,
+        destinationLongitude: Float!,
+        preferences: Preferences!
+    ): [Route]!
+}
+
+input Preferences {
+    avoidHighways: Boolean!
+    avoidTolls: Boolean!
+    coThreshold: Float!
+    no2Threshold: Float!
+    o3Threshold: Float!
+    pm2_5Threshold: Float!
+    pm10Threshold: Float!
+    so2Threshold: Float!
 }
 
 type Route {

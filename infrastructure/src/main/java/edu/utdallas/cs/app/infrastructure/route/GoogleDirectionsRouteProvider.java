@@ -8,6 +8,7 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.TravelMode;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.mapper.GoogleDirectionsMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +32,17 @@ public class GoogleDirectionsRouteProvider implements RouteProvider {
     }
 
     @Override
-    public Route getRoute(List<GeoLocation> waypoints) {
+    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
         DirectionsApiRequest request = DirectionsApi.newRequest(context)
                 .origin(googleDirectionsMapper.mapToLatLng(waypoints.get(0)))
                 .destination(googleDirectionsMapper.mapToLatLng(waypoints.get(waypoints.size() - 1)))
                 .mode(TravelMode.DRIVING);
+        if (preferences.isAvoidHighways()) {
+            request = request.avoid(DirectionsApi.RouteRestriction.HIGHWAYS);
+        }
+        if (preferences.isAvoidTolls()) {
+            request = request.avoid(DirectionsApi.RouteRestriction.TOLLS);
+        }
         if (waypoints.size() > 2) {
             request = request.waypoints(googleDirectionsMapper.mapToLatLngs(waypoints.subList(1, waypoints.size() - 1)));
         }
