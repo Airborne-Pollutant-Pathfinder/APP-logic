@@ -28,9 +28,9 @@ public class SensorService {
     public List<Sensor> getSensorsWithData(GeoLocation location){
         List<Sensor> sensorsLst = new ArrayList<>();
 
-        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(location);
+        sensorsLst = sensorProvider.findRelevantSensors(location);
 
-        capturedPollutantProvider.findLatestDataFor(sensorsInRange);
+        capturedPollutantProvider.findLatestDataFor(sensorsLst);
 
         return sensorsLst;
     }
