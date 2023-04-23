@@ -26,7 +26,7 @@ public class CapturedPollutantProvider {
             System.out.println(sensorsInRange);
         }
 
-        // need to call CapturedPollutant and get data, rather than just sensors like SensorProvider
+        // need to call CapturedPollutant (create query) and get data, rather than just sensors like SensorProvider
 
 
 
