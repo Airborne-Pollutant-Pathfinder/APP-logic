@@ -14,4 +14,5 @@ public interface SensorsRepository extends JpaRepository<SensorTable, Integer> {
     @Query("SELECT s FROM SensorTable s WHERE ST_INTERSECTS(?1, s.area)")
     Collection<SensorTable> findAllByAreaContainsPoint(Point point);
 
+    SensorTable findSensorTableByLocationAndRadiusMeters(Point point, double radiusMeters);
 }
