@@ -20,10 +20,14 @@ public class SensorController {
 
         List<Sensor> sensorsLst = new ArrayList<>();
 
-
+        // will need to adapt to SensorService when changed to return sensors & data
         sensorsLst = sensorService.getSensorsWithData(location);
 
         return sensorsLst;
 
+    }
+
+    public Boolean isUserNearHazardousArea(GeoLocation location){
+        return sensorService.isUserNearHazardousArea(location);
     }
 }

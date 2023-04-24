@@ -32,11 +32,12 @@ public class SensorService {
 
         capturedPollutantProvider.findLatestDataFor(sensorsLst);
 
+        // combine above two and return
         return sensorsLst;
     }
 
     public Boolean isUserNearHazardousArea(GeoLocation location){
-
+        // WaypointValidator will have logic for if a sensor is red and if user is within 500m
         Boolean check = WaypointValidator.isValidWaypoint(location);
 
 
