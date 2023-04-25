@@ -2,6 +2,7 @@ package edu.utdallas.cs.app.application.sensor;
 
 
 import edu.utdallas.cs.app.domain.route.GeoLocation;
+import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.infrastructure.sensor.CapturedPollutantProvider;
@@ -26,11 +27,10 @@ public class SensorService {
 
 
     public List<Sensor> getSensorsWithData(GeoLocation location){
-        List<Sensor> sensorsLst = new ArrayList<>();
 
-        sensorsLst = sensorProvider.findRelevantSensors(location);
+        List<Sensor> sensorsLst = sensorProvider.findRelevantSensors(location);
 
-        capturedPollutantProvider.findLatestDataFor(sensorsLst);
+        List<List<CapturedPollutant>> sensorData = capturedPollutantProvider.findLatestDataFor(sensorsLst);
 
         // combine above two and return
         return sensorsLst;
