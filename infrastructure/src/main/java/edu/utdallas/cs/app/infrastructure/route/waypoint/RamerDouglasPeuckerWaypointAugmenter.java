@@ -21,7 +21,7 @@ public class RamerDouglasPeuckerWaypointAugmenter implements WaypointAugmenter {
      * A constant for managing the Ramer–Douglas–Peucker algorithm. The higher the tolerance, the fewer points
      * that will be returned.
      */
-    private static final double POLYLINE_SIMPLIFICATION_TOLERANCE = 0.01;
+    private static final double POLYLINE_SIMPLIFICATION_TOLERANCE = 0.02;
 
     private final JTSMapper mapper;
 

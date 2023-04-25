@@ -25,9 +25,6 @@ public class DatabaseSensorProvider implements SensorProvider {
     public List<Sensor> findRelevantSensors(GeoLocation location) {
         Point point = new GeometryFactory(new PrecisionModel(), 4326).createPoint(new Coordinate(location.getLongitude(), location.getLatitude()));
         Collection<SensorTable> sensors = repository.findAllByAreaContainsPoint(point);
-        if (!sensors.isEmpty()) {
-            System.out.println(sensors);
-        }
         return sensors.stream().map(s -> Sensor.builder()
                 .location(GeoLocation.builder()
                         .latitude(s.getLocation().getY())
