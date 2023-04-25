@@ -54,6 +54,10 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
             SensorTable sensorTable = sensorsRepository.findSensorTableByLocationAndRadiusMeters(point, sensor.getRadiusInMeters());
             Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensor(sensorTable);
 
+            // use data from this to aggregate values for PM2.5, PM10, etc.
+            // note there are duplicates, can choose to either average or take the most recent
+
+
             List<CapturedPollutant> data = capturedPollutants.stream().map(s -> CapturedPollutant.builder()
                     .id(s.getId())
                     .sensor(s.getSensor())
