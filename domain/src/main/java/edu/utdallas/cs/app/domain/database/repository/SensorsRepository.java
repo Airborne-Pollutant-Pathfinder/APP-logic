@@ -1,6 +1,6 @@
-package edu.utdallas.cs.app.domain.repository;
+package edu.utdallas.cs.app.domain.database.repository;
 
-import edu.utdallas.cs.app.domain.table.SensorTable;
+import edu.utdallas.cs.app.domain.database.table.SensorTable;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

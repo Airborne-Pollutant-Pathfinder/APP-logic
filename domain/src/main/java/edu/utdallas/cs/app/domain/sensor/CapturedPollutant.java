@@ -1,9 +1,8 @@
 package edu.utdallas.cs.app.domain.sensor;
 
 
-import edu.utdallas.cs.app.domain.table.PollutantTable;
-import edu.utdallas.cs.app.domain.table.SensorTable;
-import jakarta.persistence.*;
+import edu.utdallas.cs.app.domain.database.table.PollutantTable;
+import edu.utdallas.cs.app.domain.database.table.SensorTable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

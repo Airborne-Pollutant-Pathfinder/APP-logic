@@ -1,9 +1,9 @@
 package edu.utdallas.cs.app.infrastructure.sensor;
 
-import edu.utdallas.cs.app.domain.repository.SensorsRepository;
+import edu.utdallas.cs.app.domain.database.repository.SensorsRepository;
+import edu.utdallas.cs.app.domain.database.table.SensorTable;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
-import edu.utdallas.cs.app.domain.table.SensorTable;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;

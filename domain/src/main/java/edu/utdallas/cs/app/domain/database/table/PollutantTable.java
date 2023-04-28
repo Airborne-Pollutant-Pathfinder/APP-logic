@@ -1,4 +1,4 @@
-package edu.utdallas.cs.app.domain.table;
+package edu.utdallas.cs.app.domain.database.table;
 
 import jakarta.persistence.*;
 import lombok.Data;
