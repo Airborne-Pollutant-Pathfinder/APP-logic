@@ -32,12 +32,13 @@ public class RouteService {
      * @param origin      where the route starts
      * @param destination where the route ends
      * @param preferences
+     * @param pedestrian
      * @return two routes: the first one being the route that avoids sensors, and the second one being the fastest route
      */
-    public List<Route> getRoutes(GeoLocation origin, GeoLocation destination, RoutingPreferences preferences) {
+    public List<Route> getRoutes(GeoLocation origin, GeoLocation destination, RoutingPreferences preferences, boolean pedestrian) {
         List<Route> routes = new ArrayList<>();
         // First, let's get the fastest route
-        Route fastestRoute = mainRouteProvider.getRoute(List.of(origin, destination), preferences);
+        Route fastestRoute = mainRouteProvider.getRoute(List.of(origin, destination), preferences, pedestrian);
         // To avoid removing the origin and destination, we'll make a sublist for the intermediary waypoints between them,
         // do calculations, then add them back just before sending to the sensor avoiding route provider
         List<GeoLocation> intermediaryWaypoints = fastestRoute.getWaypoints().subList(1, fastestRoute.getWaypoints().size() - 1);
@@ -53,7 +54,7 @@ public class RouteService {
         reducedWaypoints.add(destination);
         // Then, let's get the route that avoids sensors, giving the reduced version of the fastest route as input to
         // maintain the overall shape of the fastest route
-        routes.add(sensorAvoidingRouteProvider.getRoute(reducedWaypoints, preferences));
+        routes.add(sensorAvoidingRouteProvider.getRoute(reducedWaypoints, preferences, pedestrian));
         routes.add(fastestRoute);
         return routes;
     }

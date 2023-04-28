@@ -19,9 +19,9 @@ public class RouteController implements GraphQLQueryResolver {
 
     public List<Route> route(double originLatitude, double originLongitude,
                              double destinationLatitude, double destinationLongitude,
-                             RoutingPreferences preferences) {
+                             RoutingPreferences preferences, boolean pedestrian) {
         GeoLocation origin = GeoLocation.at(originLatitude, originLongitude);
         GeoLocation destination = GeoLocation.at(destinationLatitude, destinationLongitude);
-        return routeService.getRoutes(origin, destination, preferences);
+        return routeService.getRoutes(origin, destination, preferences, pedestrian);
     }
 }

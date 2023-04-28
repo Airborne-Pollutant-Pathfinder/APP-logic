@@ -56,7 +56,7 @@ public class GraphHopperRouteProviderTest {
         when(ghResponseMock.hasErrors()).thenReturn(true);
         when(ghResponseMock.getErrors()).thenReturn(List.of());
 
-        Route actualRoute = routeProvider.getRoute(waypoints, preferences);
+        Route actualRoute = routeProvider.getRoute(waypoints, preferences, false);
 
         assertNull(actualRoute);
     }
@@ -79,7 +79,7 @@ public class GraphHopperRouteProviderTest {
                 .travelTimeInSeconds(Duration.ofSeconds(1))
                 .waypoint(createMockGeoLocation())
                 .build();
-        Route actualRoute = routeProvider.getRoute(waypoints, preferences);
+        Route actualRoute = routeProvider.getRoute(waypoints, preferences, false);
 
         assertEquals(expectedRoute, actualRoute);
     }

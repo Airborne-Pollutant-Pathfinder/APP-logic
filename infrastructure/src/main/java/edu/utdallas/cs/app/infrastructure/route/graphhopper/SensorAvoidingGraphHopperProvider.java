@@ -41,6 +41,7 @@ public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
 
     private List<Profile> createProfiles() {
         List<Profile> profiles = new ArrayList<>();
+        profiles.add(createBasicPedestiranProfile());
         profiles.add(createBasicCarProfile());
 //        profiles.add(createCarWithoutTollsProfile());
 //        profiles.add(createCarWithoutHighwaysProfile());
@@ -68,6 +69,10 @@ public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
         return new CustomProfile("car_no_toll_no_highways")
                 .setCustomModel(withTollAvoidance(withHighwayAvoidance(new CustomModel())))
                 .setVehicle("car");
+    }
+
+    private Profile createBasicPedestiranProfile() {
+        return new Profile("pedestrian").setVehicle("foot");
     }
 
     private CustomModel withTollAvoidance(CustomModel model) {

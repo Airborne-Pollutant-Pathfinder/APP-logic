@@ -7,5 +7,5 @@ import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import java.util.List;
 
 public interface RouteProvider {
-    Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences);
+    Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences, boolean pedestrian);
 }

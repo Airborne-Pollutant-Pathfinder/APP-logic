@@ -58,12 +58,12 @@ public class RouteServiceTest {
                 .build();
         List<Route> expectedRoutes = List.of(safestRoute, fastestRoute);
 
-        when(routeProviderMock.getRoute(any(List.class), any(RoutingPreferences.class))).thenReturn(fastestRoute);
-        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(RoutingPreferences.class))).thenReturn(safestRoute);
+        when(routeProviderMock.getRoute(any(List.class), any(RoutingPreferences.class), any(boolean.class))).thenReturn(fastestRoute);
+        when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(RoutingPreferences.class), any(boolean.class))).thenReturn(safestRoute);
         when(waypointAugmenterMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
         when(waypointReducerMock.augmentWaypoints(any(List.class))).thenReturn(List.of(origin, destination));
 
-        List<Route> actualRoutes = routeService.getRoutes(origin, destination, preferences);
+        List<Route> actualRoutes = routeService.getRoutes(origin, destination, preferences, false);
 
         assertEquals(expectedRoutes, actualRoutes);
     }

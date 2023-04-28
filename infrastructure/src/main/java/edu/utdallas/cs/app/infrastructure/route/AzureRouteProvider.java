@@ -43,7 +43,7 @@ public class AzureRouteProvider implements RouteProvider {
     }
 
     @Override
-    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
+    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences, boolean pedestrian) {
         RouteDirectionsOptions routeOptions = new RouteDirectionsOptions(mapper.mapToGeoPositions(waypoints));
         Optional<RouteDirections> routeDirectionsOpt = client.getRouteDirections(routeOptions).blockOptional();
 

@@ -32,7 +32,7 @@ public class GoogleDirectionsRouteProvider implements RouteProvider {
     }
 
     @Override
-    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences) {
+    public Route getRoute(List<GeoLocation> waypoints, RoutingPreferences preferences, boolean pedestrian) {
         DirectionsApiRequest request = DirectionsApi.newRequest(context)
                 .origin(googleDirectionsMapper.mapToLatLng(waypoints.get(0)))
                 .destination(googleDirectionsMapper.mapToLatLng(waypoints.get(waypoints.size() - 1)))
@@ -42,6 +42,9 @@ public class GoogleDirectionsRouteProvider implements RouteProvider {
         }
         if (preferences.isAvoidTolls()) {
             request = request.avoid(DirectionsApi.RouteRestriction.TOLLS);
+        }
+        if (pedestrian) {
+            request = request.mode(TravelMode.WALKING);
         }
         if (waypoints.size() > 2) {
             request = request.waypoints(googleDirectionsMapper.mapToLatLngs(waypoints.subList(1, waypoints.size() - 1)));
