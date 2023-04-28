@@ -2,10 +2,10 @@ package edu.utdallas.cs.app.infrastructure.sensor;
 
 import edu.utdallas.cs.app.domain.database.repository.CapturedPollutantRepository;
 import edu.utdallas.cs.app.domain.database.repository.SensorsRepository;
+import edu.utdallas.cs.app.domain.database.table.CapturedPollutantTable;
 import edu.utdallas.cs.app.domain.database.table.SensorTable;
 import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
-import edu.utdallas.cs.app.domain.table.CapturedPollutantTable;
 import jakarta.transaction.Transactional;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
