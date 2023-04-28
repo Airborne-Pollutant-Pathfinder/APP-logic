@@ -1,7 +1,6 @@
 package edu.utdallas.cs.app.infrastructure.route.graphhopper;
 
 import com.graphhopper.GraphHopper;
-import com.graphhopper.config.CHProfile;
 import com.graphhopper.config.Profile;
 import com.graphhopper.routing.weighting.custom.CustomProfile;
 import com.graphhopper.util.CustomModel;
@@ -31,12 +30,10 @@ public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
     public GraphHopper createGraphHopper(File osmFile) {
         GraphHopper graphHopper = new SensorAvoidingGraphHopper(waypointReducer);
         List<Profile> profiles = createProfiles();
-        List<CHProfile> chProfiles = profiles.stream().map(p -> new CHProfile(p.getName())).toList();
 
         graphHopper.setOSMFile(osmFile.getAbsolutePath());
         graphHopper.setGraphHopperLocation(GRAPH_HOPPER_LOCATION);
         graphHopper.setProfiles(profiles);
-        graphHopper.getCHPreparationHandler().setCHProfiles(chProfiles);
 
         graphHopper.importOrLoad();
         return graphHopper;
