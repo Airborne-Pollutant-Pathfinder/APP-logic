@@ -42,9 +42,9 @@ public class SensorAvoidingGraphHopperProvider implements GraphHopperProvider {
     private List<Profile> createProfiles() {
         List<Profile> profiles = new ArrayList<>();
         profiles.add(createBasicCarProfile());
-        profiles.add(createCarWithoutTollsProfile());
-        profiles.add(createCarWithoutHighwaysProfile());
-        profiles.add(createCarWithoutTollsAndHighwaysProfile());
+//        profiles.add(createCarWithoutTollsProfile());
+//        profiles.add(createCarWithoutHighwaysProfile());
+//        profiles.add(createCarWithoutTollsAndHighwaysProfile());
         return profiles;
     }
 
