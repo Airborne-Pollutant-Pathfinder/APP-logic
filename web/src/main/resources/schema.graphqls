@@ -9,10 +9,13 @@ type Query {
         preferences: Preferences!
         pedestrian: Boolean!
     ): [Route]!
+
     getSensorsWithData(
-        Latitude: Float!,
-        Longitude: Float!,
-    ): [CapturedPollutantPoint]!
+        northEastLatitude: Float!,
+        northEastLongitude: Float!,
+        southWestLatitude: Float!,
+        southWestLongitude: Float!
+    ): [SensorData]!
 }
 
 input Preferences {

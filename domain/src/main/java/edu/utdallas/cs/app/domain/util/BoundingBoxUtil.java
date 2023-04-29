@@ -2,7 +2,6 @@ package edu.utdallas.cs.app.domain.util;
 
 import edu.utdallas.cs.app.domain.route.BoundingBox;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
-import edu.utdallas.cs.app.domain.sensor.SquareBox;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -57,19 +56,7 @@ public class BoundingBoxUtil {
 
     public boolean boxIntersectsAnySensor(List<Sensor> sensorsToAvoid, BoundingBox box) {
         for (Sensor sensor : sensorsToAvoid) {
-            SquareBox square = sensor.getSquare();
-
-            double smallestLatitude = Math.min(square.getUpperLeft().getLatitude(), square.getLowerRight().getLatitude());
-            double smallestLongitude = Math.min(square.getUpperLeft().getLongitude(), square.getLowerRight().getLongitude());
-            double largestLatitude = Math.max(square.getUpperLeft().getLatitude(), square.getLowerRight().getLatitude());
-            double largestLongitude = Math.max(square.getUpperLeft().getLongitude(), square.getLowerRight().getLongitude());
-
-            BoundingBox sensorBox = BoundingBox.builder()
-                    .withMinimumLatitude(smallestLatitude)
-                    .withMaximumLatitude(largestLatitude)
-                    .withMinimumLongitude(smallestLongitude)
-                    .withMaximumLongitude(largestLongitude)
-                    .build();
+            BoundingBox sensorBox = BoundingBox.fromSquareBox(sensor.getSquare());
             if (intersects(sensorBox, box)) {
                 return true;
             }

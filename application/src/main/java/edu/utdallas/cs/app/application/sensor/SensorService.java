@@ -2,6 +2,7 @@ package edu.utdallas.cs.app.application.sensor;
 
 
 import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
+import edu.utdallas.cs.app.domain.route.BoundingBox;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
@@ -28,9 +29,8 @@ public class SensorService {
         this.capturedPollutantProvider = capturedPollutantProvider;
     }
 
-
-    public List<SensorData> getSensorsWithData(GeoLocation location) {
-        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(location);
+    public List<SensorData> getSensorsWithData(BoundingBox boundingBox) {
+        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(boundingBox);
         List<SensorData> sensorsData = new ArrayList<>();
 
         for (Sensor sensor : sensorsInRange) {
