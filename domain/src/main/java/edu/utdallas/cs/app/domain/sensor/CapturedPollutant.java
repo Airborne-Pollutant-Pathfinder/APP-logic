@@ -13,7 +13,8 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+//@Builder
+@Builder(setterPrefix = "with")
 public class CapturedPollutant {
 
 //    private int sensorId;

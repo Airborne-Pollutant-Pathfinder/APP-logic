@@ -64,9 +64,9 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
 //                    .sensorLocation(sensor.getLocation())
                     //.pollutant(s.getPollutant())
                     // .pollutantID( s.getPollutant().getId() )    // -> switch from next for int ID
-                    .pollutant( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
+                    .withPollutant( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
                     // .datetime(s.getDatetime())   // DB has 5-min avg values stored. Could still use for frontend to be able to know if a sensor seems to have stopped updating?
-                    .value(s.getValue())
+                    .withValue(s.getValue())
                     .build()).toList();
 
             sensorData.add(data);
