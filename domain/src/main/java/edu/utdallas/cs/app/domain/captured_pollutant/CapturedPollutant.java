@@ -1,4 +1,4 @@
-package edu.utdallas.cs.app.domain.sensor;
+package edu.utdallas.cs.app.domain.captured_pollutant;
 
 
 import lombok.AccessLevel;

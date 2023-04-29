@@ -2,10 +2,10 @@ package edu.utdallas.cs.app.application.sensor;
 
 
 import edu.utdallas.cs.app.domain.route.GeoLocation;
-import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
+import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
-import edu.utdallas.cs.app.infrastructure.sensor.CapturedPollutantProvider;
+import edu.utdallas.cs.app.infrastructure.captured_pollutant.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 
 import java.util.HashMap;

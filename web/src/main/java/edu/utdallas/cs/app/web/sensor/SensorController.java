@@ -2,7 +2,7 @@ package edu.utdallas.cs.app.web.sensor;
 
 import edu.utdallas.cs.app.application.sensor.SensorService;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
-import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
+import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 
 import java.util.List;
 import java.util.Map;
