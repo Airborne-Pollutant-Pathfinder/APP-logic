@@ -7,8 +7,9 @@ import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import edu.utdallas.cs.app.domain.sensor.SquareBox;
 import edu.utdallas.cs.app.infrastructure.route.mapper.JTSMapper;
-import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +30,14 @@ public class DatabaseSensorProvider implements SensorProvider {
     public List<Sensor> findRelevantSensors(BoundingBox box) {
         SquareBox square = SquareBox.fromBoundingBox(box);
         GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
-        Geometry geometry = factory.buildGeometry(List.of(
-                factory.createPoint(mapper.mapToCoordinate(square.getUpperLeft())),
-                factory.createPoint(mapper.mapToCoordinate(square.getUpperRight())),
-                factory.createPoint(mapper.mapToCoordinate(square.getLowerRight())),
-                factory.createPoint(mapper.mapToCoordinate(square.getLowerLeft())),
-                factory.createPoint(mapper.mapToCoordinate(square.getUpperLeft()))));
-        Collection<SensorTable> sensors = repository.findAllByAreaIntersectsGeometry(geometry);
+        Polygon polygon = factory.createPolygon(new Coordinate[]{
+                mapper.mapToCoordinate(square.getLowerLeft()),
+                mapper.mapToCoordinate(square.getLowerRight()),
+                mapper.mapToCoordinate(square.getUpperRight()),
+                mapper.mapToCoordinate(square.getUpperLeft()),
+                mapper.mapToCoordinate(square.getLowerLeft()),
+        });
+        Collection<SensorTable> sensors = repository.findAllByAreaIntersectsPolygon(polygon);
         return sensors.stream().map(s -> Sensor.builder()
                 .location(GeoLocation.builder()
                         .latitude(s.getLocation().getY())
