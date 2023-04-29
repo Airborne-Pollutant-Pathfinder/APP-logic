@@ -4,11 +4,12 @@ import edu.utdallas.cs.app.application.sensor.SensorService;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.SensorData;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 
 import java.util.List;
 import java.util.Map;
 
-public class SensorController {
+public class SensorController implements GraphQLQueryResolver {
 
     private final SensorService sensorService;
 
@@ -16,7 +17,8 @@ public class SensorController {
         this.sensorService = sensorService;
     }
 
-    public List<SensorData> getSensorsWithData(GeoLocation location){
+    public List<SensorData> getSensorsWithData(double Latitude, double Longitude){
+        GeoLocation location = GeoLocation.at(Latitude, Longitude);
         return sensorService.getSensorsWithData(location);
     }
 

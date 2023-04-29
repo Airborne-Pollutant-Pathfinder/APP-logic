@@ -9,6 +9,10 @@ type Query {
         preferences: Preferences!
         pedestrian: Boolean!
     ): [Route]!
+    getSensorsWithData(
+        Latitude: Float!,
+        Longitude: Float!,
+    ): [CapturedPollutantPoint]!
 }
 
 input Preferences {
@@ -31,4 +35,14 @@ type Route {
 type GeoLocation {
     latitude: Float!
     longitude: Float!
+}
+
+type SensorData {
+    sensor: String!
+    data: [CapturedPollutantPoint!]
+}
+
+type CapturedPollutantPoint {
+    value: Float!
+    pollutant: String
 }
