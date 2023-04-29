@@ -1,11 +1,11 @@
 package edu.utdallas.cs.app.infrastructure.sensor.waypoint;
 
+import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.database.table.PollutantTable;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
-import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
-import edu.utdallas.cs.app.infrastructure.sensor.CapturedPollutantProvider;
+import edu.utdallas.cs.app.infrastructure.captured_pollutant.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,20 +20,20 @@ import static org.mockito.Mockito.when;
 
 public class SensorAffectedWaypointAugmenterTest {
     private SensorProvider sensorProviderMock;
-    private CapturedPollutantProvider capturedPollutantMock;
+    private CapturedPollutantProvider capturedPollutantProviderMock;
 
     @BeforeEach
     public void setUp() {
         sensorProviderMock = mock(SensorProvider.class);
-        capturedPollutantMock = mock(CapturedPollutantProvider.class);
+        capturedPollutantProviderMock = mock(CapturedPollutantProvider.class);
     }
 
     @Test
     public void Should_ReturnFalse_When_ValidateWaypoint_With_PollutantThresholdBeingExceeded() {
-        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantMock);
+        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantProviderMock);
 
         when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(createMockSensors());
-        when(capturedPollutantMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
+        when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
                 .withPollutant(PollutantTable.CO)
                 .withValue(100)
                 .build()));
@@ -60,10 +60,10 @@ public class SensorAffectedWaypointAugmenterTest {
 
     @Test
     public void Should_ReturnTrue_When_ValidateWaypoint_With_NoThresholdsBeingExceeded() {
-        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantMock);
+        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantProviderMock);
 
         when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(createMockSensors());
-        when(capturedPollutantMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
+        when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
                 .withPollutant(PollutantTable.CO)
                 .withValue(100)
                 .build()));
@@ -90,10 +90,10 @@ public class SensorAffectedWaypointAugmenterTest {
 
     @Test
     public void Should_RemoveWaypoint_When_AugmentWaypoints_With_PollutantThresholdBeingExceeded() {
-        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantMock);
+        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantProviderMock);
 
         when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(createMockSensors());
-        when(capturedPollutantMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
+        when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
                 .withPollutant(PollutantTable.CO)
                 .withValue(100)
                 .build()));
@@ -120,10 +120,10 @@ public class SensorAffectedWaypointAugmenterTest {
 
     @Test
     public void Should_KeepWaypoint_When_AugmentWaypoints_With_NoThresholdsBeingExceeded() {
-        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantMock);
+        SensorAffectedWaypointAugmenter augmenter = new SensorAffectedWaypointAugmenter(sensorProviderMock, capturedPollutantProviderMock);
 
         when(sensorProviderMock.findRelevantSensors(any(GeoLocation.class))).thenReturn(Collections.emptyList());
-        when(capturedPollutantMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
+        when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
                 .withPollutant(PollutantTable.CO)
                 .withValue(100)
                 .build()));

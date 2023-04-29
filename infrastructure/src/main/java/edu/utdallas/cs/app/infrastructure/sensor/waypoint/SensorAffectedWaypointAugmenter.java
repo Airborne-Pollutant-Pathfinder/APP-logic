@@ -1,15 +1,15 @@
 package edu.utdallas.cs.app.infrastructure.sensor.waypoint;
 
+import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.database.table.PollutantTable;
 import edu.utdallas.cs.app.domain.route.BoundingBox;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
-import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import edu.utdallas.cs.app.domain.util.BoundingBoxUtil;
+import edu.utdallas.cs.app.infrastructure.captured_pollutant.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointAugmenter;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
-import edu.utdallas.cs.app.infrastructure.sensor.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

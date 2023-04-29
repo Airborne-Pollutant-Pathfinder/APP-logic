@@ -1,18 +1,17 @@
 package edu.utdallas.cs.app.application.sensor;
 
 
-import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
+import edu.utdallas.cs.app.domain.route.GeoLocation;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import edu.utdallas.cs.app.domain.sensor.SensorData;
-import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.infrastructure.captured_pollutant.CapturedPollutantProvider;
+import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SensorService {
 
@@ -43,7 +42,7 @@ public class SensorService {
         return sensorsData;
     }
 
-    public boolean isUserNearHazardousArea(GeoLocation location){
-        return waypointValidator.isValidWaypoint(location, );
+    public boolean isUserNearHazardousArea(GeoLocation location, RoutingPreferences preferences) {
+        return waypointValidator.isValidWaypoint(location, preferences);
     }
 }

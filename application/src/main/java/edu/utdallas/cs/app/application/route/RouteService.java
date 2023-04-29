@@ -45,9 +45,9 @@ public class RouteService {
 
         // Then, let's take the individual points of the route and get a reduced version of it to be able to perform
         // recalculations between those points without the risk of going backwards in the route
-        List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(intermediaryWaypoints, );
+        List<GeoLocation> simplifiedWaypoints = waypointAugmenter.augmentWaypoints(intermediaryWaypoints, preferences);
         // Then, let's remove the waypoints that are inside a sensor's radius
-        List<GeoLocation> reducedWaypoints = sensorWaypointReducer.augmentWaypoints(simplifiedWaypoints, );
+        List<GeoLocation> reducedWaypoints = sensorWaypointReducer.augmentWaypoints(simplifiedWaypoints, preferences);
 
         // Then, let's add back the origin and destination (from fastest route to ensure same start and end points)
         reducedWaypoints.add(0, fastestRoute.getWaypoints().get(0));
