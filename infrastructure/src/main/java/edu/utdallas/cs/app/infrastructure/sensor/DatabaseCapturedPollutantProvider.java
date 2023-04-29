@@ -59,12 +59,12 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
 
 
             List<CapturedPollutant> data = capturedPollutants.stream().map(s -> CapturedPollutant.builder()
-                    .id(s.getId())
+//                    .id(s.getId())
                     //.sensor(s.getSensor())
-                    .sensorLocation(sensor.getLocation())
+//                    .sensorLocation(sensor.getLocation())
                     //.pollutant(s.getPollutant())
-                    // .pollutantID( s.getPollutant().getId() )    // -> switch from next for string, also change in CapturedPollutant and GraphQL schema
-                    .pollutantID( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
+                    // .pollutantID( s.getPollutant().getId() )    // -> switch from next for int ID
+                    .pollutant( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
                     // .datetime(s.getDatetime())   // DB has 5-min avg values stored. Could still use for frontend to be able to know if a sensor seems to have stopped updating?
                     .value(s.getValue())
                     .build()).toList();

@@ -16,10 +16,10 @@ import java.util.Date;
 @Builder
 public class CapturedPollutant {
 
-    private int id;
+//    private int sensorId;
     //private SensorTable sensor;
-    private GeoLocation sensorLocation;
-    private String pollutantID;
+//    private GeoLocation sensorLocation;
+    private String pollutant;
     //private Date datetime;
     private double value;
 
