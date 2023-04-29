@@ -41,6 +41,6 @@ public class SensorService {
     }
 
     public boolean isUserNearHazardousArea(GeoLocation location){
-        return waypointValidator.isValidWaypoint(location);
+        return waypointValidator.isValidWaypoint(location, );
     }
 }

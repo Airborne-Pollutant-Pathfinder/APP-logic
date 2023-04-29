@@ -11,6 +11,7 @@ import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 
 /**
@@ -19,8 +20,10 @@ import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
  */
 public class SensorAvoidingWeighting extends FastestWeighting {
     public static final int MAX_WEIGHT = Integer.MAX_VALUE;
+    public static final String ROUTING_PREFERENCES_KEY = "app.routing_preferences";
 
     private final BaseGraph graph;
+    private final PMap map;
     private final WaypointValidator waypointValidator;
 
     public SensorAvoidingWeighting(BaseGraph graph, BooleanEncodedValue accessEnc, DecimalEncodedValue speedEnc,
@@ -29,6 +32,7 @@ public class SensorAvoidingWeighting extends FastestWeighting {
                                    WaypointValidator waypointValidator) {
         super(accessEnc, speedEnc, roadAccessEnc, map, turnCostProvider);
         this.graph = graph;
+        this.map = map;
         this.waypointValidator = waypointValidator;
     }
 
@@ -40,7 +44,8 @@ public class SensorAvoidingWeighting extends FastestWeighting {
             double latitude = na.getLat(base);
             double longitude = na.getLon(base);
             GeoLocation geoLocation = GeoLocation.at(latitude, longitude);
-            if (!waypointValidator.isValidWaypoint(geoLocation)) {
+            RoutingPreferences preferences = map.getObject(ROUTING_PREFERENCES_KEY, null);
+            if (!waypointValidator.isValidWaypoint(geoLocation, preferences)) {
                 return MAX_WEIGHT;
             }
         } catch (IllegalArgumentException e) {

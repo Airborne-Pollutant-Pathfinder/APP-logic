@@ -1,6 +1,7 @@
 package edu.utdallas.cs.app.infrastructure.route.waypoint;
 
 import edu.utdallas.cs.app.domain.route.GeoLocation;
+import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.mapper.JTSMapper;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -30,7 +31,7 @@ public class RamerDouglasPeuckerWaypointAugmenter implements WaypointAugmenter {
     }
 
     @Override
-    public List<GeoLocation> augmentWaypoints(List<GeoLocation> waypoints) {
+    public List<GeoLocation> augmentWaypoints(List<GeoLocation> waypoints, RoutingPreferences preferences) {
         Coordinate[] coordinates = mapper.mapToCoordinates(waypoints);
         GeometryFactory geometryFactory = new GeometryFactory();
         LineString polyline = geometryFactory.createLineString(coordinates);

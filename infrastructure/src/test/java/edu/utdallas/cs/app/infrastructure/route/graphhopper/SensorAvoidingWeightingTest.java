@@ -62,7 +62,7 @@ public class SensorAvoidingWeightingTest {
         when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
         when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
 
-        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class))).thenReturn(false);
+        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class), any())).thenReturn(false);
 
         double actualWeight = weighting.calcEdgeWeight(edgeMock, false);
 
@@ -86,7 +86,7 @@ public class SensorAvoidingWeightingTest {
         when(nodeAccessMock.getLat(adjNode)).thenReturn(32.8975);
         when(nodeAccessMock.getLon(adjNode)).thenReturn(-96.8602);
 
-        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class))).thenReturn(true);
+        when(waypointValidatorMock.isValidWaypoint(any(GeoLocation.class), any())).thenReturn(true);
 
         when(edgeMock.get(speedEncMock)).thenReturn(45.0); // this is only so the result isn't infinity
 
