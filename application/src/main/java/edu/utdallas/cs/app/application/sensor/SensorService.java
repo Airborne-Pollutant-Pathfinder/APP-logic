@@ -37,7 +37,7 @@ public class SensorService {
 
         for (Sensor sensor : sensorsInRange) {
             List<CapturedPollutant> data = capturedPollutantProvider.findLatestDataFor(sensor);
-            sensorsData.add(SensorData.at(data.get(0).getSensorId(), data));
+            sensorsData.add(SensorData.at(sensor, data));
         }
         return sensorsData;
     }

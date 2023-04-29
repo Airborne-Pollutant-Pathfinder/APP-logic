@@ -10,10 +10,10 @@ import java.util.List;
 @Builder
 public class SensorData {
 
-    public static SensorData at(int sensorId, List<CapturedPollutant> data) {
-        return new SensorData(sensorId, data);
+    public static SensorData at(Sensor sensor, List<CapturedPollutant> data) {
+        return new SensorData(sensor, data);
     }
 
-    private int sensorId;
+    private Sensor sensor;
     private List<CapturedPollutant> data;
 }
