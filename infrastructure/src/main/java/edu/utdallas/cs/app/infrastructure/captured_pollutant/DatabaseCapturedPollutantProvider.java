@@ -1,10 +1,10 @@
-package edu.utdallas.cs.app.infrastructure.sensor;
+package edu.utdallas.cs.app.infrastructure.captured_pollutant;
 
 import edu.utdallas.cs.app.domain.database.repository.CapturedPollutantRepository;
 import edu.utdallas.cs.app.domain.database.repository.SensorsRepository;
 import edu.utdallas.cs.app.domain.database.table.CapturedPollutantTable;
 import edu.utdallas.cs.app.domain.database.table.SensorTable;
-import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
+import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
 import jakarta.transaction.Transactional;
 import org.locationtech.jts.geom.Coordinate;
@@ -35,8 +35,8 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
         Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensor(sensorTable);
 
         return capturedPollutants.stream().map(s -> CapturedPollutant.builder()
-                .withSensorId(s.getSensor().getId())
-                .withPollutant( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
+                .withSensorId(s.getSensor().getId()) // CapturedPollutantTable - PollutantTable - SensorTable - SensorID, which is an int.
+                .withPollutant( s.getPollutant().getAbbreviation() ) // CapturedPollutantTable - PollutantTable - PollutantID
                 .withValue(s.getValue())
                 .build()).toList();
     }
