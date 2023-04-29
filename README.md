@@ -70,14 +70,30 @@ Example query:
 
 ```graphql
 query {
-  route(originLatitude: 33.133092, originLongitude: -96.772497, destinationLatitude: 32.985661, destinationLongitude: -96.750462) {
-    lengthInMeters
-    travelTimeInSeconds
-    waypoints {
-      latitude
-      longitude
+    route(
+        originLatitude: 33.057207,
+        originLongitude: -96.750027,
+        destinationLatitude: 32.9856974,
+        destinationLongitude: -96.75024739999999,
+        preferences: {
+            avoidHighways: false,
+            avoidTolls: true,
+            coThreshold: 9999.0,
+            no2Threshold: 9999.0,
+            o3Threshold: 9999.0,
+            pm2_5Threshold: 9999.0,
+            pm10Threshold: 9999.0,
+            so2Threshold: 9999.0
+        },
+        pedestrian: false
+    ) {
+        lengthInMeters
+        travelTimeInSeconds
+        waypoints {
+            latitude
+            longitude
+        }
     }
-  }
 }
 ```
 
