@@ -41,7 +41,7 @@ type GeoLocation {
 }
 
 type SensorData {
-    sensor: String!
+    sensorId: Int!
     data: [CapturedPollutantPoint!]
 }
 
