@@ -28,12 +28,13 @@ public class DatabaseSensorProvider implements SensorProvider {
     @Override
     public List<Sensor> findRelevantSensors(BoundingBox box) {
         SquareBox square = SquareBox.fromBoundingBox(box);
-        Geometry geometry = new GeometryFactory(new PrecisionModel(), 4326).buildGeometry(List.of(
-                mapper.mapToCoordinate(square.getUpperLeft()),
-                mapper.mapToCoordinate(square.getUpperRight()),
-                mapper.mapToCoordinate(square.getLowerRight()),
-                mapper.mapToCoordinate(square.getLowerLeft()),
-                mapper.mapToCoordinate(square.getUpperLeft())));
+        GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
+        Geometry geometry = factory.buildGeometry(List.of(
+                factory.createPoint(mapper.mapToCoordinate(square.getUpperLeft())),
+                factory.createPoint(mapper.mapToCoordinate(square.getUpperRight())),
+                factory.createPoint(mapper.mapToCoordinate(square.getLowerRight())),
+                factory.createPoint(mapper.mapToCoordinate(square.getLowerLeft())),
+                factory.createPoint(mapper.mapToCoordinate(square.getUpperLeft()))));
         Collection<SensorTable> sensors = repository.findAllByAreaIntersectsGeometry(geometry);
         return sensors.stream().map(s -> Sensor.builder()
                 .location(GeoLocation.builder()
