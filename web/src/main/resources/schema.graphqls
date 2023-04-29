@@ -42,10 +42,10 @@ type GeoLocation {
 
 type SensorData {
     sensorId: Int!
-    data: [CapturedPollutantPoint!]
+    data: [CapturedPollutant!]
 }
 
-type CapturedPollutantPoint {
+type CapturedPollutant {
+    pollutant: String!
     value: Float!
-    pollutant: String
 }
