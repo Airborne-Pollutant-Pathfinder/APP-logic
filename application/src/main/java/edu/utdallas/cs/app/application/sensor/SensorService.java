@@ -10,10 +10,12 @@ import edu.utdallas.cs.app.domain.sensor.SensorData;
 import edu.utdallas.cs.app.infrastructure.captured_pollutant.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SensorService {
 
     private final SensorProvider sensorProvider;

@@ -6,9 +6,11 @@ import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.domain.sensor.SensorData;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class SensorController implements GraphQLQueryResolver {
 
     private final SensorService sensorService;
@@ -17,7 +19,7 @@ public class SensorController implements GraphQLQueryResolver {
         this.sensorService = sensorService;
     }
 
-    public List<SensorData> getSensorsWithData(double northEastLatitude, double northEastLongitude, double southWestLatitude, double southWestLongitude) {
+    public List<SensorData> sensorsWithData(double northEastLatitude, double northEastLongitude, double southWestLatitude, double southWestLongitude) {
         BoundingBox boundingBox = BoundingBox.builder()
                 .withMinimumLatitude(southWestLatitude)
                 .withMinimumLongitude(southWestLongitude)

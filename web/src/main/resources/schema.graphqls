@@ -10,7 +10,7 @@ type Query {
         pedestrian: Boolean!
     ): [Route]!
 
-    getSensorsWithData(
+    sensorsWithData(
         northEastLatitude: Float!,
         northEastLongitude: Float!,
         southWestLatitude: Float!,
@@ -41,8 +41,13 @@ type GeoLocation {
 }
 
 type SensorData {
-    sensorId: Int!
+    sensor: Sensor!
     data: [CapturedPollutant!]
+}
+
+type Sensor {
+    location: GeoLocation!
+    radiusInMeters: Float!
 }
 
 type CapturedPollutant {
