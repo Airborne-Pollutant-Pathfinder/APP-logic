@@ -1,6 +1,8 @@
 package edu.utdallas.cs.app.application.sensor;
 
 
+import edu.utdallas.cs.app.domain.database.table.CapturedPollutantTable;
+import edu.utdallas.cs.app.domain.database.table.SensorTable;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.sensor.CapturedPollutant;
 import edu.utdallas.cs.app.domain.sensor.Sensor;
@@ -8,7 +10,8 @@ import edu.utdallas.cs.app.infrastructure.route.waypoint.WaypointValidator;
 import edu.utdallas.cs.app.infrastructure.sensor.CapturedPollutantProvider;
 import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public class SensorService {
@@ -26,14 +29,34 @@ public class SensorService {
     }
 
 
-    public List<Sensor> getSensorsWithData(GeoLocation location){
+    public HashMap<String,List<CapturedPollutant>> getSensorsWithData(GeoLocation location){
 
-        List<Sensor> sensorsLst = sensorProvider.findRelevantSensors(location);
+        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(location);
+        HashMap<String,List<CapturedPollutant>> SensorData = new HashMap<>();
 
-        List<List<CapturedPollutant>> sensorData = capturedPollutantProvider.findLatestDataFor(sensorsLst);
+        if (!sensorsInRange.isEmpty()) {
+            System.out.println(sensorsInRange);
+        }
 
-        // combine above two and return
-        return sensorsLst;
+        ListIterator<Sensor> iter = sensorsInRange.listIterator();  // was intending to use this for index
+        while (iter.hasNext()) {
+            Sensor sensor = iter.next();
+
+            List<CapturedPollutant> data = capturedPollutantProvider.findLatestDataFor(sensor);
+            String sensorID = Integer.toString(data.get(0).getSensorId());
+
+            SensorData.put(sensorID, data );
+
+        }
+
+        return SensorData;
+
+
+
+/*        List<List<CapturedPollutant>> sensorData = capturedPollutantProvider.findLatestDataFor(sensorsLst);
+
+         combine above two and return
+        return sensorsLst;*/
     }
 
     public Boolean isUserNearHazardousArea(GeoLocation location){

@@ -13,10 +13,7 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 @Component
 @Transactional
@@ -31,21 +28,35 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
     }
 
     @Override
-    public List<List<CapturedPollutant>> findLatestDataFor(List<Sensor> sensorsInRange) {
+    public List<CapturedPollutant> findLatestDataFor(Sensor thisSensor) {
 
-        List<List<CapturedPollutant>> sensorData = new ArrayList<List<CapturedPollutant>>();
+//        List<List<CapturedPollutant>> sensorData = new ArrayList<List<CapturedPollutant>>();
+        List<CapturedPollutant> sensorData = new ArrayList<>() ;
 
-        if (!sensorsInRange.isEmpty()) {
+        Point point = new GeometryFactory(new PrecisionModel(), 4326).createPoint(new Coordinate(thisSensor.getLocation().getLongitude(), thisSensor.getLocation().getLatitude()));
+        SensorTable sensorTable = sensorsRepository.findSensorTableByLocationAndRadiusMeters(point, thisSensor.getRadiusInMeters());
+        Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensor(sensorTable);
+
+        sensorData = capturedPollutants.stream().map(s -> CapturedPollutant.builder()
+                .withSensorId(s.getSensor().getId())
+                .withPollutant( s.getPollutant().getFullName() ) // CapturedPollutantTable - PollutantTable - PollutantID
+                .withValue(s.getValue())
+                .build()).toList();
+
+        return sensorData;
+
+
+/*        if (!sensorsInRange.isEmpty()) {
             System.out.println(sensorsInRange);
         }
 
-//        for (Sensor sensor : sensorsInRange) {
-//            Point point = new GeometryFactory(new PrecisionModel(), 4326).createPoint(new Coordinate(sensor.getLocation().getLongitude(), sensor.getLocation().getLatitude()));
-//            SensorTable sensorTable = sensorsRepository.findSensorTableByLocationAndRadiusMeters(point, sensor.getRadiusInMeters());
-//            Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensor(sensorTable);
-//            // use data from this to aggregate values for PM2.5, PM10, etc.
-//            // note there are duplicates, can choose to either average or take the most recent
-//        }
+        for (Sensor sensor : sensorsInRange) {
+            Point point = new GeometryFactory(new PrecisionModel(), 4326).createPoint(new Coordinate(sensor.getLocation().getLongitude(), sensor.getLocation().getLatitude()));
+            SensorTable sensorTable = sensorsRepository.findSensorTableByLocationAndRadiusMeters(point, sensor.getRadiusInMeters());
+            Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensor(sensorTable);
+            // use data from this to aggregate values for PM2.5, PM10, etc.
+            // note there are duplicates, can choose to either average or take the most recent
+        }
 
         ListIterator<Sensor> iter = sensorsInRange.listIterator();  // was intending to use this for index
         while (iter.hasNext()) {
@@ -70,9 +81,9 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
                     .build()).toList();
 
             sensorData.add(data);
-        }
+        }*/
 
-        return sensorData;
+
 
     }
 

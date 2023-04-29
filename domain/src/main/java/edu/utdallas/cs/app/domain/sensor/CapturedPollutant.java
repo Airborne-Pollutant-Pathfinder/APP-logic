@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder(setterPrefix = "with")
 public class CapturedPollutant {
 
-//    private int sensorId;
+    private int sensorId;
     //private SensorTable sensor;
 //    private GeoLocation sensorLocation;
     private String pollutant;
