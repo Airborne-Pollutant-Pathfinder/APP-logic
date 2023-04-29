@@ -9,6 +9,7 @@ import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.Route;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.infrastructure.route.graphhopper.GraphHopperProvider;
+import edu.utdallas.cs.app.infrastructure.route.graphhopper.SensorAvoidingWeighting;
 import edu.utdallas.cs.app.infrastructure.route.mapper.GraphHopperMapper;
 import edu.utdallas.cs.app.infrastructure.route.osm.OSMFileProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +42,8 @@ public class GraphHopperRouteProvider implements RouteProvider {
                 .setProfile(createProfileString(preferences, pedestrian))
                 .setAlgorithm(Parameters.Algorithms.ASTAR_BI)
                 .setPoints(mapper.mapToGHPoints(waypoints))
-                .putHint(Parameters.CH.DISABLE, true);
+                .putHint(Parameters.CH.DISABLE, true)
+                .putHint(SensorAvoidingWeighting.ROUTING_PREFERENCES_KEY, preferences);
 
         GHResponse response = hopper.route(request);
 
