@@ -29,7 +29,8 @@ public class SensorController implements GraphQLQueryResolver {
         return sensorService.getSensorsWithData(boundingBox);
     }
 
-    public boolean isUserNearHazardousArea(GeoLocation location, RoutingPreferences preferences) {
+    public boolean userNearHazardousArea(double latitude, double longitude, RoutingPreferences preferences) {
+        GeoLocation location = GeoLocation.at(latitude, longitude);
         return sensorService.isUserNearHazardousArea(location, preferences);
     }
 }

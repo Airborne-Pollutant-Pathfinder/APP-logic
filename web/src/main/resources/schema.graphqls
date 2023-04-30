@@ -6,16 +6,22 @@ type Query {
         originLongitude: Float!,
         destinationLatitude: Float!,
         destinationLongitude: Float!,
-        preferences: Preferences!
-        pedestrian: Boolean!
+        preferences: Preferences!,
+        pedestrian: Boolean!,
     ): [Route]!
 
     sensorsWithData(
         northEastLatitude: Float!,
         northEastLongitude: Float!,
         southWestLatitude: Float!,
-        southWestLongitude: Float!
+        southWestLongitude: Float!,
     ): [SensorData]!
+
+    userNearHazardousArea(
+        latitude: Float!,
+        longitude: Float!,
+        preferences: Preferences!,
+    ): Boolean!
 }
 
 input Preferences {
