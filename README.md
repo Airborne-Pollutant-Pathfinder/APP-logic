@@ -103,24 +103,47 @@ Example query:
 
 ```graphql
 query {
-	sensorsWithData(
-    northEastLatitude: 33.19467246746474,
-    northEastLongitude: -96.61342822015285,
-    southWestLatitude: 32.77915004042871,
-    southWestLongitude: -96.88309215009212,
-  ) {
-    sensor {
-      location {
-        latitude
-        longitude
-      }
-      radiusInMeters
+    sensorsWithData(
+        northEastLatitude: 33.19467246746474,
+        northEastLongitude: -96.61342822015285,
+        southWestLatitude: 32.77915004042871,
+        southWestLongitude: -96.88309215009212,
+    ) {
+        sensor {
+            location {
+                latitude
+                longitude
+            }
+            radiusInMeters
+        }
+        data {
+            pollutant
+            value
+        }
     }
-    data {
-      pollutant
-      value
-    }
-  }
+}
+```
+
+#### userNearHazardousArea
+
+Example query:
+
+```graphql
+query {
+    userNearHazardousArea(
+        latitude: 33.1375,
+        longitude: -96.7679,
+        preferences: {
+            avoidHighways: false,
+            avoidTolls: true,
+            coThreshold: 0.0,
+            no2Threshold: 0.0,
+            o3Threshold: 0.0,
+            pm2_5Threshold: 0.0,
+            pm10Threshold: 0.0,
+            so2Threshold: 0.0,
+        }
+    )
 }
 ```
 
