@@ -10,12 +10,7 @@ type Query {
         pedestrian: Boolean!,
     ): [Route]!
 
-    sensorsWithData(
-        northEastLatitude: Float!,
-        northEastLongitude: Float!,
-        southWestLatitude: Float!,
-        southWestLongitude: Float!,
-    ): [SensorData]!
+    allSensorsWithData: [SensorData]!
 
     userNearHazardousArea(
         latitude: Float!,
@@ -25,8 +20,8 @@ type Query {
 }
 
 input Preferences {
-    avoidHighways: Boolean!
-    avoidTolls: Boolean!
+    avoidHighways: Boolean
+    avoidTolls: Boolean
     coThreshold: Float!
     no2Threshold: Float!
     o3Threshold: Float!
@@ -52,11 +47,12 @@ type SensorData {
 }
 
 type Sensor {
+    id: Int!
     location: GeoLocation!
     radiusInMeters: Float!
 }
 
 type CapturedPollutant {
-    pollutant: String!
+    pollutantId: Int!
     value: Float!
 }

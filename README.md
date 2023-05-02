@@ -103,13 +103,9 @@ Example query:
 
 ```graphql
 query {
-    sensorsWithData(
-        northEastLatitude: 33.19467246746474,
-        northEastLongitude: -96.61342822015285,
-        southWestLatitude: 32.77915004042871,
-        southWestLongitude: -96.88309215009212,
-    ) {
+    allSensorsWithData {
         sensor {
+            id
             location {
                 latitude
                 longitude
@@ -117,7 +113,7 @@ query {
             radiusInMeters
         }
         data {
-            pollutant
+            pollutantId
             value
         }
     }

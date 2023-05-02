@@ -1,7 +1,6 @@
 package edu.utdallas.cs.app.web.sensor;
 
 import edu.utdallas.cs.app.application.sensor.SensorService;
-import edu.utdallas.cs.app.domain.route.BoundingBox;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
 import edu.utdallas.cs.app.domain.route.RoutingPreferences;
 import edu.utdallas.cs.app.domain.sensor.SensorData;
@@ -19,14 +18,8 @@ public class SensorController implements GraphQLQueryResolver {
         this.sensorService = sensorService;
     }
 
-    public List<SensorData> sensorsWithData(double northEastLatitude, double northEastLongitude, double southWestLatitude, double southWestLongitude) {
-        BoundingBox boundingBox = BoundingBox.builder()
-                .withMinimumLatitude(southWestLatitude)
-                .withMinimumLongitude(southWestLongitude)
-                .withMaximumLatitude(northEastLatitude)
-                .withMaximumLongitude(northEastLongitude)
-                .build();
-        return sensorService.getSensorsWithData(boundingBox);
+    public List<SensorData> allSensorsWithData() {
+        return sensorService.getAllSensorsWithData();
     }
 
     public boolean userNearHazardousArea(double latitude, double longitude, RoutingPreferences preferences) {

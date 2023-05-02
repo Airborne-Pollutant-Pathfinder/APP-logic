@@ -31,8 +31,8 @@ public class SensorService {
         this.capturedPollutantProvider = capturedPollutantProvider;
     }
 
-    public List<SensorData> getSensorsWithData(BoundingBox boundingBox) {
-        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(boundingBox);
+    public List<SensorData> getAllSensorsWithData() {
+        List<Sensor> sensorsInRange = sensorProvider.findRelevantSensors(BoundingBox.ENTIRE_WORLD);
         List<SensorData> sensorsData = new ArrayList<>();
 
         for (Sensor sensor : sensorsInRange) {

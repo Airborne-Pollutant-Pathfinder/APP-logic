@@ -11,6 +11,6 @@ import lombok.Data;
 @Builder(setterPrefix = "with")
 public class CapturedPollutant {
     private int sensorId;
-    private String pollutant;
+    private int pollutantId;
     private double value;
 }

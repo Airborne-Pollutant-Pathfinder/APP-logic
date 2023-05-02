@@ -10,6 +10,6 @@ import java.util.Collection;
 @Repository
 public interface CapturedPollutantRepository extends JpaRepository<CapturedPollutantTable, Integer> {
 
-    Collection<CapturedPollutantTable> findTop100BySensor(SensorTable sensorTable);
+    Collection<CapturedPollutantTable> findTop100BySensorOrderByDatetimeDesc(SensorTable sensorTable);
 
 }

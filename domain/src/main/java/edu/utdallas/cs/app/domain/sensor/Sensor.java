@@ -16,6 +16,7 @@ public final class Sensor {
     public static final double RADIUS_OF_EARTH_METERS = 6371000.0;
     private static final double METERS_PER_DEGREE_LATITUDE = 111000.0;
 
+    private final int id;
     private final GeoLocation location;
     private final double radiusInMeters;
 

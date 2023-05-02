@@ -28,8 +28,23 @@ public class DatabaseSensorProvider implements SensorProvider {
 
     @Override
     public List<Sensor> findRelevantSensors(BoundingBox box) {
-        SquareBox square = SquareBox.fromBoundingBox(box);
         GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
+        Collection<SensorTable> sensors = findRelevantSensors(box, factory);
+        return sensors.stream().map(s -> Sensor.builder()
+                .id(s.getId())
+                .location(GeoLocation.builder()
+                        .latitude(s.getLocation().getY())
+                        .longitude(s.getLocation().getX())
+                        .build())
+                .radiusInMeters(s.getRadiusMeters())
+                .build()).toList();
+    }
+
+    private Collection<SensorTable> findRelevantSensors(BoundingBox box, GeometryFactory factory) {
+        if (box.equals(BoundingBox.ENTIRE_WORLD)) {
+            return repository.findAll();
+        }
+        SquareBox square = SquareBox.fromBoundingBox(box);
         Polygon polygon = factory.createPolygon(new Coordinate[]{
                 mapper.mapToCoordinate(square.getLowerLeft()),
                 mapper.mapToCoordinate(square.getLowerRight()),
@@ -38,12 +53,6 @@ public class DatabaseSensorProvider implements SensorProvider {
                 mapper.mapToCoordinate(square.getLowerLeft()),
         });
         Collection<SensorTable> sensors = repository.findAllByAreaIntersectsPolygon(polygon);
-        return sensors.stream().map(s -> Sensor.builder()
-                .location(GeoLocation.builder()
-                        .latitude(s.getLocation().getY())
-                        .longitude(s.getLocation().getX())
-                        .build())
-                .radiusInMeters(s.getRadiusMeters())
-                .build()).toList();
+        return sensors;
     }
 }

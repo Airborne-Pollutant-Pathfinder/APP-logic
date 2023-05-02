@@ -11,6 +11,13 @@ import lombok.Data;
 @Builder(setterPrefix = "with")
 public class BoundingBox {
 
+    public static BoundingBox ENTIRE_WORLD = BoundingBox.builder()
+            .withMaximumLatitude(-90.0)
+            .withMinimumLongitude(-180.0)
+            .withMinimumLatitude(90.0)
+            .withMaximumLongitude(180.0)
+            .build();
+
     public static BoundingBox fromSquareBox(SquareBox squreBox) {
         double smallestLatitude = Math.min(squreBox.getUpperLeft().getLatitude(), squreBox.getLowerRight().getLatitude());
         double smallestLongitude = Math.min(squreBox.getUpperLeft().getLongitude(), squreBox.getLowerRight().getLongitude());

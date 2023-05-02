@@ -58,42 +58,42 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
             for (int i = capturedPollutants.size() - 1; i >= 0; i--) {
                 CapturedPollutant capturedPollutant = capturedPollutants.get(i);
 
-                if (coLevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.CO)) {
+                if (coLevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.CO) {
                     if (capturedPollutant.getValue() >= preferences.getCOThreshold()) {
                         return false;
                     }
                     coLevelNotChecked = false;
                 }
 
-                if (no2LevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.NO2)) {
+                if (no2LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.NO2) {
                     if (capturedPollutant.getValue() >= preferences.getNO2Threshold()) {
                         return false;
                     }
                     no2LevelNotChecked = false;
                 }
 
-                if (o3LevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.O3)) {
+                if (o3LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.O3) {
                     if (capturedPollutant.getValue() >= preferences.getO3Threshold()) {
                         return false;
                     }
                     o3LevelNotChecked = false;
                 }
 
-                if (pm2_5LevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.PM2_5)) {
+                if (pm2_5LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.PM2_5) {
                     if (capturedPollutant.getValue() >= preferences.getPM2_5Threshold()) {
                         return false;
                     }
                     pm2_5LevelNotChecked = false;
                 }
 
-                if (pm10LevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.PM10)) {
+                if (pm10LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.PM10) {
                     if (capturedPollutant.getValue() >= preferences.getPM10Threshold()) {
                         return false;
                     }
                     pm10LevelNotChecked = false;
                 }
 
-                if (so2LevelNotChecked && capturedPollutant.getPollutant().equals(PollutantTable.SO2)) {
+                if (so2LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.SO2) {
                     if (capturedPollutant.getValue() >= preferences.getSO2Threshold()) {
                         return false;
                     }

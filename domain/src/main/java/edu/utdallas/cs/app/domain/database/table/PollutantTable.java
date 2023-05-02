@@ -7,12 +7,12 @@ import lombok.Data;
 @Table(name = "pollutant")
 @Data
 public class PollutantTable {
-    public static final String CO = "CO";
-    public static final String NO2 = "NO2";
-    public static final String O3 = "O3";
-    public static final String PM2_5 = "PM2_5";
-    public static final String PM10 = "PM10";
-    public static final String SO2 = "SO2";
+    public static final int CO = 1;
+    public static final int NO2 = 2;
+    public static final int O3 = 3;
+    public static final int PM2_5 = 4;
+    public static final int PM10 = 5;
+    public static final int SO2 = 6;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
