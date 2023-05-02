@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -34,10 +36,19 @@ public class DatabaseCapturedPollutantProvider implements CapturedPollutantProvi
         SensorTable sensorTable = sensorsRepository.findSensorTableByLocationAndRadiusMeters(point, thisSensor.getRadiusInMeters());
         Collection<CapturedPollutantTable> capturedPollutants = capturedPollutantRepository.findTop100BySensorOrderByDatetimeDesc(sensorTable);
 
-        return capturedPollutants.stream().map(s -> CapturedPollutant.builder()
-                .withSensorId(s.getSensor().getId()) // CapturedPollutantTable - PollutantTable - SensorTable - SensorID, which is an int.
-                .withPollutant( s.getPollutant().getAbbreviation() ) // CapturedPollutantTable - PollutantTable - PollutantID
-                .withValue(s.getValue())
-                .build()).toList();
+        return capturedPollutants.stream()
+                .collect(Collectors.toMap(
+                        s -> s.getPollutant().getId(),
+                        Function.identity(),
+                        (s1, s2) -> s1.getDatetime().after(s2.getDatetime()) ? s1 : s2
+                ))
+                .values()
+                .stream()
+                .map(s -> CapturedPollutant.builder()
+                        .withSensorId(s.getSensor().getId())
+                        .withPollutantId(s.getPollutant().getId())
+                        .withValue(s.getValue())
+                        .build())
+                .toList();
     }
 }
