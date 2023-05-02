@@ -1,6 +1,5 @@
 package edu.utdallas.cs.app.infrastructure.sensor.waypoint;
 
-import edu.utdallas.cs.app.domain.captured_pollutant.CapturedPollutant;
 import edu.utdallas.cs.app.domain.database.table.PollutantTable;
 import edu.utdallas.cs.app.domain.route.BoundingBox;
 import edu.utdallas.cs.app.domain.route.GeoLocation;
@@ -14,7 +13,9 @@ import edu.utdallas.cs.app.infrastructure.sensor.SensorProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,68 +44,19 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
     public boolean isValidWaypoint(GeoLocation waypoint, RoutingPreferences preferences) {
         BoundingBox boxWithBuffer = BoundingBoxUtil.generateBoundingBox(waypoint.getLatitude(), waypoint.getLongitude(), BUFFER_METERS);
         List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(boxWithBuffer);
-        // todo analyze each sensor and see if the data it is saying is hazardous to specific user
-        for (Sensor sensor : sensorsToAvoid) {
-            List<CapturedPollutant> capturedPollutants = capturedPollutantProvider.findLatestDataFor(sensor);
 
-            // todo is there a better way to do this?
-            boolean coLevelNotChecked = true;
-            boolean no2LevelNotChecked = true;
-            boolean o3LevelNotChecked = true;
-            boolean pm2_5LevelNotChecked = true;
-            boolean pm10LevelNotChecked = true;
-            boolean so2LevelNotChecked = true;
+        Map<Integer, Double> thresholds = new HashMap<>();
+        thresholds.put(PollutantTable.CO, preferences.getCOThreshold());
+        thresholds.put(PollutantTable.NO2, preferences.getNO2Threshold());
+        thresholds.put(PollutantTable.O3, preferences.getO3Threshold());
+        thresholds.put(PollutantTable.PM2_5, preferences.getPM2_5Threshold());
+        thresholds.put(PollutantTable.PM10, preferences.getPM10Threshold());
+        thresholds.put(PollutantTable.SO2, preferences.getSO2Threshold());
 
-            for (int i = capturedPollutants.size() - 1; i >= 0; i--) {
-                CapturedPollutant capturedPollutant = capturedPollutants.get(i);
-
-                if (coLevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.CO) {
-                    if (capturedPollutant.getValue() >= preferences.getCOThreshold()) {
-                        return false;
-                    }
-                    coLevelNotChecked = false;
-                }
-
-                if (no2LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.NO2) {
-                    if (capturedPollutant.getValue() >= preferences.getNO2Threshold()) {
-                        return false;
-                    }
-                    no2LevelNotChecked = false;
-                }
-
-                if (o3LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.O3) {
-                    if (capturedPollutant.getValue() >= preferences.getO3Threshold()) {
-                        return false;
-                    }
-                    o3LevelNotChecked = false;
-                }
-
-                if (pm2_5LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.PM2_5) {
-                    if (capturedPollutant.getValue() >= preferences.getPM2_5Threshold()) {
-                        return false;
-                    }
-                    pm2_5LevelNotChecked = false;
-                }
-
-                if (pm10LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.PM10) {
-                    if (capturedPollutant.getValue() >= preferences.getPM10Threshold()) {
-                        return false;
-                    }
-                    pm10LevelNotChecked = false;
-                }
-
-                if (so2LevelNotChecked && capturedPollutant.getPollutantId() == PollutantTable.SO2) {
-                    if (capturedPollutant.getValue() >= preferences.getSO2Threshold()) {
-                        return false;
-                    }
-                    so2LevelNotChecked = false;
-                }
-
-                if (!coLevelNotChecked && !no2LevelNotChecked && !o3LevelNotChecked && !pm2_5LevelNotChecked && !pm10LevelNotChecked && !so2LevelNotChecked) {
-                    break;
-                }
-            }
-        }
-        return true;
+        return sensorsToAvoid.stream()
+                .flatMap(sensor -> capturedPollutantProvider.findLatestDataFor(sensor).stream())
+                .filter(capturedPollutant -> thresholds.containsKey(capturedPollutant.getPollutantId()) && capturedPollutant.getValue() >= thresholds.get(capturedPollutant.getPollutantId()))
+                .findAny()
+                .isEmpty();
     }
 }
