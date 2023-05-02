@@ -46,7 +46,7 @@ public class SensorAffectedWaypointAugmenter implements WaypointAugmenter, Waypo
         List<Sensor> sensorsToAvoid = sensorProvider.findRelevantSensors(boxWithBuffer);
 
         Map<Integer, Double> thresholds = new HashMap<>();
-        thresholds.put(PollutantTable.CO, preferences.getCOThreshold());
+        thresholds.put(PollutantTable.CO, preferences.getCoThreshold());
         thresholds.put(PollutantTable.NO2, preferences.getNO2Threshold());
         thresholds.put(PollutantTable.O3, preferences.getO3Threshold());
         thresholds.put(PollutantTable.PM2_5, preferences.getPM2_5Threshold());

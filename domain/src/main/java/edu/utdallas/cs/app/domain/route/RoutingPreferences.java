@@ -26,7 +26,7 @@ public class RoutingPreferences {
         return avoidTolls;
     }
 
-    public double getCOThreshold() {
+    public double getCoThreshold() {
         return coThreshold;
     }
 
