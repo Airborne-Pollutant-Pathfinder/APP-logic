@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,8 +61,8 @@ public class RouteServiceTest {
 
         when(routeProviderMock.getRoute(any(List.class), any(RoutingPreferences.class), any(boolean.class))).thenReturn(fastestRoute);
         when(sensorAvoidingRouteProviderMock.getRoute(any(List.class), any(RoutingPreferences.class), any(boolean.class))).thenReturn(safestRoute);
-        when(waypointAugmenterMock.augmentWaypoints(any(List.class), any(RoutingPreferences.class))).thenReturn(List.of(origin, destination));
-        when(waypointReducerMock.augmentWaypoints(any(List.class), any(RoutingPreferences.class))).thenReturn(List.of(origin, destination));
+        when(waypointAugmenterMock.augmentWaypoints(any(List.class), any(RoutingPreferences.class))).thenReturn(new ArrayList<>(List.of(origin, destination)));
+        when(waypointReducerMock.augmentWaypoints(any(List.class), any(RoutingPreferences.class))).thenReturn(new ArrayList<>(List.of(origin, destination)));
 
         List<Route> actualRoutes = routeService.getRoutes(origin, destination, preferences, false);
 

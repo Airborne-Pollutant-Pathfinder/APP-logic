@@ -35,7 +35,7 @@ public class SensorAffectedWaypointAugmenterTest {
 
         when(sensorProviderMock.findRelevantSensors(any(BoundingBox.class))).thenReturn(createMockSensors());
         when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
-                .withPollutant(PollutantTable.CO)
+                .withPollutantId(PollutantTable.CO)
                 .withValue(100)
                 .build()));
 
@@ -65,7 +65,7 @@ public class SensorAffectedWaypointAugmenterTest {
 
         when(sensorProviderMock.findRelevantSensors(any(BoundingBox.class))).thenReturn(createMockSensors());
         when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
-                .withPollutant(PollutantTable.CO)
+                .withPollutantId(PollutantTable.CO)
                 .withValue(100)
                 .build()));
 
@@ -95,7 +95,7 @@ public class SensorAffectedWaypointAugmenterTest {
 
         when(sensorProviderMock.findRelevantSensors(any(BoundingBox.class))).thenReturn(createMockSensors());
         when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
-                .withPollutant(PollutantTable.CO)
+                .withPollutantId(PollutantTable.CO)
                 .withValue(100)
                 .build()));
 
@@ -125,7 +125,7 @@ public class SensorAffectedWaypointAugmenterTest {
 
         when(sensorProviderMock.findRelevantSensors(any(BoundingBox.class))).thenReturn(Collections.emptyList());
         when(capturedPollutantProviderMock.findLatestDataFor(any(Sensor.class))).thenReturn(List.of(CapturedPollutant.builder()
-                .withPollutant(PollutantTable.CO)
+                .withPollutantId(PollutantTable.CO)
                 .withValue(100)
                 .build()));
 
