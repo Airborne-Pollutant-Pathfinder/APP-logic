@@ -10,7 +10,7 @@ type Query {
         pedestrian: Boolean!,
     ): [Route]!
 
-    allSensorsWithData: [SensorData]!
+    allSensorsWithData: [SensorData!]!
 
     userNearHazardousArea(
         latitude: Float!,
