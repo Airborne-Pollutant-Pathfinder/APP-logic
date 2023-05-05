@@ -62,8 +62,11 @@ Input parameters:
 - originLongitude (`Float!`): The longitude of the origin location.
 - destinationLatitude (`Float!`): The latitude of the destination location.
 - destinationLongitude (`Float!`): The longitude of the destination location.
+- preferences (`Preferences!`): The user's preferences for the route.
+- pedestrian (`Boolean!`): Whether the user is a pedestrian. If true, the route will be optimized for pedestrians.
+  If false, the route will be optimized for vehicles.
 
-Output type: `[Route]` - **note** that the route is nullable. If the safest route is outside the scope of the currently
+Output type: `[Route]!` - **note** that the route is nullable. If the safest route is outside the scope of the currently
 loaded OSM file, the safest route will be null.
 
 Example query:
@@ -99,6 +102,13 @@ query {
 
 #### sensorsWithData
 
+Retrieve a list of all sensors, including the data for the latest captured pollutant data for each supported pollutant
+type.
+
+Input parameters: N/A
+
+Output type: `[SensorData!]!`
+
 Example query:
 
 ```graphql
@@ -122,6 +132,17 @@ query {
 
 #### userNearHazardousArea
 
+Returns if the user is near (500 meters) a hazardous area. A hazardous area is defined as an area where the pollutant 
+concentration is above the user's threshold for that pollutant.
+
+Input parameters:
+
+- latitude (`Float!`): The latitude of the user's location.
+- longitude (`Float!`): The longitude of the user's location.
+- preferences (`Preferences!`): The user's preferences for the route.
+
+Output type: `Boolean!`
+
 Example query:
 
 ```graphql
@@ -130,8 +151,6 @@ query {
         latitude: 33.1375,
         longitude: -96.7679,
         preferences: {
-            avoidHighways: false,
-            avoidTolls: true,
             coThreshold: 0.0,
             no2Threshold: 0.0,
             o3Threshold: 0.0,
@@ -142,6 +161,23 @@ query {
     )
 }
 ```
+
+### Inputs
+
+#### Preferences
+
+Represents the user's preferences for routing.
+
+Fields:
+
+- avoidHighways (`Boolean`): Whether to avoid highways. - **note** that this is optional.
+- avoidTolls (`Boolean`): Whether to avoid tolls. - **note** that this is optional.
+- coThreshold (`Float!`): The user's threshold for carbon monoxide in parts per million.
+- no2Threshold (`Float!`): The user's threshold for nitrogen dioxide in parts per billion.
+- o3Threshold (`Float!`): The user's threshold for ozone in parts per billion.
+- pm2_5Threshold (`Float!`): The user's threshold for PM2.5 in micrograms per cubic meter.
+- pm10Threshold (`Float!`): The user's threshold for PM10 in micrograms per cubic meter.
+- so2Threshold (`Float!`): The user's threshold for sulfur dioxide in parts per billion.
 
 ### Types
 
@@ -164,6 +200,36 @@ Fields:
 
 - latitude (`Float!`): The latitude of the location.
 - longitude (`Float!`): The longitude of the location.
+
+#### SensorData
+
+Represents a sensor and the latest captured pollutant data by the sensor for each supported pollutant.
+
+Fields:
+
+- sensor (`Sensor!`): The sensor being represented.
+- data (`[CapturedPollutant!]`): The latest captured pollutant data by the sensor for each supported pollutant.
+
+#### Sensor
+
+Represents a sensor.
+
+Fields:
+
+- id (`Int!`): The ID of the sensor according to the database. - **note** this ID does not correspond to the ID of the
+  sensor from its source. That is found in the `sourceId` column in the database.
+- location (`GeoLocation!`): The location of the sensor.
+- radiusInMeters (`Float!`): The radius the sensor supports in meters.
+
+#### CapturedPollutant
+
+Represents the latest captured pollutant data for a pollutant.
+
+Fields:
+
+- pollutantId (`Int!`): The ID of the pollutant according to the database. - **note** this is the pollutant ID and not
+  the captured pollutant ID. The `pollutant` refers to the pollutant type, like CO or NO2.
+- value (`Float!`): The value of the pollutant in the respective unit of measurement defined by the pollutant type.
 
 ## Problem Troubleshooting
 
