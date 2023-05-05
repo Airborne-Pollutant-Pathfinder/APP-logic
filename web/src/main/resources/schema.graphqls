@@ -43,7 +43,7 @@ type GeoLocation {
 
 type SensorData {
     sensor: Sensor!
-    data: [CapturedPollutant!]
+    data: [CapturedPollutant!]!
 }
 
 type Sensor {
