@@ -7,6 +7,12 @@ The project aims to create an Android application called Airborne Pollutant Path
 navigate from point A to point B while considering their allergies and pollen count in different locations. The backend
 supports computing the fastest and safest routes and finding relevant sensors for a particular geolocation.
 
+## Video
+
+Click below to see our video for the app.
+
+[![Watch the video](https://i.imgur.com/OBm9FRB.png)](https://youtu.be/z_J9tR2n-vY)
+
 ## Setup
 
 1. Add the `GOOGLE_API_KEY` to your environment variables. IntelliJ has native support for this if 
